@@ -1,0 +1,494 @@
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+
+<body>
+
+<script type="text/javascript" src="/_ui/handsomemobile/js/swiper_mypage.min.js"></script>
+  
+  <!-- Loading -->
+  <div style="display:none;">
+  <div id="loadingBarDiv" style="display:none;">
+  </div>
+  </div>
+  <!-- //Loading -->
+
+  
+<div class="hsome_allContents_wrapper">
+
+<div class="hsome_allContents disabled">
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $(".hsome_quickMenu").removeClass("active");
+	  $("#gnbMypagePopupBtn").click();
+	});
+</script>
+</div>
+
+</div>
+<a href="noLink();" class="hsome_topBtn upper" id="handsomeTopBtn">mobile.bottom.top</a>
+<script type="text/javascript">
+function goMypage() {
+    $.cookie("handsomeappreturnurl", "/", {path:"/"});
+    location.href = "/ko/mypage/mypageFloatingPopup";
+}
+
+  $(window).load(function() {
+      //모든 리소스 로드 후에 처리
+      $('.hsome_quickMenu').addClass('active');
+  });
+  
+  function goMainpage() {
+    window.sessionStorage.removeItem('moveYn'); 
+    window.sessionStorage.removeItem('width'); 
+    window.sessionStorage.removeItem('height'); 
+  location.href = "/main";
+}
+  
+</script>
+<div class="hsome_quickMenu_contents active absolute">
+
+<div class="hand_footer_gnb_wrap mypage">
+<div class="header">
+  <h2 class="sel">
+    
+<div class="selected_text">
+<span>
+마이페이지</span>
+</div>
+
+<script type="text/javascript">
+$(document).on('change', '#headerMypageSelect', function () {
+if ($(this).val() == "") return;
+  
+if($(this).val() == "/ko/mypage/mymantomaninquiry") {
+  location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+} else {
+  location.href = $(this).val();
+}
+});
+$('#headerMypageSelect > option').each(function (idx, obj) {
+if ($(obj).attr('value') == "") return true;
+if (location.pathname == $(obj).attr('value')) {
+  $(obj).prop('selected', 'selected');
+}
+
+if(location.pathname.indexOf("mantomaninquiry") > -1 && $(obj).attr('value').indexOf("mymantomaninquiry") > -1) {
+  $(obj).prop('selected', 'selected');
+}
+});
+</script>
+</h2>
+
+  <ul class="red_border_tab">
+          <li id="order_quickmenue_class" class="on"><a id="order_quickmenue" href="#" class="order" tab="order">주문</a></li>
+          <li id="benefit_quickmenue_class" class=""><a id="benefit_quickmenue" href="#" class="benefit" tab="benefit">적립</a></li>
+          <li id="coupon_quickmenue_class"><a id="coupon_quickmenue" href="#" class="infomation" tab="info">쿠폰</a></li>
+          <li id="grade_quickmenue_class"><a id="grade_quickmenue" href="#" class="activity" tab="activity">등급</a></li>
+        <li id="fcsId" class="fcs" style="transform: translateX(61px); width: 34px;"></li>
+    </ul>
+</div>
+
+<div class="container">
+
+  <div class="swiper-container mypage_card_container mpgCardCon1903 swiper-container-horizontal swiper-container-ios swiper-container-wp8-horizontal">
+  <div id="swiper-wrapper-kang" class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+    
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#order_quickmenue").click(function(){
+
+    $("#slide_section1").attr('class','swiper-slide card-type order start swiper-slide-active');
+    $("#slide_section2").attr('class','swiper-slide card-type benefit start e-gift swiper-slide-next');
+    
+    $("#swiper-wrapper-kang").css({
+      "transform" : "translate3d(0px, 0px, 0px)",
+      "transition-duration" : "300ms",
+    });
+
+    $(".on").removeClass();
+    $("#order_quickmenue_class").addClass('on');
+    $("#fcsId").css({
+      "transform" : "translateX(63px)",
+      "width": "34px;",
+      "transition-duration" : "300ms"
+    });
+  })
+
+  $("#benefit_quickmenue").click(function(){
+
+    $("#slide_section1").attr('class','swiper-slide card-type order start swiper-slide-prev');
+    $("#slide_section2").attr('class','swiper-slide card-type benefit start e-gift swiper-slide-active');
+    $("#slide_section3").attr('class','swiper-slide card-type benefit swiper-slide-next');
+    
+    $("#swiper-wrapper-kang").css({
+      "transform" : "translate3d(-375px, 0px, 0px)",
+      "transition-duration" : "300ms",
+    });
+
+    $(".on").removeClass();
+    $("#benefit_quickmenue_class").addClass('on');
+    $("#fcsId").css({
+      "transform" : "translateX(130px)",
+      "width": "34px;",
+      "transition-duration" : "300ms"
+    });
+
+  })
+
+  $("#coupon_quickmenue").click(function(){
+
+    
+    $("#slide_section2").attr('class','swiper-slide card-type benefit start e-gift swiper-slide-prev');
+    $("#slide_section3").attr('class','swiper-slide card-type start infomation swiper-slide-active');
+    
+    $("#swiper-wrapper-kang").css({
+      "transform" : "translate3d(-750px, 0px, 0px)",
+      "transition-duration" : "300ms",
+    });
+
+    $(".on").removeClass();
+    $("#coupon_quickmenue_class").addClass('on');
+    $("#fcsId").css({
+      "transform" : "translateX(197px)",
+      "width": "34px;",
+      "transiton-duration" : "300ms"
+    });
+
+  })
+
+  $("#grade_quickmenue").click(function(){
+
+    $("#slide_section2").attr('class','swiper-slide card-type benefit start e-gift swiper-slide-prev');
+    $("#slide_section3").attr('class','swiper-slide card-type start infomation swiper-slide-active');
+    
+    $("#swiper-wrapper-kang").css({
+      "transform" : "translate3d(-1125px, 0px, 0px)",
+      "transition-duration" : "300ms",
+    });
+
+    $(".on").removeClass();
+    $("#grade_quickmenue_class").addClass('on');
+    $("#fcsId").css({
+      "transform" : "translateX(264px)",
+      "width": "34px;",
+      "transiton-duration" : "300ms"
+    });
+
+  })
+
+
+
+  $(".address_cont .address").each(function(){
+      var arrAddress = $(this).html().split(" ");
+      var replaceAddr = "";
+      if(arrAddress.length > 3){
+          replaceAddr = arrAddress[0]+" "+arrAddress[1]+" "+arrAddress[2]+" "+arrAddress[3];
+      }
+      
+      for(var i=4; i<arrAddress.length; i++){
+          var temp = "";
+          for(var j=0; j<arrAddress[i].length; j++){
+              temp += "*";
+          }
+          replaceAddr += " "+temp;
+      }
+      $(this).html(replaceAddr);
+  });
+  
+  $(".address_cont .info").each(function(){
+      var temp = $(this).html().split("/");
+      var hpTemp = $.trim(temp[1]);
+      var arrHp = hpTemp.split("-");
+      
+      $(this).html(maskingName(temp[0]) + " / " + arrHp[0]+"-"+maskingStr(arrHp[1])+"-"+arrHp[2]);
+  });
+});
+
+</script>
+
+<!-- @@id수정 -->
+<div id="slide_section1" class="swiper-slide card-type order start swiper-slide-active" data-index="0" style="width: 345px; margin-right: 30px;">
+            <div class="card_type_inner1903">
+              <div class="stage order_stage">
+                  <div class="s-tit">
+                      <b>주문내역</b>
+                  </div>
+                  
+              </div>
+              
+              <div th:if = "${#lists.isEmpty(mypagedto.orderList)}">
+              	<p style="text-align: center;">주문내역이 없습니다.</p>
+              </div>
+              
+              
+              
+              <!--@@반복문 시작-->
+              <div th:each="orderList:${mypagedto.orderList}" class="stage order_stage" style="padding-bottom: 20px;">
+                  <p  class="order_number">
+                      <a href="" onclick="">
+                          <span class="tit">주문번호<!-- 주문번호 --></span>
+                          <span th:text="${orderList.oid}" class="number"></span>
+                          </a>
+                  </p>
+                  <div class="order_product">
+                      <!-- 개 -->
+                                      <a href="/ko/p/MW2B9AZZ301E_LG_F" onclick="GA_Event('마이페이지', '배송정보', '상품상세');">
+                                      <div class="img">
+                                          <img th:src="${orderList.orderImg}" alt="캐시미어 블렌드 양말">
+                                      </div>
+                                <div class="cont" style="padding-top: 0px;">
+                                      <p class="name" style="padding-top: 5px;">
+                                        <span class="brand" th:text="${orderList.bName}"></span>
+                                        <div style="margin-top: 5px;" th:text="|${orderList.pName} 등 ${orderList.totalCount}개|"> </div>
+                                       </p>
+                                      <p class="price_wrap">
+                                          <span class="price" th:text="|총 가격 : ${#numbers.formatInteger(orderList.totalPrice, 3, 'COMMA')}원|"></span>
+                                      </p>
+                                  
+                        <script type="text/javascript">getOnlineStock( 'MW2B9AZZ301E_LG_F' );</script>
+                      </div>
+                              </a>
+                          </div>
+                  <ul class="order_list"> 
+                              <li><span class="tit">주문일자</span>
+                                  <span class="txt" th:text="${orderList.oDate}"></span>
+                              </li>
+                          </ul>
+              </div>
+              <!--반복문 끝  -->
+              
+            </div>
+          </div>
+      <!-- 혜택// -->
+      <div id="slide_section2" class="swiper-slide card-type benefit start e-gift swiper-slide-next" data-index="0" style="width: 330px;margin-right: 30px;margin-left: 15px;">
+          	<div class="card_type_inner1903" id="myPointList">  
+          	<div class="stage mileage_stage">     
+          <div class="s-tit">         
+          	<b>한섬마일리지</b> 
+          </div>     
+          <div class="handsome-card-box">         
+          	<span><b th:text="${#numbers.formatInteger(mypagedto.mMileage, 1, 'COMMA')}"></b>M </span>     
+          	</div>   
+          </div> 
+          
+          	<div class="stage mileage_stage hs_point">
+          		   <div id="tab_01" class="cont on">
+			</div>
+          		 
+          	</div>  
+          	
+          </div>
+      </div>
+      <div id="slide_section3" class="swiper-slide card-type start infomation" data-index="1" style="width: 330px;margin-right: 30px;margin-left: 15px;">
+        <div class="card_type_inner1903">
+          <div class="stage coupon_stage" id="myCouponList">
+	         <div class="s-tit"> 
+	          <b>쿠폰</b> 
+	          <!-- <a href="/ko/mypage/voucher" class="more">전체조회</a> --> 
+	          </div> 
+	          <div id="mypageCouponList">
+	          
+	          <div th:if = "${#lists.isEmpty(mypagedto.couponList)}">
+              	<p style="text-align: center;">보유한 쿠폰이 없습니다.</p>
+              </div>
+	          <div class="s-coupon" th:each="couponList : ${mypagedto.couponList}">   
+	          	<div class="s-coupon-inner">       
+	          		<strong th:text="${couponList.eTitle}"></strong>
+	          		<b th:text="${couponList.eContent}"></b>       
+	          		<span th:text="|${couponList.cIssuedate}~${couponList.cExpiredate}|"></span>       
+	          		<i>소멸<br th:text="|D-${couponList.expDday}|"></i>   
+	          	</div>
+	          </div>
+	          
+          	</div> 
+          </div>
+         </div>
+      </div>
+      
+<script type="text/javascript">
+
+</script>
+
+<form id="userHiddenForm" method="post" target="transMember">
+  <input type="hidden" name="prtnrReqGb" value="03">
+  <input type="hidden" name="prtnrId" value="D080">
+  <input type="hidden" name="chnnlId" value="1705">  
+  <input type="hidden" name="custNm" value="소규석">
+  <input type="hidden" name="birthDt" value="19970721">
+  <input type="hidden" name="mophNo" value="01095592602">
+  <input type="hidden" name="chId" value="thrbtjr">   
+  <input type="hidden" name="custUniqKey" value="thrbtjr">   
+  <input type="hidden" name="email" value="thrbtjr@naver.com">   
+  <input type="hidden" name="sexGbCd" value="1"> 
+  <input type="hidden" name="ci" value=""> 
+  <input type="hidden" name="ptcoReqnMdaInf" id="ptcoReqnMdaInf" value="">      
+</form>
+
+<!-- @@수정 -->
+<div class="swiper-slide card-type start infomation" id="slideChartView1902" data-index="0" style="width: 330px;margin-right: 30px;margin-left: 16px;">  <div class="card_type_inner1903">                                                                                    <div class="stage grade_stage">                                                                                      <div class="s-tit">                                                                                                  <b>고객 등급</b>                                                                                                                                 </div>                                                                                                           <div class="grade_chartBox1901">                                                                                     <div class="hsomembershipGrade hsgrd1902 one">                                                                       <strong class="tit">온라인 등급</strong>                                                                         <div class="sch_searchTgArea sch_searchGraph">                                                                       <div class="chartViewBg" style=""></div>                                                                         <div class="chartView" id="customerGrade1901_3" _echarts_instance_="ec_1675215514505" style="-webkit-tap-highlight-color: transparent; user-select: none;"><div style="position: relative; overflow: hidden; width: 143px; height: 200px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="286" height="400" style="position: absolute; left: 0px; top: 0px; width: 143px; height: 200px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div></div>                                                           <div class="chartViewTit">                                                                                       <a href="/ko/mypage/myGradeInfo" class="dtl_more">                                                 
+<span th:text=${mypagedto.mGrade}></span>                       </a>					                                                                                         </div>                                                                                                       </div>                                                                                                       </div>                                                                                                       </div>                                                                                                           
+	<p id="googleHide2" class="member_crd_txt1902">한섬 멤버십 
+	<strong id="gradeName"></strong></p>            
+			<div id="googleHide3"  class="barCode1902"> 
+				<div class="card_img">                                                                                                   
+				</div>                                                                                                        
+				<div class="bar1902" style="display:none;">                                                                       
+					<img src="/ko/mobilecommon/barcode4j?barcode=65247207" alt="bar code" style="width:146px; height:79px">                     
+					<p class="txt">65247207</p>                     
+					<a href="#;" class="cl_btn">닫기</a>                            
+				</div>                                                          
+			</div>                                                          
+		</div>                                                          
+	</div>                                                            
+</div>
+           
+           
+<div class="swiper-slide card-type infomation" id="myPagePopupWpay" data-index="1" style="width: 345px; margin-right: 30px;">
+    <div class="card_type_inner1903">
+  <div class="stage card_stage">
+    <div class="s-tit">
+      <b>등록한 카드 정보</b>
+    </div>
+
+    <div class="s-card registration">
+      <a href="/ko/mypage/oneBuy" class="card_registration"><i class="plus"></i>사용하실 카드를 등록해 주세요.</a>
+    </div>
+
+    <div class="s-tx">원클릭결제를 위한 카드 정보 입니다.</div>
+    <div class="s-btn">
+      <a href="/ko/mypage/oneBuy?prev=mypageFloatingPopup">원클릭결제 설정 변경</a>
+    </div>
+  </div>
+  </div>
+</div> 
+`
+
+      <!-- 활동// -->
+      <div class="swiper-slide card-type activity start" data-index="0" style="width: 345px; margin-right: 30px;">
+        <div class="card_type_inner1903">
+        <div class="stage wish_stage">
+          <div class="s-tit">
+            <b>위시리스트</b>
+          </div>
+
+          <div id="myWishlists" class="s-thumb"><ul>  <li>    <a href="/ko/p/MW2B9AZZ301E">    <img src="http://newmedia.thehandsome.com/MW/2B/FW/MW2B9AZZ301E_LG_T01.jpg" style="width:86px;height:130px;" alt="">    </a>  </li>  <li>    <a href="/ko/p/YN2D1ASZ011W">    <img src="http://newmedia.thehandsome.com/YN/2D/SS/YN2D1ASZ011W_IV_T01.jpg" style="width:86px;height:130px;" alt="">    </a>  </li>  <li>    <a href="/ko/p/SH2C9WJM344N">    <img src="http://newmedia.thehandsome.com/SH/2C/FW/SH2C9WJM344N_BG_T01.jpg" style="width:86px;height:130px;" alt="">    </a>  </li></ul></div>
+
+          <div class="s-link s_link1905">
+            <ul>
+            <li>
+                <a href="/ko/mypage/myreview">
+                  <!--20190524_상품평활성화-->
+                  <span class="btn_txt1905">상품평</span>
+                  <span class="sub_btn_txt1905">상품평 작성하고<br>추가 마일리지 적립하세요.</span>
+                  <!--//20190524_상품평활성화-->
+                </a>
+              </li>
+              <li><a href="/ko/mypage/event/myevents">이벤트 참여현황</a></li>
+              <li><a href="/ko/mypage/mymantomaninquiry?refererUrl=mypage">1:1 문의</a></li>
+              <li><a href="/ko/mypage/myqna">상품 Q&amp;A</a></li>
+              </ul>
+          </div>
+
+        </div>
+                 </div>
+      </div><!-- //활동 -->
+
+    </div>
+  </div>
+  
+  <!--add indicator-->
+  <!--구글 로그인때 안보이게  -->
+  <div id="googleHide" class="flag_wrap case swiper-container e-gift1811 swiper-container-horizontal swiper-container-free-mode swiper-container-ios swiper-container-wp8-horizontal" style="margin-left: 4px;padding-left: 20px;padding-bottom: 10px;">
+          <ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);height: 30px;" >
+              <!-- <li class="swiper-slide flag on swiper-slide-active" id="categoryNav01" style="margin-right: 6px;"><a href="/ko/mypage/order/myorders" class="name" onclick="GA_Event('마이페이지', 'MY_푸터', this.text);">주문/배송조회</a></li> -->
+            <li class="swiper-slide flag swiper-slide-next" style="margin-right: 6px;width: 160px;">
+               <a href="/checkpwd/1" class="name" onclick="" style="padding-left: 47px;">개인정보 변경</a></li>
+            <li class="swiper-slide flag" style="margin-right: 6px; width: 160px;">
+               <a href="/checkpwd/2" class="name" onclick="" style="padding-left: 53px;">회원 탈퇴</a></li>
+        </ul>
+      </div>
+
+  <!--이름 수정  -->
+  <div class="mypage_card_footer">
+    <a class="u_profile_setting btn_popup_btot" href=".hs_mpg_profile_pop" style="margin-left: 0px;text-decoration: none;">회원명</a>
+    <span class="u_name" id="myPageUserId" style="margin-left: 10px;text-decoration: underline;"></span>
+      <div class="u_setting">
+      <!-- 알림 있으면 has 클래스 붙음 -->
+      <a href="javascript:void(0);" class="alt" onclick="GA_Event('마이페이지', '푸터', '알림');">알림</a>
+        <a href="javascript:void(0);" class="set" onclick="mypageConfigClick();GA_Event('마이페이지', '푸터', '설정');">설정</a>
+    </div>
+  </div>
+  <div class="mypage_card_footer_logout2008">
+  <form th:action="@{/logout}" method="post">
+	  <button type="submit">로그아웃</button>
+  </form>
+  
+  </div>
+  <div th:replace="~{product/search :: searchForm}"></div>
+</div>
+
+<script type="text/javascript">
+
+/* 
+function goPost(){
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('th:action', '@{/logout}');
+    document.body.appendChild(f);
+    f.submit();
+}
+ */
+</script>
+
+
+<div class="footer">
+  <a href="/main" class="close" onclick="mypagePopupClose(this);">닫기</a>
+</div>
+</div>
+
+
+<script type="text/javascript" src="/_ui/handsomemobile/js/clipboard.min.js"></script> 
+<script th:inline="javascript">
+function newMaskingIdCheck(str){
+    var maskingStr = "";
+    if(str.length >= 1){
+    	if(str.length==2){
+    		maskingStr = str.substring(0,2);
+    		maskingStr+='님';
+    		return maskingStr;
+    	}
+        maskingStr = str.substring(0,1);
+        var len = str.length - 3;
+        if(len >= 0){
+        	maskingStr+="*";
+            maskingStr += str.substring(2);
+            maskingStr+='님';
+        }
+    }
+    
+    return maskingStr;
+}
+
+/*<![CDATA[*/
+$(document).ready(function(){
+	
+	const userId = /*[[${mypagedto.mName}]]*/
+	
+	$("#myPageUserId").html(newMaskingIdCheck(userId));
+	$("#gradeName").html(newMaskingIdCheck(userId));
+	
+	if(userId.includes('@')){
+		document.getElementById("googleHide").style.display ='none';
+		document.getElementById("googleHide2").style.display ='none';
+		document.getElementById("googleHide3").style.display ='none';
+	}
+	
+});
+/*]]>*/
+</script>
+
+
+
+</body>
+</html>

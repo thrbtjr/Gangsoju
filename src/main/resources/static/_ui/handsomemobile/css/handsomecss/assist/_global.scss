@@ -1,0 +1,247 @@
+@charset "utf-8";
+// ========================================================== */
+// version : global.scss v1 */
+// wirter : IDR Ryu */
+// date : 20180724 */
+// ========================================================== */
+/* ---------------------------------------------------------- */
+/* global_common s ========================================== */
+.glb {
+  /* content.scss s*/
+  .input_glb_address_stl {
+    li {
+      margin-top:$con_mg;
+      padding-left:$con_mg;
+      &:first-child {
+        margin-top:0;
+      }
+    }
+  }
+  .ipt_glb_detail_address {
+    .ipt_glb_dtl_adrs {
+      width:calc(100% - 75px);
+    }
+    span {color:$light_gray_fc;}
+  }
+  .input_glb_dlvr_name {
+    input {
+      width:calc(50% - 5px);
+    }
+    .ipt_glb_dlvr_name1 {margin-right:5px;}
+    .ipt_glb_dlvr_name2 {}
+  }
+  /* content.scss s*/
+
+  /* order.scss s */
+  .cmt_foreign_money {
+    .btn_tooltip {
+      margin-bottom:-3px;
+    }
+  }
+  .frgn_price_1,
+  .frgn_price_2 {
+    display:inline-block;
+    margin-bottom:5px;
+    font: {
+      size:14px;
+      weight:$b;
+    }
+  }
+  .frgn_price_2 {
+    margin-left:$con_pd2;
+  }
+  .foreign_money_guide {
+    display:inlnie-block;
+    margin-top:$con_mg;
+    padding:$con_pd2 $con_pd;
+    font-size:12px;
+  }
+  .international_shopping_guide_wrap {
+    margin:0 0 40px 0;
+  }
+  .lp_duty_guide_glb_wrap {
+    p.point_fc,
+    p.select_tx {
+      word-break:break-all;
+    }
+  }
+  /* order.scss e */
+
+  /* mypage.scss s */
+  .lp_goods_back_price_glb_wrap {
+    .country_slct_wrap {
+      margin-top:$con_pd_m;
+    }
+    .goods_back_price_box {
+      margin-top:$con_mg;
+    }
+  }
+  .mp_mng_dlvr_wrap {
+    .addr_box {
+      .addr_box_btn {
+        padding-right:10px;
+        padding-left:10px;
+      }
+    }
+  }
+  /* mypage.scss e */
+
+  /* member.scss s */
+  .mbr_signup_wrap {
+    .mem_ct_wrap {
+      h5 {
+        margin-top:$con_pd_s;
+        margin-bottom:$con_pd2;
+      }
+    }
+    .req_txt{
+      padding-top:0;
+      padding-bottom:0;
+    }
+    .desc_box {margin-top:$con_mg;}
+    .err_wrap {
+      // margin-top:0;
+    }
+    .pd_title {
+      padding-top:0;
+    }
+  }
+  .mem_join_input_wrap {
+    & ~ .btn_wrap{
+      margin-top:$con_pd_s;
+    }
+  }
+  .global_join_guide_wrap {
+    margin-top:$con_pd2;
+    padding:$con_pd_m 0 0 0;
+    border-top:1px solid $border_clr;
+  }
+  .mp_profile_wrap {
+    .gray_tab {
+      margin-bottom:0;
+    }
+    .mp_input_wrap {
+      .input_box {
+        &:first-child {
+          margin-top:0;
+        }
+      }
+    }
+  }
+  /* member.scss e */
+}
+/* global_common e ========================================== */
+/* ---------------------------------------------------------- */
+/* global_en s ============================================== */
+.glb.glb_en {
+  .grid_4 {
+    > li {
+      > a {
+        &.sort_date {
+          line-height:12px;
+          padding-top:8px;
+        }
+      }
+    }
+  }
+  /* member.scss s */
+  .mem_ct_wrap {
+    .red_border_tab {
+      li {
+        &:first-child {
+          &.on + li + .fcs {
+            width:57px;
+          }
+        }
+        &:nth-child(2) {
+          &.on + .fcs {
+            width:104px;
+          }
+        }
+      }
+    }
+  }
+  .input_user_bday {
+    .select_box {
+      select {
+        @media (max-width: #{$minw}){
+          font-size:12px;
+        }
+      }
+    }
+  }
+  /* member.scss e */
+
+  /* mypage.scss s */
+  .mp_coupon_wrap {
+    .red_border_tab {
+      li {
+        &:first-child {
+          &.on + li + .fcs {
+            width:72px;
+          }
+        }
+        &:nth-child(2) {
+          &.on + .fcs {
+            width:119px;
+          }
+        }
+      }
+    }
+  }
+  /* mypage.scss e */
+}
+/* global_en e ============================================== */
+/* ---------------------------------------------------------- */
+/* global_zh s ============================================== */
+/* global_zh e ============================================== */
+/* ---------------------------------------------------------- */
+/* layer_popup.scss s ======================================= */
+.glb {
+  .lp_new_dlvr_wrap {
+    .msg_box {
+      margin-top:20px;
+      font-size:14px;
+      line-height:21px;
+    }
+    .ipt_con {
+      .desc_box {
+        font-size:13px;
+      }
+    }
+  }
+}
+
+.product_warehousing_pop.product_sale_pop_glb {
+  .email_input {
+    margin-top:$con_pd2;
+    padding-top:$con_pd2;
+    border-top:1px solid #f3f3f3;
+  }
+  .input_email_stl{
+    margin-top:$con_pd2;
+    &:after {
+      @include clearfix();
+    }
+  }
+}
+
+.lp_dlvr_guide_glb_wrap {
+
+}
+
+.duty_reach_slct_wrap {
+  margin-top:$con_pd_m;
+}
+
+.selected_tgl_box {
+  display:none;
+  margin-top:$con_pd2;
+  .view_table {
+     td {
+      line-height:22px;
+    }
+  }
+}
+/* layer_popup.scss e ======================================= */
+/* ---------------------------------------------------------- */

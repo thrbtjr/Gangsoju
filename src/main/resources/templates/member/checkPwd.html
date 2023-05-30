@@ -1,0 +1,200 @@
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+
+<body>
+ <div style="display:none;">
+  <div id="loadingBarDiv" style="display:none;">
+  </div>
+  </div>
+
+<form id="CSRFForm" action="/ko/mypage/personInfomationChangePWCheck" method="post"><div>
+<input type="hidden" name="CSRFToken" value="ad0a1b26-cccf-4b8b-b621-cfdd2dc0a7f2">
+</div></form>
+<div class="hsome_allContents_wrapper">
+<div class="hsome_allContents">
+<script type="text/javascript">
+  function goMainpage() {
+    window.sessionStorage.removeItem('moveYn');
+  location.href = "/main";
+}  
+  
+  function goSearchPage() {
+      $("#searchForm").addClass("visible active activated");
+    }
+</script>
+
+  <!-- ################## header ################## -->
+  <header class="hsome_header">
+    <h1 class="h_ttl ellipsis" id="headerTitle">
+        비밀번호 재확인</h1>
+    <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+    <ul class="h_gnbMenu">
+    <li class="search">
+              <a onclick="goSearchPage();"><span>search</span></a>
+            </li>
+<li class="cart">
+              <a
+                href="/cart"
+                ><span>cart</span></a
+              >
+            </li>
+      </ul></header>
+  <!-- //################## header ################## -->
+
+
+
+<form id="bioLoginForm" method="post" action="/ko/member/bioCheck">
+  <input type="hidden" id="bio_userId" name="j_username">
+  <input type="hidden" id="bio_CSRFToken" name="CSRFToken">
+  <input type="hidden" id="bio_authToken" name="authToken">
+  <input type="hidden" id="successPageUrl" name="successPageUrl">
+</form>
+<form id="personInfomationChangePage" name="manToManInquiryForm" action="/ko/mypage/personInfomationChangePWCheck" method="post"><input type="hidden" name="directInto" value="NO">
+<div>
+<input type="hidden" name="CSRFToken" value="ad0a1b26-cccf-4b8b-b621-cfdd2dc0a7f2">
+</div></form><!-- contents s -->
+<div id="contents" class="hsome_contents mp_confirm_pw_wrap">                
+<div class="gray_tab">고객님의 정보보호를 위하여 비밀번호를 다시 한 번 확인합니다.</div>
+<div class="mp_input_wrap">
+  <div class="user_id_wrap">
+    <span class="user_id"></span>
+    <input type="hidden" id="j_username" name="j_username" value="thr****" disabled="disabled">
+  </div>
+  <!-- input_box s -->
+  <div class="input_box">
+    <div class="ipt_con">
+      <input type="password" id="j_password" name="j_password" title="비밀번호를 입력하세요." placeholder="비밀번호를 입력하세요." maxlength="20">
+      <p class="err_box" id="msgErr"></p>
+    </div>
+  </div>
+  <!-- input_box e -->
+
+  <div class="btn_wrap btn_wrap_div1 mt25 pb0" id="findPW" style="display:none">
+    <a href="#none" class="btnstl3 border_btn_gray" id="findPWBtn"><span>비밀번호 찾기</span></a>
+  </div>
+        
+  <div class="btn_wrap btn_wrap_div2 last_box">
+    <a href="#" class="btnstl3 border_btn_gray" id="cancle_btn"><span>취소</span></a>
+    <a href="#" class="btnstl3 solid_btn_blk btn_save" id="login_btn"><span>확인</span></a>
+  </div>
+</div>       
+</div>
+
+
+<form id="deleteForm" th:action="@{/member/delete}" method="post">
+</form>
+
+<div th:replace="~{product/search :: searchForm}"></div>
+
+<script th:inline="javascript">
+function newMaskingId(str){
+    var maskingStr = "";
+    var totalEmail=str.split('@');
+    var site =totalEmail[1];
+    
+    if(str.length > 1){
+        maskingStr = str.substring(0,1);
+        
+        var len = str.length - 3;
+        if(len > 0){
+            for(var i=1; i<totalEmail[0].length; i++){
+                maskingStr += "*";    
+            }
+        }
+    }
+    
+    maskingStr=maskingStr+'@'+site;
+    
+    return maskingStr;
+}
+
+/*<![CDATA[*/
+$(document).ready(function(){
+	const userId = /*[[${userId}]]*/
+	//아이디 마스킹
+	$(".user_id").html(newMaskingId(userId));
+	var kind = /*[[${kind}]]*/
+	capsLockCheck('j_password');
+	
+	var csrfHeadName=$("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue=$("meta[name='_csrf']").attr("content");
+	
+	$("#login_btn").click(function(){
+	  	
+		/*
+	  if ($.trim($("#j_username").val()) == "") {
+	    location.href="/ko/member/login";
+	  }
+		*/
+	      if ($.trim($("#j_password").val()) == "") {
+	        $('#msgErr').show();
+	        $("#msgErr").text("비밀번호를 입력하세요.");
+	        $("#j_password").focus();
+	        return;
+	      }        
+	    
+		var pwd = $.trim($("#j_password").val());
+		
+		let searchOBJ = {
+				"pwd" : pwd
+		}
+		
+	    $.ajax({
+	    type:"post",
+	    url:"/checkpwd",
+	    data:JSON.stringify(searchOBJ),
+	    contentType : "application/json; charset=utf-8",
+	    dataType : "json",
+	    beforeSend : function(xhr) {
+            xhr.setRequestHeader(csrfHeadName, csrfTokenValue);
+      	},
+	    success:function(result){
+	      if(result==true){
+	    	if(kind==1){
+	    		$("#personInfomationChangePage").attr("action", "/modifymember");
+	    		$("#personInfomationChangePage").attr("method", "GET");
+		        $("#personInfomationChangePage").submit();
+	    	}else if(kind==2){
+		        $("#deleteForm").submit();
+	    	}
+	      }else{
+	            $('#msgErr').show();
+	            $("#msgErr").text("입력하신 비밀번호가 일치하지 않습니다.");			
+	      }
+	    },
+	    error:function(e){
+			alert("ajax 실패");	    	
+	    }
+	  });		
+	});
+	
+	
+	$("#cancle_btn").click(function(){
+	  location.href="/mypage";
+	});
+	
+	$("#j_password").keypress(function( event ) {
+	  if ( event.which == 13 ) {
+	    event.preventDefault();
+	    $("#login_btn").click();
+	    $(this).blur();
+	  }
+	});
+	
+	$("#findPWBtn").click(function(){
+	  location.href="/ko/member/findIdPwPage";
+	});
+	
+	});
+/*]]>*/
+</script>
+
+<script type="text/javascript">
+
+
+
+
+</script>
+
+</body>
+</html>

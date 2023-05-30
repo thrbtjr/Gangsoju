@@ -1,0 +1,354 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+
+  <!-- sns공유// start-->
+  <div th:fragment="sns_html">
+    <div class="hsome_layer_popup02 hs_share_pop" style="display: none">
+      <div class="pop-comm-cnts pop-comm-cnts-2019">
+        <p class="tit">공유하기</p>
+        <div class="share_link">
+          <a class="link" id="shareKakaotalk" onclick="javascript:noLink();"
+            ><img
+              src="/_ui/handsomemobile/images/content/sns_logo02.png"
+              alt="kakao talk"
+          /></a>
+          <a
+            class="link"
+            id="shareUrl"
+            data-clipboard-action="copy"
+            data-clipboard-text=""
+            onclick=""
+            ><img
+              src="/_ui/handsomemobile/images/content/sns_logo03.png"
+              alt="url"
+          /></a>
+          <a
+            class="link"
+            id="shareFacebook"
+            onclick="javascript:fnShareFacebook();"
+            ><img
+              src="/_ui/handsomemobile/images/content/sns_logo04.png"
+              alt="facebook"
+          /></a>
+          <a
+            class="link"
+            id="shareTwitter"
+            onclick="javascript:fnShareTwitter();"
+            ><img
+              src="/_ui/handsomemobile/images/content/sns_logo05.png"
+              alt="twitter"
+          /></a>
+          <a
+            class="link"
+            id="sharePinterest"
+            onclick="javascript:fnSharePinterest();"
+            ><img
+              src="/_ui/handsomemobile/images/content/sns_logo06.png"
+              alt="pinterest"
+          /></a>
+        </div>
+        <a href="#" class="pop-comm-cls">닫기</a>
+      </div>
+    </div>
+    <input type="hidden" id="shareUrl" name="shareUrl" />
+    <input type="hidden" id="shareKey" name="shareKey" />
+    <input type="hidden" id="shareImgUrl" name="shareImgUrl" />
+    <input type="hidden" id="shareTitle" name="shareTitle" />
+    <input type="hidden" id="shareDetail" name="shareDetail" />
+  </div>
+
+  <script
+    type="text/javascript"
+    th:fragment="sns_script1"
+    src="/_ui/handsomemobile/js/clipboard.min.js"
+  ></script>
+  <script type="text/javascript" th:fragment="sns_script2">
+    //App, android 설정 및 공유하기를 위한 KAKAO를 init (init키는 부여받은 key를 넣어주어야 합니다.)
+    $(document).ready(function () {
+      if (getCookie("app") == "ios") {
+        deviceName = "ios";
+      } else if (getCookie("app") == "android") {
+        deviceName = "android";
+      } else {
+        if (userAgent.search("android") > -1) {
+          deviceName = "android";
+        } else if (
+          userAgent.search("iphone") > -1 ||
+          userAgent.search("ipod") > -1 ||
+          userAgent.search("ipad") > -1
+        ) {
+          deviceName = "ios";
+        }
+      }
+      //테스트용 Key를 발급받으셔야 테스트 환경에서 카카오톡 공유하기를 할 수 있습니다. (development, staging, localhost 호스트 접속용)
+      // 		Kakao.init('개발용key값');
+      //TheHandsome.com 운영 Key 입니다. (www.thehandsome.com)
+      // 		Kakao.init('65f184156e7c83b654f392eacf75c7ed');
+      $.getScript("//developers.kakao.com/sdk/js/kakao.min.js", function () {
+        if (typeof Kakao !== "undefined") {
+          Kakao.init("65f184156e7c83b654f392eacf75c7ed");
+          //                 Kakao.init('bdfad1be522c19504de903a0d357b855');  //test key
+        }
+      }).fail(function () {
+        console.log("fail");
+      });
+    });
+
+    //현재 페이지 정보 변수화
+    var userAgent = navigator.userAgent.toLocaleLowerCase();
+
+    // 모든 page에서 공유버튼을 누를시 -> initShareData를 다음과같이 호출하도록 한다. initShareData(url, PK, 이미지url, title, detail) 이때 url은 ex) /ko/hssearch/smartfilter?smartFilterPk= .. 으로 오도록 설정.
+    function initShareData(
+      shareUrl,
+      shareKey,
+      shareImgUrl,
+      shareTitle,
+      shareDetail
+    ) {
+      $(".hsome_layer_popup02.hs_share_pop").show();
+      shareTitle = shareTitle.replace(/\&#039;/gi, "'");
+      shareTitle = shareTitle.replace(/\&amp;/gi, "&");
+      shareTitle = brTagReplace(shareTitle);
+      if (shareDetail == undefined) {
+        shareDetail = "";
+      } else {
+        shareDetail = shareDetail.replace(/\&amp;/gi, "&");
+        shareDetail = shareDetail.replace(/\&#039;/gi, "'");
+      }
+      shareUrl = "/mobilecommon/hsGateway?page=" + encodeURIComponent(shareUrl);
+      shareKey = shareKey.replace("?", "&");
+
+      //공유하기 시 hsGateway 페이지를 모바일로 인식 시키기위해 붙임
+      if (shareKey.indexOf("uiel=Mobile") == -1) {
+        shareKey = shareKey + "&uiel=Mobile";
+      }
+
+      if (shareImgUrl.indexOf("_C01")) {
+        shareImgUrl = shareImgUrl.replace("_C01", "_W01");
+      }
+      //console.log(" shareUrl :::: "+shareUrl+"\n shareKey :::: "+shareKey+"\n shareImgUrl :::: "+shareImgUrl+"\n shareTitle :::: "+shareTitle+"\n shareDetail ::::"+shareDetail)
+      $("#shareUrl").val("http://www.thehandsome.com" + shareUrl);
+      $("#shareKey").val(shareKey);
+      $("#shareImgUrl").val(shareImgUrl);
+      $("#shareTitle").val(shareTitle);
+      $("#shareDetail").val(shareDetail);
+
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var textUrl = sUrl.replace("'", "%27");
+      var clpbrd = new ClipboardJS("#shareUrl", {
+        text: function (data) {
+          return textUrl;
+        },
+      });
+      clpbrd.on("success", function (e) {
+        var la = new layerAlert("URL이 복사되었습니다.");
+        e.clearSelection();
+      });
+      clpbrd.on("error", function (e) {
+        console.log(e);
+        var la = new layerAlert("URL이 복사되었습니다.");
+      });
+
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var sImg = $("#shareImgUrl").val();
+      var sTxt = $("#shareTitle").val();
+      var sDes = $("#shareDetail").val();
+      var url = sUrl.replace("'", "%27");
+
+      Kakao.Link.createDefaultButton({
+        container: "#shareKakaotalk",
+        objectType: "feed",
+        content: {
+          title: sTxt,
+          description: sDes,
+          imageUrl: sImg,
+          link: {
+            mobileWebUrl: url,
+            webUrl: url,
+          },
+          imageWidth: 282,
+          imageHeight: 426,
+        },
+        buttons: [
+          {
+            title: "더보기",
+            link: {
+              mobileWebUrl: sUrl,
+              webUrl: sUrl,
+            },
+          },
+        ],
+      });
+    }
+
+    function fnShareFacebook() {
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var sImg = $("#shareImgUrl").val();
+      var sTxt = $("#shareTitle").val();
+      sTxt = sTxt.replace(/\&#039;/gi, "'");
+      sTxt = sTxt.replace(/\&amp;/gi, "&");
+      var href =
+        "http://www.facebook.com/sharer.php?u=" + encodeURIComponent(sUrl);
+      var a = window.open(href, "facebook", "");
+      if (a) {
+        a.focus();
+      }
+    }
+    function fnShareTwitter() {
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var sImg = $("#shareImgUrl").val();
+      var sTxt = $("#shareTitle").val();
+      sTxt = sTxt.replace(/\&#039;/gi, "'");
+      sTxt = sTxt.replace(/\&amp;/gi, "&");
+
+      var href =
+        "http://twitter.com/share?url=" +
+        encodeURIComponent(sUrl) +
+        "&text=" +
+        encodeURIComponent(sTxt);
+      var a = window.open(href, "twitter", "");
+      if (a) {
+        a.focus();
+      }
+    }
+
+    function fnSharePinterest() {
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var sImg = $("#shareImgUrl").val();
+      var sTxt = $("#shareTitle").val();
+      sTxt = sTxt.replace(/\&#039;/gi, "'");
+      sTxt = sTxt.replace(/\&amp;/gi, "&");
+
+      var href =
+        "http://www.pinterest.com/pin/create/button/?url=" +
+        sUrl +
+        "&media=" +
+        sImg +
+        "&description=" +
+        encodeURIComponent(sTxt);
+      var a = window.open(href, "pinterest", "width=800, height=500");
+      if (a) {
+        a.focus();
+      }
+    }
+
+    function fnShareHpoint() {
+      var sUrl = $("#shareUrl").val() + $("#shareKey").val();
+      var sImg = $("#shareImgUrl").val();
+      var sTxt = $("#shareTitle").val();
+      sTxt = sTxt.replace(/\&#039;/gi, "'");
+      sTxt = sTxt.replace(/\&amp;/gi, "&");
+
+      var isAndroid = navigator.userAgent.indexOf("Android") > -1;
+      var isIOS =
+        navigator.userAgent.indexOf("iPhone") > -1 ||
+        navigator.userAgent.indexOf("iPad") > -1;
+
+      //hpPoint 어플 기존에 hpShareUrl로 컨트롤러 영역에서 받도록 되어있는데, 현재 공통모듈로 설정되면서 어느부분에서 hpshareUrl를 설정해야하는지 의문
+      var hpShareUrl = "hpoint://timeLineReg?writeGbcd=05";
+      // 		var hpShareUrl = "hpoint://timeLineReg?writeGbcd=05";
+      var customUrlScheme =
+        hpShareUrl +
+        "&linkUrl=" +
+        encodeURIComponent(sUrl) +
+        "&shrCntn=" +
+        encodeURIComponent(sTxt) +
+        "&shrImgUrl=" +
+        encodeURIComponent(sImg);
+      var storeURL = "";
+
+      if (isAndroid) {
+        storeURL = "market://details?id=kr.co.hpoint.hdgm";
+        var visitedAt = new Date().getTime(); // 방문 시간
+
+        if (getCookie("app") == "android") {
+          var ifr = document.all["uriFrame"];
+          if (ifr != null) {
+            ifr.src =
+              "intent:" +
+              customUrlScheme +
+              "#Intent;package=kr.co.hpoint.hdgm;end;"; // url : URL scheme(Custom scheme)
+          }
+        } else if (userAgent.match(/Chrome/)) {
+          // 안드로이드의 크롬에서는 intent만 동작하기 때문에 intent로 호출해야함
+          setTimeout(function () {
+            location.href =
+              "intent:" +
+              customUrlScheme +
+              "#Intent;package=kr.co.hpoint.hdgm;end;";
+          }, 1000);
+        } else {
+          // 크롬 이외의 브라우저들
+          setTimeout(function () {
+            if (new Date().getTime() - visitedAt < 2000) {
+              location.href = storeURL;
+            }
+          }, 500);
+
+          var ifr = document.all["uriFrame"];
+          if (ifr != null) {
+            ifr.src = customUrlScheme; // url : URL scheme(Custom scheme)
+          }
+        }
+      } else {
+        storeURL =
+          "https://itunes.apple.com/kr/app/h-point/id1255389331?l=ko&ls=1&mt=8";
+        var visitedAt = new Date().getTime(); // 방문 시간
+
+        setTimeout(function () {
+          if (new Date().getTime() - visitedAt < 2000) {
+            location.href = storeURL;
+          }
+        }, 500);
+
+        setTimeout(function () {
+          location.href = customUrlScheme;
+        }, 0);
+      }
+    }
+
+    function getCookie(cName) {
+      cName = cName + "=";
+      var cookieData = document.cookie;
+      var start = cookieData.indexOf(cName);
+      var cValue = "";
+      if (start != -1) {
+        start += cName.length;
+        var end = cookieData.indexOf(";", start);
+        if (end == -1) end = cookieData.length;
+        cValue = cookieData.substring(start, end);
+      }
+      return unescape(cValue);
+    }
+
+    function isSafariBrowser() {
+      var isSafari = navigator.userAgent.toLowerCase().indexOf("safari") > -1;
+      var isChrome = navigator.userAgent.toLowerCase().indexOf("chrome") > -1;
+      if (isSafari == true) {
+        if (isChrome == true) {
+          isSafari = false;
+        }
+      }
+
+      return (
+        Object.prototype.toString
+          .call(window.HTMLElement)
+          .indexOf("Constructor") > 0 || isSafari
+      );
+    }
+
+    function brTagReplace(stringVal) {
+      stringVal = stringVal.replace(/<br>/gi, " ");
+      stringVal = stringVal.replace(/<\/br>/gi, " ");
+      stringVal = stringVal.replace(/<br\/>/gi, " ");
+      stringVal = stringVal.replace(/&lt;br&gt;/gi, " ");
+      stringVal = stringVal.replace(/&lt;\/br&gt;/gi, " ");
+      stringVal = stringVal.replace(/&lt;br\/&gt;/gi, " ");
+
+      return stringVal;
+    }
+  </script>
+  <!-- //sns공유 end-->
+</html>

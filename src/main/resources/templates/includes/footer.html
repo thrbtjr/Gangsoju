@@ -1,0 +1,370 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+
+  <!-- ################## footer start ################## -->
+  <!-- 푸터 공지 추가 220404 -->
+  <footer
+    id="footer"
+    class="hsome_footer new181127 footer_kr"
+    style="display: none"
+    th:fragment="footer"
+  >
+    <div class="main-notice">
+      <div class="tit-notice">공지</div>
+      <div class="list-notice">
+        <ul class="notice-wrap">
+          <li>
+            <a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376"
+              >더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a
+            >
+          </li>
+          <li>
+            <a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376"
+              >더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="btn-more">
+        <a href="/ko/svcenter/mobilenotice"
+          ><img
+            src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png"
+            alt=""
+        /></a>
+      </div>
+    </div>
+    <div class="f_wrap">
+      <div class="f_menu re1911">
+        <!-- 수정 190207 -->
+        <ul class="top_line">
+          <li><a href="#"></a></li>
+          <li>
+            <a
+              href="/ko/member/login"
+              class="login"
+              style="float: left"
+              onclick="GA_Event('공통', '푸터_메뉴', '로그인');"
+              >로그인<!--로그인--></a
+            >
+          </li>
+          <li>
+            <a
+              href="/ko/svcenter/mobilemain?uiel=Mobile"
+              class="customer"
+              style="float: left; width: 32%"
+              onclick="GA_Event('공통', '푸터_메뉴', '고객센터');"
+              >고객센터<!--고객센터--></a
+            >
+          </li>
+          <li>
+            <a
+              href="/ko/store-finder/storeInformation?uiel=Mobile"
+              class="storeinfo"
+              style="float: left"
+              onclick="GA_Event('공통', '푸터_메뉴', '매장안내');"
+              >매장안내</a
+            >
+          </li>
+        </ul>
+        <ul class="btm_line1911">
+          <li>
+            <a
+              href="/ko/svcenter/theClubInfo?uiel=Mobile"
+              class="memberBenefit"
+              style="float: left; letter-spacing: -1px"
+              onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');"
+              >한섬 회원 혜택<!-- 한섬 회원 혜택 --></a
+            >
+          </li>
+          <li>
+            <a
+              href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko"
+              target="_blank"
+              style="float: left; letter-spacing: -1px"
+              onclick="GA_Event('공통', '푸터_메뉴', '회사소개');"
+              >회사소개</a
+            >
+          </li>
+          <li id="family_site">
+            <span
+              class="language family_site1911 for_iph_css1911"
+              onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');"
+              >FAMILY SITE&nbsp;</span
+            >
+          </li>
+        </ul>
+        <!-- 챗봇 테스트 -->
+      </div>
+
+      <div class="f_sns">
+        <a
+          href="javascript:noLink();"
+          onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+          class="ist"
+          >인스타그램</a
+        >
+        <a
+          href="javascript:noLink();"
+          onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+          class="ytb"
+          >유튜브</a
+        >
+      </div>
+      <div class="f_policy">
+        <a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a>
+        <a href="/ko/footer/footerPrivacy?uiel=Mobile" style="font-weight: bold"
+          >개인정보처리방침</a
+        >
+
+        <!-- web -->
+        <!-- 180706 추가// -->
+        <span class="language">
+          <select
+            id="footerSelectLang"
+            onchange="if(this.value) language(this.value);"
+            onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');"
+          >
+            <option value="" selected="selected" disabled hidden="">
+              LANGUAGE
+            </option>
+            <option value="ko">한국어</option>
+            <option value="en">ENGLISH</option>
+            <option value="zh">中文</option>
+          </select>
+        </span>
+        <!-- //180706 추가 -->
+      </div>
+
+      <div class="f_copyright">
+        COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED
+      </div>
+
+      <a
+        href="javascript:noLink();"
+        class="f_info_viewer"
+        onclick="GA_Event('공통', '푸터_CNT', 'INFO');"
+      >
+        <span class="f-txt">(주) 한섬 </span>
+        <span class="f-logo"
+          ><img
+            src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png"
+            alt=""
+        /></span>
+      </a>
+
+      <div class="f_info">
+        <div class="corp">
+          대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br />TEL :
+          1800-5700 (유료) | FAX : 02-6078-2856 <br />개인정보보호책임자 :
+          윤인수 | 호스팅서비스 : (주) 한섬<br />사업자등록번호 :
+          120-81-26337<br />통신판매업신고번호 : 제 2009-서울강남-00826호
+        </div>
+        <div class="link">
+          <a
+            href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN"
+            target="_blank"
+            onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');"
+            >채용정보</a
+          >
+          <a
+            href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do"
+            target="_blank"
+            onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');"
+            >동반성장</a
+          >
+          <a
+            href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do"
+            target="_blank"
+            onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');"
+            >환경경영</a
+          >
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- // 푸터 공지 추가 220404 -->
+  <!-- //################## footer ################## -->
+
+  <div class="family_site_popup_191108" th:fragment="family">
+    <ul>
+      <li>
+        <a
+          href="http://m.hfashionmall.com/sfmmbl/mbl/main.do"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H패션몰');"
+          >H패션몰<!-- H패션몰 --></a
+        >
+      </li>
+      <li>
+        <a
+          href="https://m.hyundaihmall.com/front/index.do"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대홈쇼핑');"
+          >현대홈쇼핑<!-- (주)현대홈쇼핑 --></a
+        >
+      </li>
+      <li>
+        <a
+          href="https://m.thehyundai.com/Home.html"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_더현대닷컴');"
+          >더현대닷컴<!-- 더현대닷컴 --></a
+        >
+      </li>
+      <li>
+        <a
+          href="http://mall.hyundailivart.co.kr/front/index_org.lv"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대리바트');"
+          >현대리바트<!-- (주)현대 리바트 --></a
+        >
+      </li>
+      <li>
+        <a
+          href="https://www.h-point.co.kr/cu/main/index.nhd"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H.Point');"
+          >H.Point</a
+        >
+      </li>
+      <li>
+        <a
+          href="http://www.ehyundai.com/newPortal/ir/main.do"
+          target="_blank"
+          onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대백화점그룹');"
+          >현대백화점그룹<!-- 현대백화점 그룹 --></a
+        >
+      </li>
+    </ul>
+    <a
+      href="#;"
+      class="family_site_popup_close"
+      onclick="familySiteSelectClosed();"
+      >닫기<!-- 닫기 --></a
+    >
+  </div>
+
+  <script th:fragment="footer_script" type="text/javascript">
+    //<![CDATA[
+    var height = 20;
+    var num = 0;
+    var max = height * num;
+    var move = 0;
+    var lastChild;
+    var notiCnt = 0;
+    var curTabId = 0;
+
+    $(document).ready(function () {
+      //자동로그인
+
+      var ssoUrl = "https://sso.h-point.co.kr:29865" + "/co/setSsoReqJSONP.hd";
+
+      // 2022.03.29 푸터 공지사항 추가
+      //getFooterNotices("/ko/svcenter");
+    });
+
+    function moveDesktop() {
+      location.href =
+        location.href.replace("?uiel=Mobile", "") + "?uiel=Desktop";
+    }
+
+    $(function () {
+      var pcVersionButtons = null;
+      if (getCookie("app") != "android" && getCookie("app") != "ios") {
+        pcVersionButtons = '<a href="javascript:moveDesktop();">PC버전</a>';
+        $("#pcVersion").html(pcVersionButtons);
+      } else {
+        $("#footerMenu").prop("class", "menu m3");
+      }
+    });
+
+    function hpAutoLogin(data) {
+      if (data.succYn == "Y") {
+        $.ajax({
+          type: "GET",
+          url: "/ko/hpoint/simpleJoinMember",
+          data: { mcustNo: data.mcustNo },
+          success: function (data) {
+            if (data.resultCode == "L") {
+              $("#hcid").val(data.uid);
+              $("#autologinForm").submit();
+            }
+          },
+          error: function (e) {},
+        });
+      }
+    }
+
+    function familySiteSelect() {
+      $(".fixed_dim_layer").stop().show();
+      $(".family_site_popup_191108").stop().slideDown();
+    }
+    function familySiteSelectClosed() {
+      $(".family_site_popup_191108").stop().slideUp();
+      $(".fixed_dim_layer").stop().fadeOut(500);
+    }
+
+    //외부 브라우저로 링크 열기
+    function callWebBrowser() {
+      var appYn = "N";
+      if (getCookie("app") == null || getCookie("app") == "") {
+        //
+      } else {
+        // 앱 접속일 경우 앱 여부 Y
+        appYn = "Y";
+      }
+      var appOs = "";
+
+      if (appYn == "Y") {
+        if (appOs == "ios") {
+          webkit.messageHandlers.callWebBrowser.postMessage(
+            "http://www.naver.com"
+          );
+        } else {
+          Android.callWebBrowser("http://www.naver.com");
+        }
+      }
+    }
+
+    /************************Footer Notice Start*********************/
+    function getFooterNotices(moveUrl) {
+      to_date = new Date();
+      $.ajax({
+        type: "get",
+        url: moveUrl + "/getFooterNotices?now=" + to_date.getTime(),
+        dataType: "json",
+        error: function (request, status, error) {
+          console.log(error);
+        },
+        success: function (data) {
+          notiCnt = data.length;
+          var noticeContent = "";
+          //var viewCnt = 0;
+          $.each(data, function () {
+            //if(viewCnt < 4){
+            var listTag = "<li>";
+            listTag +=
+              '<a href="' +
+              moveUrl +
+              "/mobilenotice?noticeCode=" +
+              this.pk +
+              '">' +
+              this.subject +
+              "</a>";
+            listTag += "</li>";
+
+            noticeContent += listTag;
+            //viewCnt++;
+            //}
+          });
+
+          $(".notice-wrap").html(noticeContent);
+        },
+      });
+    }
+    /**********************Footer Notice End****************************/
+    //]]>
+  </script>
+</html>

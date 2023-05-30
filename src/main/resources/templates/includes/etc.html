@@ -1,0 +1,611 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+  <script th:fragment="etc">
+    $(document).ready(function () {
+      var appVersionCheckOS = getCookie("app");
+      var appVersionCheckVer = getCookie("appVer");
+      if (
+        (appVersionCheckOS == "ios" && appVersionCheckVer.startsWith("1.")) ||
+        (appVersionCheckOS == "android" && appVersionCheckVer < 43)
+      ) {
+        location.href = "/ko/mobilecommon/appDownload";
+        return;
+      }
+
+      var todayDate = new Date();
+
+      if (getCookie("mainNoticeWrapKo") != todayDate.getDate()) {
+        var innerHtml = "";
+        innerHtml +=
+          '<div class="notice_pop" id="mainNoticeWrap" style="z-index:100000;">                                                                              ';
+        innerHtml +=
+          '    <div class="popwrap_renewal1910" id="mainNoticeWrapKo">                                                                                       ';
+        innerHtml +=
+          '        <div class="pop_cnt">                                                                                                                     ';
+        innerHtml +=
+          '            <h3 class="pop_tlt" style="font-size:20px">                                                                                           ';
+        innerHtml +=
+          "            아이폰 APP <br>                                                                                                                       ";
+        innerHtml +=
+          "            카드결제 불가 안내                                                                                                                    ";
+        innerHtml +=
+          "            </h3>                                                                                                                                 ";
+        innerHtml +=
+          '            <p class="pop_txt">                                                                                                                   ';
+        innerHtml +=
+          "            아이폰 APP 2.2.2 버전에서<br/>일부 결제 오류가 발생하고 있습니다.<br/>(원클릭결제는 정상)<br/><br/>                                   ";
+        innerHtml +=
+          "            2.2.3 버전으로 업데이트 하시면<br/>정상 결제가 가능합니다.<br/>업데이트 후, 결제 진행 부탁드립니다.<br/><br/>                         ";
+        innerHtml +=
+          "            고객님께 불편을 드려 죄송합니다.                                                                                                      ";
+        innerHtml +=
+          "            </p>                                                                                                                                  ";
+        innerHtml +=
+          "        </div>                                                                                                                                    ";
+        innerHtml +=
+          '        <div class="btnwrap">                                                                                                                     ';
+        innerHtml +=
+          '            <input type="button" class="btn stoptoday closeLayerPopup" value="오늘은 그만보기 ">                                                  ';
+        innerHtml +=
+          '            <input type="button" class="btn close closeLayerPopup" value="닫기">                                                                  ';
+        innerHtml +=
+          "        </div>                                                                                                                                    ";
+        innerHtml +=
+          '        <a href="#" class="btn_close closeLayerPopup"></a>                                                                                        ';
+        innerHtml +=
+          "    </div>                                                                                                                                        ";
+        innerHtml += "</div> ";
+        innerHtml +=
+          '<div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:9999;" id="notice_pop_layer"><div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; opacity:0;"></div> </div> ';
+
+        if (appVersionCheckOS == "ios" && appVersionCheckVer == "2.2.2") {
+          if (
+            "mobileMain202105Page" == "ordersheet" ||
+            "mobileMain202105Page" == "cartPage"
+          ) {
+            $(".hsome_contents").after(innerHtml);
+            $("#notice_pop_layer").show();
+          }
+        }
+      }
+
+      $(".closeLayerPopup").on("click", function () {
+        $("#notice_pop_layer").hide();
+        if ($(this).hasClass("stoptoday")) {
+          //오늘은 그만보기
+          var todayDate = new Date();
+          var cookieId = $(this).parents(".popwrap_renewal1910").attr("id");
+          setOneDayCookie(cookieId, todayDate.getDate(), 1);
+        }
+        $(this).parents(".popwrap_renewal1910").css("display", "none");
+      });
+
+      if (handsomePageId != "mainIntro") {
+        if ($.cookie("handsomecategorypagecnt") !== null) {
+          $.removeCookie("handsomecategorypagecnt", { path: "/" });
+        }
+        if ($.cookie("handsomecategoryscroll") !== null) {
+          $.removeCookie("handsomecategoryscroll", { path: "/" });
+        }
+        if ($.cookie("handsomelayerscroll") !== null) {
+          $.removeCookie("handsomelayerscroll", { path: "/" });
+        }
+        if (
+          $.cookie("handsomeproductback") !== null &&
+          handsomePageId != "productList"
+        ) {
+          $.removeCookie("handsomeproductback", { path: "/" });
+        }
+        if (
+          $.cookie("handsomecategoryhash") !== null &&
+          !(
+            handsomePageId == "productList" ||
+            handsomePageId == "hsProductDetailPage"
+          )
+        ) {
+          $.removeCookie("handsomecategoryhash", { path: "/" });
+        }
+      }
+
+      $(document).on("click", ".set", function () {
+        location.href = "/ko/mypage/configMain";
+      });
+    });
+
+    // 쿠키 생성
+    function setCookie(cName, cValue, cDay) {
+      var expire = new Date();
+      expire.setDate(expire.getDate() + cDay);
+      cookies = cName + "=" + escape(cValue) + "; path=/ ";
+      if (typeof cDay != "undefined")
+        cookies += ";expires=" + expire.toGMTString() + ";";
+      document.cookie = cookies;
+    }
+
+    //쿠키 삭제
+    function deletecookie(name, pram_searchwords) {
+      var today = new Date();
+      var path = "/ko/";
+      var lastIndex = path.lastIndexOf("/");
+      path = path.substring(0, lastIndex);
+      today.setDate(today.getDate() + -1);
+      document.cookie =
+        name + "=; path=" + path + "; expires=" + today.toGMTString() + ";";
+      $("." + pram_searchwords).css("display", "none");
+    }
+
+    function deletecookiePath(name, pram_searchwords, path) {
+      var today = new Date();
+      if (path == "") {
+        path = "/";
+      }
+      today.setDate(today.getDate() + -1);
+      document.cookie =
+        name + "=; path=" + path + "; expires=" + today.toGMTString() + ";";
+      if (pram_searchwords != "") {
+        $("." + pram_searchwords).css("display", "none");
+      }
+    }
+
+    function getCSRFToken() {
+      return "CSRFToken=" + $("#CSRFForm [name='CSRFToken']").first().val();
+    }
+
+    function slideOnMain() {
+      var autocom_swiper = new Swiper("#autocompleteImg", {
+        slidesPerView: 3.333,
+        paginationClickable: false,
+        spaceBetween: "1.5625%",
+        freeMode: true,
+      });
+    }
+
+    //상품 검색 오픈
+    function getProductSearchPage() {
+      layerPopupOpen(
+        "/ko/mobilecommon/productsearch",
+        ".hsome_layerpop_contents.lp_depth1",
+        ".layerpop_wrap.lp_cs_qna_search_wrap"
+      );
+    }
+
+    //상품 검색 닫기
+    function productSearchPageClose() {
+      $(".layerpop_wrap.lp_cs_qna_search_wrap .ui_tab").find(".fcs").remove();
+      layerPopupClose(
+        ".hsome_layerpop_contents.lp_depth1",
+        ".layerpop_wrap.lp_cs_qna_search_wrap"
+      );
+      // SNS 댓글의 경우 검색창 닫기 후 댓글창 active
+      if (window.isSnsReplySearchPop) {
+        $(".sns_comment_ipt_pop .sns-comment-ipt").addClass("active");
+      }
+    }
+
+    //상품 검색 오픈
+    function getProductSearchPage2() {
+      layerPopupOpen(
+        "/ko/mobilecommon/productsearch?type=manto",
+        ".hsome_layerpop_contents.lp_depth1",
+        ".layerpop_wrap.lp_cs_qna_search_wrap2"
+      );
+    }
+
+    //상품 검색 닫기
+    function productSearchPageClose2() {
+      layerPopupClose(
+        ".hsome_layerpop_contents.lp_depth1",
+        ".layerpop_wrap.lp_cs_qna_search_wrap2"
+      );
+      // SNS 댓글의 경우 검색창 닫기 후 댓글창 active
+      if (window.isSnsReplySearchPop) {
+        $(".sns_comment_ipt_pop .sns-comment-ipt").addClass("active");
+      }
+    }
+
+    //상품상세 > 상품 검색 오픈
+    function getProductSearchPageOnProductDetail() {
+      layerPopupOpen(
+        "/ko/mobilecommon/productsearch",
+        ".hsome_layerpop_contents.lp_depth2",
+        ".layerpop_wrap.lp_cs_qna_search_wrap"
+      );
+      setTimeout(function () {
+        $(
+          ".hsome_layerpop_contents.lp_depth2 .lyrpp_close.lyrpp_close_stl1"
+        ).attr("onclick", "productSearchPageOnProductDetailClose();");
+      }, 400);
+    }
+
+    //상품 검색 닫기
+    function productSearchPageOnProductDetailClose() {
+      $(".layerpop_wrap.lp_cs_qna_search_wrap .ui_tab").find(".fcs").remove();
+      layerPopupClose(
+        ".hsome_layerpop_contents.lp_depth2",
+        ".layerpop_wrap.lp_cs_qna_search_wrap"
+      );
+      // SNS 댓글의 경우 검색창 닫기 후 댓글창 active
+      if (window.isSnsReplySearchPop) {
+        $(".sns_comment_ipt_pop .sns-comment-ipt").addClass("active");
+      }
+    }
+
+    //레이어 팝업 오픈
+    function layerPopupOpen(url, layer, pop) {
+      $.cookie("handsomelayerscroll", $(document).scrollTop(), { path: "/" });
+      $(layer).addClass("active");
+
+      setTimeout(function () {
+        $(".hsome_allContents").addClass("disabled");
+      }, 300);
+      setTimeout(function () {
+        $(layer).addClass("visible");
+      }, 400);
+      $(layer).html(
+        '<img src="/_ui/handsomemobile/images/common/Spinner-1s-200px.png" alt="loading" class="hsome_quickMenu_loader" />'
+      );
+
+      jQuery.ajax({
+        url: url,
+        data: "",
+        type: "get",
+        success: function (data) {
+          setTimeout(function () {
+            $(layer).html(data);
+            $(pop).addClass("visible");
+          }, 0);
+          setTimeout(function () {
+            $(pop).addClass("active");
+          }, 0);
+          setTimeout(function () {
+            $(pop).addClass("activated");
+          }, 400);
+        },
+      });
+    }
+
+    //레이어 팝업 닫기
+    function layerPopupClose(layer, pop) {
+      var $popup = $(this).closest(pop);
+      $popup.removeClass("activated");
+      $popup.removeClass("active");
+      setTimeout(function () {
+        $popup.removeClass("visible");
+        $(".hsome_allContents").removeClass("disabled");
+        $(layer).removeClass("active");
+        $(layer).removeClass("visible");
+        if ($.cookie("handsomelayerscroll") !== null) {
+          $(document).scrollTop(getCookie("handsomelayerscroll"));
+        }
+      }, 400);
+      return false;
+    }
+
+    //레이어 팝업 닫기
+    function layerPopupClose2(layer, pop) {
+      $(pop).removeClass("activated");
+      $(pop).removeClass("active");
+      setTimeout(function () {
+        $(pop).removeClass("visible");
+        $(".hsome_allContents").removeClass("disabled");
+        $(layer).removeClass("active");
+        $(layer).removeClass("visible");
+        if ($.cookie("handsomelayerscroll") !== null) {
+          $(document).scrollTop(getCookie("handsomelayerscroll"));
+        }
+      }, 400);
+      return false;
+    }
+
+    function saveWishContents(
+      contentType,
+      templateType,
+      contentPK,
+      contentSubject
+    ) {
+      $.ajax({
+        url: "/ko/magazine/saveMyWishContents",
+        type: "POST",
+        datatype: "json",
+        data: {
+          contentType: contentType,
+          templateType: templateType,
+          contentPK: contentPK,
+          contentSubject: contentSubject,
+          CSRFToken: $("#CSRFForm [name='CSRFToken']").first().val(),
+        },
+        success: function (data) {
+          //alert(data);
+        },
+      });
+    }
+
+    function ftLogout() {
+      deletecookie("UID");
+      deletecookie("criteoEmail");
+      deletecookie("memberGb");
+
+      location.href = "/ko/logout";
+    }
+
+    var oneclick = {
+      isEvent: false,
+      depthIndex: 0,
+      open: function (products, vipDeliAvail) {
+        var broadcastIndex = "";
+        var inflowTime = "";
+        var broadcastDate = "";
+        if (broadcastIndex != "") {
+          inflowTime = "20230209235314";
+        }
+
+        if (this.isEvent) return;
+
+        this.depthIndex = layerNextActiveIndex();
+        $(".hsome_layerpop_contents.lp_depth" + this.depthIndex).css(
+          "bottom",
+          "-1000px"
+        );
+        $(".hsome_layerpop_contents.lp_depth" + this.depthIndex).load(
+          "/ko/checkout/oneclick?products=" +
+            products +
+            "&vipDeliAvail=" +
+            vipDeliAvail +
+            "&broadcastIndex=" +
+            broadcastIndex +
+            "&inflowTime=" +
+            inflowTime +
+            "&broadcastDate=" +
+            broadcastDate,
+          function () {
+            $(this)
+              .removeClass("lp_stl_black")
+              .removeClass("lp_stl_trans")
+              .removeClass("dir_w")
+              .removeClass("dir_h");
+            $(this).addClass("dir_h lp_stl_black lp_stl_trans visible active");
+            oneclick.isEvent = true;
+          }
+        );
+      },
+      calliFramePopup: function (depth) {
+        $(".iframe_popup_wrap")
+          .removeClass("lp_stl_black")
+          .removeClass("lp_stl_trans")
+          .removeClass("dir_w")
+          .removeClass("dir_h"); //초기화
+        curScrollPosition = $(window).scrollTop();
+        holdBodyShow();
+        $(".iframe_popup_wrap").addClass("dir_h"); //슬라이드방향
+
+        // showLoadingLpIdx("2001");
+        return false;
+      },
+      init: function () {
+        if (this.isEvent) return;
+
+        if (window.addEventListener) {
+          window.addEventListener("message", oneclickPostMessage, false);
+        } else if (window.attachEvent) {
+          window.attachEvent("onmessage", oneclickPostMessage, false);
+        }
+
+        this.isEvent = true;
+      },
+    };
+
+    function oneclickPostLoaded() {
+      $(".iframe_popup_wrap").addClass("lp_stl_trans"); //black 배경 활성화
+      $(".iframe_popup_wrap").addClass("visible");
+      $(".iframe_popup_wrap").addClass("active");
+    }
+
+    function oneclickPostSubmit(data) {
+      var payForm = data,
+        formName = "oneclickPayForm";
+
+      if ($("#" + formName).length > 0) {
+        $("#" + formName).remove();
+      }
+      var $oneclickPayForm = $("<form/>", {
+        id: formName,
+        enctype: "application/x-www-form-urlencodeed",
+      }).appendTo($("body"));
+      $oneclickPayForm.empty();
+
+      $.each(payForm, function (name, value) {
+        addHidden($oneclickPayForm, name, value);
+      });
+
+      $oneclickPayForm.attr({
+        method: "POST",
+        action: "https://www.thehandsome.com/ko/inicis/inipaywpay/sop/response",
+        target: "_top",
+      });
+
+      $oneclickPayForm.submit();
+    }
+
+    function oneclickPostPointSubmit(data) {
+      var payForm = data,
+        formName = "oneclickPayForm";
+
+      if ($("#" + formName).length > 0) {
+        $("#" + formName).remove();
+      }
+
+      var $oneclickPayForm = $("<form/>", {
+        id: formName,
+      }).appendTo($("body"));
+      $oneclickPayForm.empty();
+
+      $.each(payForm, function (name, value) {
+        addHidden($oneclickPayForm, name, value);
+      });
+      $oneclickPayForm.attr({
+        method: "POST",
+        action: "https://www.thehandsome.com/ko/checkout/placepoint",
+        target: "_top",
+      });
+      $oneclickPayForm.submit();
+    }
+
+    function payFormData(data) {
+      var payForm = data,
+        formName = "PAY_FORM";
+
+      if ($("#" + formName).length > 0) {
+        $("#" + formName).remove();
+      }
+      var $oneclickPayForm = $("<form/>", {
+        id: formName,
+      }).appendTo($("body"));
+      $oneclickPayForm.empty();
+
+      $.each(payForm, function (name, value) {
+        addHidden($oneclickPayForm, name, value);
+      });
+    }
+
+    function requestPaymentSubmit(data) {
+      WPAY.paymentAuthSubmit(data);
+    }
+
+    function oneclickPostClose() {
+      $.get("/ko/shoppingbag/oneclickCancel");
+      holdBodyHide();
+      if (oneclick.depthIndex > 0) {
+        $(".lp_oneclick_buy_pay_wrap").removeClass("visible");
+        $(".lp_oneclick_buy_pay_wrap").removeClass("active");
+      } else {
+        $(".iframe_popup_wrap").removeClass("visible");
+        $(".iframe_popup_wrap").removeClass("active");
+      }
+
+      $(".hs_pro_view_floating .floating_box").removeClass("active");
+      $(".hs_pro_view_floating .floating_box").eq(1).addClass("active");
+
+      $("#onclickLodingArea").hide();
+      $("#lpOrderApplyBtns").show();
+      $("#lyrppTopColseArea").show();
+
+      $("body").css({ marginTop: curScrollPosition * -1 });
+      setTimeout(function () {
+        $("body").css({ marginTop: 0 });
+        $("body").scrollTop(curScrollPosition);
+
+        if (oneclick.depthIndex > 0) {
+          $(".hsome_layerpop_contents.lp_depth" + oneclick.depthIndex).empty();
+          $(
+            ".hsome_layerpop_contents.lp_depth" + oneclick.depthIndex
+          ).removeClass("dir_h lp_stl_black lp_stl_trans visible active");
+          oneclick.isEvent = false;
+        } else {
+          $(".iframe_popup_wrap").remove();
+        }
+      }, 400);
+    }
+
+    function oneclickPostMovePage(data) {
+      location.href = data.url;
+    }
+
+    function oneclickPostMessage(event) {
+      if ("https://www.thehandsome.com/ko".indexOf(event.origin) == -1) return;
+
+      var data = event.data;
+
+      if (typeof window[data.func] == "function") {
+        window[data.func].call(null, data.data);
+      }
+    }
+
+    function callSaveAppPush(pushMsg) {
+      var obj = JSON.parse($.trim(pushMsg).replace(/(?:\r\n|\r|\n)/g, ""));
+      var notiTitle = obj.notiTitle; // 제목
+      var notiMsg = obj.notiMsg; // 메세지 텍스트
+      var notiImg = obj.notiImg; // 이미지 링크
+      var message = obj.message; // html 전달
+      var msgLink = obj.msgLink; // link
+      var msgType = obj.msgType; // 메시지 유형 ('T' - Text, 'H' - Html, 'L' - Link)
+
+      if (obj.notiTitle != "[스타일라이브♥]") {
+        $.ajax({
+          type: "POST",
+          url: "/ko/mobilecommon/saveMarketPush",
+          datatype: "json",
+          data: {
+            CSRFToken: $("#CSRFForm [name='CSRFToken']").first().val(),
+            msg: notiMsg,
+            title: notiTitle,
+            img: notiImg,
+            html: encodeURIComponent(message),
+            msgLink: msgLink,
+            msgType: msgType,
+          },
+          error: function (request, status, error) {
+            //    	       console.log( "code:" + request.status+"\n\n\n\n" + "message:" + request.responseText+"\n\n\n\n" + "error:" + error );
+          },
+          success: function (result) {
+            if (result == "SUCCESS") {
+            }
+          },
+        });
+      }
+    }
+
+    //쿠키 생성
+    function setOneDayCookie(cName, cValue, cDay) {
+      var currentDate = new Date();
+      var expire = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() + cDay,
+        0,
+        0,
+        0
+      );
+      cookies = cName + "=" + escape(cValue) + "; path=/ ";
+      if (typeof cDay != "undefined")
+        cookies += ";expires=" + expire.toGMTString() + ";";
+      document.cookie = cookies;
+    }
+  </script>
+
+  <div th:fragment="app_popup" class="app_pop200303" style="display: none">
+    <p class="app_top_txt">
+      <img
+        src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/txt_apphs01_200303.png"
+        alt=""
+      />
+    </p>
+    <div class="appbox">
+      <div class="appbox_con">
+        <img src="" alt="" />
+      </div>
+      <img
+        class="apphs"
+        src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/img_apphs_200303.png"
+        alt=""
+      />
+    </div>
+    <p class="app_coupon_txt">
+      <img
+        src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/txt_apphs02_200330.png"
+        alt=""
+      />
+    </p>
+    <a class="appbtns" href="javascript:appUseCheck();"
+      ><img
+        src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/btn_apphs_ph200303.gif"
+        alt=""
+    /></a>
+    <a class="no_appbtns" href="javascript:mobileWebView();"
+      ><img
+        src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/txt_apphs03_200303.png"
+        alt=""
+    /></a>
+  </div>
+</html>

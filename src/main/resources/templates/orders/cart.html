@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<!-- 소규석 -->
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+</head>
+
+<body class="back">
+
+	<script>
+	function goSearchPage() {
+        $("#searchForm").addClass("visible active activated");
+      }
+	</script>
+	<!-- Loading -->
+	<div style="display: none">
+		<div id="loadingBarDiv" style="display: none"></div>
+	</div>
+	<!-- //Loading -->
+
+	<form id="CSRFForm" action="/ko/shoppingbag?cartDivision="
+		method="post">
+		<div>
+			<input type="hidden" name="CSRFToken"
+				value="b0d2f632-8d09-42ac-82f9-6a17fd6ecb3f" />
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none;"></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+
+	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents fixed_btn_on">
+
+
+			<!-- ################## header ################## -->
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">쇼핑백</h1>
+				<a href="/main" class="h_top_home"><span>홈</span></a> <a
+					href="javascript:noLink();" onclick="goBack();" class="h_prev">이전
+					페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a onclick="goSearchPage();"><span>search</span></a>
+					</li>
+					<li class="cart"><a href="/cart"
+						onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>[[${cartList.count}]]</i></a>
+					</li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+			<div id="contents" class="hsome_contents shoppingbag_list_wrap">
+				<ul class="tab_head_num3 gray_tab shoppingbag_tab rm">
+					<li class="tab_li_delivery on"><a
+						href="javascript:tabClick('');" name="cartDivision"
+						data-division=""><span>택배([[${cartList.count}]]개)</span></a></li>
+				</ul>
+				<!-- tab e -->
+
+				<!-- 장바구니개편 -->
+				<div id="shoppingbagCartView">
+
+
+
+					<!-- goods_list s -->
+
+					<h3 class="section_tit mb0 gl_tit gl_4pm">
+						<div class="check_stl gl_check_all_wrap">
+							<!-- 2019.11.12 쇼핑백 진입 시 선택 상품 없도록 수정 -->
+							<input type="checkbox" id="gl_check_all" class="gl_check_all"
+								value="" /> <label for="gl_check_all">담은 상품<span>([[${cartList.count}]]개)</span>
+							</label>
+						</div>
+					</h3>
+
+					<ul class="goods_list_wrap">
+						<!-- goods_list_item s -->
+						<!-- 활성화 : gl_item에 품절상품 : gl_status_soldout, 4PM상품 : gl_status_4pm 클래스 추가/삭제 -->
+						<!-- 주문 가능 상품 -->
+
+
+						<li th:each="item :${cartList.list}">
+							<div class="gl_item" id="entryProductInfo"
+								th:data-psid="${item.psid}" data-deliverykind=""
+								data-outofstock="false">
+								<!-- 상품 선택 -->
+
+
+								<!-- goods_check s -->
+								<div class="check_stl">
+									<!-- 2019.11.12 쇼핑백 진입 시 선택 상품 없도록 수정 -->
+									<input type="checkbox" th:id="|gl_check_${itemStat.index}|"
+										name="cartlist" th:data-pk="${item.psid}"
+										th:data-price="${item.pcprice* item.pquantity}"
+										th:value="${item.psid}" data-division="" data-deliverykind=""
+										value="2" data-soldout="N" onclick="checkTotalPrice(this);" />
+									<label th:for="|gl_check_${itemStat.index}|"></label>
+								</div>
+								<!-- goods_check e -->
+
+								<!-- goods_status s -->
+								<ul class="gl_status">
+									<li>
+										<div class="icon_soldout">
+											<span>SOLD OUT</span>
+										</div>
+									</li>
+									<li>
+										<div class="icon_quick_delivery">
+											<span>4PM</span>
+										</div>
+									</li>
+								</ul>
+								<!-- goods_status e -->
+
+								<!-- goods_top_btn s -->
+								<!-- 활성화 : 클래스 icon_btn_on 추가/삭제 -->
+								<ul class="gl_top_btns">
+									<!-- goods_list_item s -->
+									<!-- 활성화 : gl_item에 품절상품 : gl_status_soldout 클래스 추가/삭제 -->
+
+									<li><a href="javascript:;" class="icon_btn btn_gl_del"
+										th:data-psid="${item.psid}" th:onclick="deleteBtnEvent('2');"><span>삭제</span></a></li>
+								</ul>
+								<!-- goods_top_btn e -->
+								<!-- 상품정보 -->
+								<!-- goods_option_info_mid s -->
+								<div class="gl_mid">
+									<div class="gl_tit">
+										<a th:href="@{/p/detail/{param}(param=${item.pcid})}"
+											onclick="setEcommerceData('0', 'Click ADD');"> <img
+											th:src="${item.pcimg2}" class="gl_thumbimg" alt="" />
+										</a>
+									</div>
+									<ul class="gl_con">
+										<a th:href="@{/p/detail/{param}(param=${item.pcid})}"
+											onclick="setEcommerceData('0', 'Click ADD');">
+											<li class="gl_con_brand">[[${item.bname}]]</li>
+											<li class="gl_con_name">[[${item.pname}]]</li>
+										</a>
+										<li class="gl_con_price">[[₩+${#numbers.formatInteger(item.pcprice,
+											3, 'COMMA')}]]<input type="hidden" id="checkZeroPrice2"
+											name="checkZeroPrice" value="145000.0" />
+										</li>
+									</ul>
+								</div>
+								<!-- goods_option_info_mid e -->
+								<!-- 옵션 변경 -->
+
+
+								<!-- goods_option_info_btm s -->
+								<div class="gl_btm">
+									<ul class="gl_info">
+										<li>
+											<div class="gl_tit">옵션수량</div>
+											<div class="gl_con">
+												[[${item.color}]]&nbsp;<span class="and_line">/</span>
+												[[${item.psize}]] / [[${item.pquantity}]]개
+											</div>
+										</li>
+										<li>
+											<div class="gl_tit">적립 마일리지</div>
+											<div class="gl_con">[[${#numbers.formatInteger(item.dprice/20,
+												3, 'COMMA')}+M]]</div>
+										</li>
+
+									</ul>
+									<a href="javascript:void(0);"
+										class="border_btn btn_option_edit" th:id="qqqqqq"
+										th:data-psid="${item.psid}"><span>변경</span></a>
+								</div>
+								<!-- goods_option_info_btm e -->
+
+								<form id="updateCartForm2"
+									data-cart='{"cartCode" : "462117851","productPostPrice":"145000.0","productName":"울 블렌드 하이넥 탑"}'
+									action="/ko/shoppingbag/update" method="post">
+									<input type="hidden" name="entryNumber" value="2" /> <input
+										type="hidden" name="productCode" value="IL2C9TTO870N_IV_82" />
+									<input type="hidden" name="initialQuantity" value="1" /> <input
+										type="hidden" name="chgProductCode" value="IL2C9TTO870N_IV_82" />
+									<input type="hidden" name="quantity" value="1" /> <input
+										type="hidden" name="curSize" value="82" /> <input
+										type="hidden" name="deliveryKind" value="" /> <input
+										type="hidden" name="storeId" value="" /> <input type="hidden"
+										name="storePickupDate" value="" /> <input type="hidden"
+										name="cartDivision" value="" />
+									<!-- goods_option_edit s -->
+									<div class="gl_tgl gl_tgl_option" th:id="${item.psid}"
+										style="display: none">
+										<!-- color_size_price -->
+										<ul class="gl_edit">
+											<li>
+												<div class="gl_tit">색상</div>
+												<ul class="gl_con btn_color_wrap">
+													<!-- function setColorRadio 참조 -->
+													<li th:each="option : ${item.options}"><input
+														type="radio"
+														th:id="|gl_rd_color_0${itemStat.count}_0${optionStat.count}|"
+														th:name="|gl_rd_color_${itemStat.index}|"
+														onclick="javascript:void(0);"
+														th:data-ocolor="${option.ocolor}"
+														th:data-count="${optionStat.index}"
+														th:checked="${option.ocolor eq item.color}"> <label
+														th:for="|gl_rd_color_0${itemStat.count}_0${optionStat.count}|"></label>
+														<span class="gl_color_val"
+														th:style="|	background:${option.opccolorcode} url('${option.opcchipimg}/dims/resize/60x60') center /100% auto no-repeat|">#cac2ca</span>
+													</li>
+
+
+
+												</ul>
+												<div class="gl_con selected_color_txt">
+													<span class="sct_v">[[${item.color}]]</span>
+												</div>
+											</li>
+											<li>
+												<div class="gl_tit">사이즈</div>
+												<div class="gl_con">
+
+													<select th:name="|gl_slr_size_${itemStat.index}|"
+														class="sodsb" onchange="javascript:void(0);">
+														<option th:each="size : ${item.options[0].sizes}"
+															th:data-size="${size.opsize}" th:value="${size.opsize}"
+															th:selected="${size.opsize}==${item.psize}">
+															[[${size.opsize}]]</option>
+
+
+													</select>
+												</div>
+											</li>
+											<li>
+												<div class="gl_tit">수량</div>
+												<div class="gl_con">
+													<div class="gl_count_edit">
+														<a onclick="quantityMinus(this, '2');" class="btn_minus"
+															id="btn_minus"><span>감소</span></a>
+														<div class="gl_count_num">
+															<input type="text" title="수량" readonly=""
+																th:value="${item.pquantity}" class="mr0"
+																th:id="|quantity_${itemStat.index}|"
+																th:name="|quantity_${itemStat.index}|" path="quantity" />
+														</div>
+														<a onclick="quantityPlus(this, '2');" class="btn_plus"
+															id="btn_plus"><span>증가</span></a>
+													</div>
+												</div>
+											</li>
+										</ul>
+										<div class="gl_tgl_btns btn_wrap btn_wrap_div2">
+											<a href="#none" class="btnstl3 solid_btn_gray btn_cancel"
+												th:data-psid="${item.psid}" id="slideUpBtn"><span>취소</span></a>
+											<a href="#none" class="btnstl3 solid_btn_blk btn_save"
+												th:data-psid="${item.psid}" name="UpdateCart"
+												th:data-index="${itemStat.index}"
+												onclick="productModifyEvent(this);"><span>저장</span></a>
+										</div>
+									</div>
+									<!-- goods_option_edit e -->
+									<div>
+										<input type="hidden" name="CSRFToken"
+											value="b0d2f632-8d09-42ac-82f9-6a17fd6ecb3f" />
+									</div>
+								</form>
+							</div>
+						</li>
+
+						<!-- 품절 상품 표시 -->
+						<!-- <li>
+							<div class="gl_item gl_status_soldout" id="entryProductInfo"
+								data-pk="11135440846892" data-deliverykind=""
+								data-outofstock="true" data-entrynumber="1">
+								상품 선택
+
+
+								goods_check s
+								<div class="check_stl">
+									<input type="checkbox" id="gl_check_1" name="cartlist"
+										data-pk="11135440846892" data-division="" data-deliverykind=""
+										value="1" onclick="checkTotalPrice(this);" disabled="" /> <label
+										for="gl_check_1"></label>
+								</div>
+								goods_check e
+
+								goods_status s
+								<ul class="gl_status">
+									<li>
+										<div class="icon_soldout">
+											<span>SOLD OUT</span>
+										</div>
+									</li>
+									<li>
+										<div class="icon_quick_delivery">
+											<span>4PM</span>
+										</div>
+									</li>
+								</ul>
+								goods_status e
+
+								goods_top_btn s
+								활성화 : 클래스 icon_btn_on 추가/삭제
+								<ul class="gl_top_btns">
+									goods_list_item s
+									활성화 : gl_item에 품절상품 : gl_status_soldout 클래스 추가/삭제
+									<li><a href="javascript:;" class="icon_btn btn_gl_like"
+										onclick="addWishList('SH2C9NPC543NM_BL_86');"><span>좋아요</span></a>
+									</li>
+									<li><a href="javascript:;" class="icon_btn btn_gl_del"
+										onclick="deleteBtnEvent('1');"><span>삭제</span></a></li>
+								</ul>
+								goods_top_btn e
+								상품정보
+								goods_option_info_mid s
+								<div class="gl_mid">
+									<div class="gl_tit">
+										<a href="/ko/p/SH2C9NPC543NM_BL_86"
+											onclick="setEcommerceData('1', 'Click ADD');"> <img
+											src="http://newmedia.thehandsome.com/SH/2C/FW/SH2C9NPC543NM_BL_S01.jpg/dims/resize/"
+											class="gl_thumbimg" alt="" />
+										</a>
+									</div>
+									<ul class="gl_con">
+										<a href="/ko/p/SH2C9NPC543NM_BL_86"
+											onclick="setEcommerceData('1', 'Click ADD');">
+											<li class="gl_con_brand">SYSTEM HOMME</li>
+											<li class="gl_con_name">[NEW PREP] 원턱 와이드 데님 팬츠</li>
+										</a>
+										<li class="gl_con_price">₩329,000<input type="hidden"
+											id="checkZeroPrice1" name="checkZeroPrice" value="329000.0" />
+											<del>₩470,000</del> <span class="sale">30%</span>
+										</li>
+									</ul>
+									<p class="pre_order_txt1903_s">
+										해당 상품은 전국 매장을 통해 수급하여 배송 될 예정입니다. <br />불량 등의 이유로 수급이 어려울 경우,
+										취소될 수 있습니다. <br /> <b>(평일 기준 5일 이상 소요 예정)</b>
+									</p>
+								</div>
+								goods_option_info_mid e
+								옵션 변경
+
+								goods_option_info_btm s
+								<div class="gl_btm">
+									<ul class="gl_info">
+										<li>
+											<div class="gl_tit">옵션수량</div>
+											<div class="gl_con">
+												BLUE&nbsp;<span class="and_line">/</span> 86 / 2개
+											</div>
+										</li>
+										<li>
+											<div class="gl_tit">적립 마일리지</div>
+											<div class="gl_con">0M</div>
+										</li>
+										<li>
+											<div class="gl_tit">적립 H.Point</div>
+											<div class="gl_con">0P</div>
+										</li>
+									</ul>
+									<a href="javascript:void(0);"
+										class="border_btn btn_option_edit"
+										id="optOpenLayer^1^SH2C9NPC543NM_BL"><span>변경</span></a>
+								</div>
+								goods_option_info_btm e
+
+								<form id="updateCartForm1"
+									data-cart='{"cartCode" : "462117851","productPostPrice":"164500.0","productName":"[NEW PREP] 원턱 와이드 데님 팬츠"}'
+									action="/ko/shoppingbag/update" method="post">
+									<input type="hidden" name="entryNumber" value="1" /> <input
+										type="hidden" name="productCode" value="SH2C9NPC543NM_BL_86" />
+									<input type="hidden" name="initialQuantity" value="2" /> <input
+										type="hidden" name="chgProductCode" value="" /> <input
+										type="hidden" name="quantity" value="2" /> <input
+										type="hidden" name="curSize" value="86" /> <input
+										type="hidden" name="deliveryKind" value="" /> <input
+										type="hidden" name="storeId" value="" /> <input type="hidden"
+										name="storePickupDate" value="" /> <input type="hidden"
+										name="cartDivision" value="" />
+									goods_option_edit s
+									<div class="gl_tgl gl_tgl_option" id="pt_list_1"
+										style="display: none"></div>
+									goods_option_edit e
+									<div>
+										<input type="hidden" name="CSRFToken"
+											value="b0d2f632-8d09-42ac-82f9-6a17fd6ecb3f" />
+									</div>
+								</form>
+								수령방법 변경 
+							</div>
+						</li> -->
+						<!-- goods_list_item e -->
+					</ul>
+
+					<!-- 상품 기능 버튼 그룹 -->
+					<script type="text/javascript">
+						//품절상품 삭제
+						function outOfStockRemove() {
+							if ($(".gl_status_soldout").length < 1) {
+								layerAlert("품절상품이 없습니다");
+								return false;
+							}
+
+							var cartDivision = $("#ordersheetCartDivision")
+									.val();
+							var entryNumber = "";
+							$(".gl_status_soldout").each(
+									function() {
+										entryNumber += $(this).data(
+												"entrynumber")
+												+ ",";
+									});
+
+							if (entryNumber == "") {
+								return false;
+							}
+
+							//entryNumber = entryNumber.substring(0,entryNumber.length-1);
+							selectRemove(entryNumber);
+						}
+
+						//선택삭제
+						function selectRemove(entryNumber) {
+							var msgStr = "";
+
+							if (entryNumber == "" || entryNumber == null) {
+								msgStr = "선택하신 상품을 쇼핑백에서 삭제하시겠습니까?";
+							} else {
+								msgStr = "품절상품이 모두 쇼핑백에서 삭제됩니다. 계속하시겠습니까?";
+							}
+
+							var la = new layerConfirm(msgStr, "확인", "취소");
+							la.confirmAction = function() {
+								//확인 호출 펑션
+
+								if ($.trim(entryNumber) == "") {
+									entryNumber = "";
+									$("input:checkbox[name='cartlist']:checked")
+											.each(
+													function() {
+														entryNumber += $(this)
+																.val()
+																+ ",";
+													});
+								}
+
+								if (entryNumber == "") {
+									layerAlert("선택된 상품이 없습니다. <br /> 삭제할 상품을 선택해 주세요.");
+									return false;
+								}
+
+								entryNumber = entryNumber.substring(0,
+										entryNumber.length - 1);
+
+							};
+						}
+					</script>
+
+					<!-- goods_list_edit_btn s -->
+					<div class="gl_edit_btn_wrap">
+						<!-- 수정(46107) : 20180709 s -->
+						<!-- added -->
+						<div class="order_goods_summary_wrap">
+							<div class="ordgd_tit">
+								총 <b><span id="selectProductCount">[[${cartList.count}]]</span></b>개
+								상품
+							</div>
+							<ul class="ordgd_detail total_price_detail">
+								<li>
+									<div class="ttpd_tit">상품 합계</div>
+									<div class="ttpd_con">
+										<span id="cartDataSubtotal">₩[[${#numbers.formatInteger(cartList.totalProduct,
+											3, 'COMMA')}]]</span>
+									</div>
+								</li>
+								<li>
+									<div class="ttpd_tit">배송비</div>
+									<div class="ttpd_con">
+										<span id="cartDataDeliveryCost">₩0</span>
+									</div>
+								</li>
+								<li class="total_sum">
+									<div class="ttpd_tit">합계</div>
+									<div class="ttpd_con">
+										<span id="cartDataTotalPrice">₩[[${#numbers.formatInteger(cartList.totalProduct,
+											3, 'COMMA')}]]</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<!-- 수정(46107) : 20180709 e -->
+
+						<div class="btn_wrap btn_wrap_div2 two">
+							<!-- 품절상품삭제 -->
+							<a href="#none" class="btnstl3 border_btn_gray gleb_select_del"
+								id="select_del" onclick="selectRemove();"><span>선택상품
+									삭제</span></a> <a href="/b/br64" class="btnstl3 solid_btn_blk gleb_order"
+								onclick="continueUrl();"><span>쇼핑계속하기</span></a>
+							<!-- 쇼핑 계속하기 버튼 s -->
+							<!-- 쇼핑 계속하기 버튼 e -->
+						</div>
+
+
+					</div>
+				</div>
+				<!-- goods_list_eidt_btn e -->
+				<!-- 프로모션 배너 -->
+				<script type="text/javascript">
+					$(document).ready(function() {
+						swiperPageActive("swiper_promotion"); //swiper 활성화
+					});
+				</script>
+
+				<!-- promotion s -->
+
+				<!-- promotion e -->
+			</div>
+
+			<!-- 추천상품 -->
+			<script type="text/javascript">
+				$(document).ready(function() {
+					swiperActive("swiper_recommend_goods"); //swiper íì±í
+				});
+			</script>
+
+			<!-- recommand_goods s -->
+			<div class="recommend_goods_wrap">
+				<h3 class="section_tit">추천상품</h3>
+				<div
+					class="product_list swiper-container swiper_recommend_goods swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal">
+					<!-- function swiperActive ì°¸ì¡° -->
+					<ul class="swiper-wrapper"
+						style="transform: translate3d(0px, 0px, 0px)">
+						<li th:each="recommand : ${cartList.recommand}"
+							class="swiper-slide swiper-slide-active"
+							style="margin-right: 5px"><a
+							href="javascript:goDetailPage('MN2CAKTO065WM', 'https://lc.recopick.com/1/banner/1919/pick?uid=1125868.1675134305632&amp;source=IL2C9TTO870N&amp;pick=MN2CAKTO065WM&amp;method=30&amp;channel=cart&amp;reco_type=item-item&amp;product_type=R&amp;reco_list=%5B%22MN2CAKTO065WM%22%2C%22SY2C9TTO330W%22%2C%22SY2C9ACK496W%22%2C%22SY2C7AMF273W%22%2C%22YS2C9TTS038NZS%22%2C%22CM2CBKVT142W%22%2C%22SY2C7ACK470W%22%2C%22CS2C9TTO001NMJ%22%2C%22TM2C9ASZ003W%22%2C%22TM2CBQOT986WP1%22%2C%22SY2C9KTO228W%22%2C%22IL2CAKTO162WP%22%2C%22TM2CBQOT981WM1%22%2C%22CM2D1KTO514W%22%2C%22SJ2CANPC353W%22%2C%22SJ2D1ACK414W%22%2C%22SJ2C7AJW673N%22%2C%22IL2CAWPC361W%22%2C%22CM2CAAMF338W%22%2C%22OB2CAWPC388W%22%2C%22CM2C9AGL704WS%22%2C%22CM2D1KPC305W%22%2C%22MN2C7AJW671W%22%2C%22SY2CBFOT767W%22%2C%22YS2D1TTO081WZS%22%2C%22IL2C9ASZ090W%22%2C%22SY2D1ACK415W%22%2C%22CM2CAWOT465WP4%22%2C%22TM2C9NPC343W%22%2C%22SY2C9KCD260WM%22%5D&amp;tag=B');"
+							onclick="setEcommerceData('0', 'Click RECOMMEND');">
+								<div class="img">
+									<img th:src="${recommand}" alt="" />
+								</div>
+						</a></li>
+
+					</ul>
+				</div>
+			</div>
+
+
+
+			<!-- 최종주문  -->
+			<script type="text/javascript">
+				var athomeYn = "";
+				var timeCheck = "";
+			</script>
+
+			<!-- payment_btn s -->
+			<!-- function checkBoxCheckActive ì°¸ì¡° -->
+			<div class="payment_btn_wrap btm_fixed_wrap on">
+				<ul class="btn_wrap btn_wrap_div1">
+					<li class="pymt_select_first" style="display: block"><a
+						href="#none" class="btnstl6 solid_btn_gray"><span>주문하실
+								상품을 선택해 주세요</span></a></li>
+
+					<li class="pymt_order_apply" style="display: none"><a
+						href="javascript:checkoutPage('checkout');"
+						class="btnstl6 solid_btn_point" id="oderBtn"><span
+							class="btn_t_1"><b id="realTotal">[[${#numbers.formatInteger(cartList.totalProduct,
+									3, 'COMMA')}]]</b> 원</span><span class="btn_t_2">주문하기</span></a></li>
+					<!-- 			<li class="pymt_order_apply"><a href="/shoppingbag/oderType" class="btnstl6 solid_btn_point btn_layerpopup_call" data-layerpop-depth="depth1" data-layerpop-style="lp_stl_black" id="oderBtn"></a></li> -->
+					<div style="display: none">
+						<!-- layerpop_wrap | 주문하기 s -->
+						<div class="layerpop_wrap lp_order_apply_wrap" id="order_layerpop">
+							<!-- layerpop_top s -->
+							<div class="lyrpp_top" id="lyrppTopColseArea">
+								<!-- 		<a href="#none" class="lyrpp_close lyrpp_close_stl3  btn_lyrpp_close"><span>닫기</span></a> -->
+								<a href="javascript:;"
+									class="lyrpp_close lyrpp_close_stl3 btn_lyrpp_close"><span>닫기</span></a>
+							</div>
+							<!-- layerpop_top e -->
+
+							<!-- layerpop_middle s -->
+							<div class="lyrpp_mid">
+								<ul id="lpOrderApplyBtns"
+									class="btn_wrap btn_wrap_div1 lp_order_apply_btns">
+									<li><a href="javascript:paymentProcess('checkout');"
+										class="btnstl4 border_btn_blk" id="pay">배송&amp;결제정보 입력</a></li>
+									<li>
+										<div class="lyrpp_desc ta_c">
+											해외 배송을 원할 경우 thehandsome.com 의 <br /> 글로벌 서비스를 이용해주세요.
+										</div>
+									</li>
+								</ul>
+								<div id="onclickLodingArea" class="m_popwrap_ldgbox"
+									style="display: none">
+									<div class="m_popwrap_ldgcon">
+										<img
+											src="http://cdn.thehandsome.com/_ui/handsomemobile/images/product/img_loding_mo.png"
+											alt="" /> <strong>최대할인 혜택을 계산 중 입니다.</strong>
+										<p>
+											최대할인 혜택을 원클릭결제에 자동 적용하여<br /> 편리한 결제가 가능합니다.
+										</p>
+									</div>
+								</div>
+								<div class="pop_loading_buynow_200218"
+									style="width: 100%; height: 100%; position: fixed; z-index: 9998; display: none; background: rgba(255, 255, 255, 0.8);">
+									<div style="margin: 40px auto 0px">
+										<img
+											src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/Spinner_1s_105px.png"
+											alt="loading" id="imgLoadingAddtocart200218"
+											style="display: none; width: 32px; height: 32px; margin: 0px auto 0px auto;">
+										<p>
+											<span
+												style="display: block; margin-top: 15px; font-size: 16px; font-weight: bold; text-align: center;">처리중입니다</span>
+										<p></p>
+
+										<p></p>
+									</div>
+								</div>
+							</div>
+							<!-- layerpop_middle e -->
+						</div>
+						<!-- layerpop_wrap | 주문하기 e -->
+					</div>
+				</ul>
+			</div>
+			<!-- payment_btn e -->
+
+			<div class="hsome_tooltip_list">
+				<div class="tooltip_html">
+					<div class="tooltip_wrap tooltip_shoppingbag_add">
+						<div class="tltp_close_btn btn_tltp_close">
+							<span>닫기</span>
+						</div>
+						<h1 class="tltp_header">쇼핑백추가</h1>
+						<div class="tltp_content">
+							<div class="shoppingbag_img">
+								<img src="/_ui/handsomemobile/images/order/img_shoppingbag.jpg"
+									alt="쇼핑백" />
+							</div>
+							<ul class="ul_dot_blk">
+								<li>선물용이나 이동 시, 편리하게 사용할 수 있는 쇼핑백에 포장해 드립니다.</li>
+								<li>브랜드 쇼핑백 또는 더한섬닷컴 전용 쇼핑백 중 1개로 무작위 발송되며, 고객님의 요청사항이
+									반영되지는 않습니다.</li>
+								<li>쇼핑백 선택 시, 기본 포장에 포함된 페이퍼 백은 동봉되지 않습니다.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- í´í : ì¼íë°±ì¶ê° e -->
+				<div class="tooltip_html">
+					<div class="tooltip_wrap tooltip_buy_delivery_charge">
+						<div class="tltp_close_btn btn_tltp_close">
+							<span>닫기</span>
+						</div>
+						<h1 class="tltp_header">배송비</h1>
+						<div class="tltp_content">
+							<ul class="ul_dot_blk">
+								<li>쿠폰/바우처 할인금액 및 한섬마일리지/H.Point 사용을 제외한 실 결제금액 기준 <strong>3만원
+										미만 결제 시 2,500원 배송비가 부과</strong>됩니다. (3만원 이상 구매 시 무료배송)
+								</li>
+								<li>도서산간 지역은 배송비가 추가 될 수 있습니다.</li>
+								<li>한섬마일리지, H.Point, e-money로 배송비 결제가 불가합니다.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- í´í : í¬ì¸í¸ì¬ì© s -->
+				<div class="tooltip_html">
+					<div class="tooltip_wrap tooltip_discout_info">
+						<div class="tltp_close_btn btn_tltp_close">
+							<span>닫기</span>
+						</div>
+						<h1 class="tltp_header">포인트 사용</h1>
+						<div class="tltp_content">
+							<div class="desc_box">보유 한섬마일리지 / H.Point / 기프트카드 금액을 확인하시고
+								사용하실 금액을 입력 후 [사용]을 선택하세요.</div>
+						</div>
+					</div>
+				</div>
+				<!-- í´í : í¬ì¸í¸ì¬ì© e -->
+
+				<!-- í´í : ì ë¦½ìì í¬ì¸í¸ s -->
+				<div class="tooltip_html">
+					<div class="tooltip_wrap tooltip_buy_point_guide">
+						<div class="tltp_close_btn btn_tltp_close">
+							<span>닫기</span>
+						</div>
+						<h1 class="tltp_header">적립 예정 포인트</h1>
+						<div class="tltp_content">
+							<ul class="ul_dot_blk">
+								<li>기존 마이너스 포인트를 보유하고 있는 고객은 포인트가 차감되어 적립됩니다. 적립 예정 포인트가
+									상이할 수 있습니다.</li>
+								<li>통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이 가능합니다.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- í´í : ì ë¦½ìì í¬ì¸í¸ e -->
+			</div>
+			<!-- hsome_divpop_list | í´íëª©ë¡ e -->
+			<!-- hsome_divpop_list | í´íëª©ë¡ e -->
+			<!-- bottom s -->
+			<!-- hsome_topBtn | 탑버튼 s -->
+			<a href="#" class="hsome_topBtn upper" style="bottom: 60px">TOP</a>
+			<!-- hsome_topBtn | 탑버튼 e -->
+			<!-- bottom e -->
+		</div>
+
+		<form id="ordersheetCloneForm" name="orderSheetCloneForm"
+			action="/ko/shoppingbag/checkout" method="get">
+			<input type="hidden" id="ordersheetEntryNumber"
+				name="ordersheetEntryNumber" value="" /> <input type="hidden"
+				id="ordersheetCartDivision" name="ordersheetCartDivision" value="" />
+			<div>
+				<input type="hidden" name="CSRFToken"
+					value="b0d2f632-8d09-42ac-82f9-6a17fd6ecb3f" />
+			</div>
+		</form>
+
+
+
+		<form id="autologinForm" name="autologinForm"
+			action="/ko/hp/autologin" method="get">
+			<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com" />
+		</form>
+		<div th:replace="~{product/search :: searchForm}"></div>
+		<!-- ################## footer ################## -->
+		<!-- 푸터 공지 추가 220404 -->
+
+		<!-- // 푸터 공지 추가 220404 -->
+		<!-- //################## footer ################## -->
+	</div>
+	</div>
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+
+
+	<script type="text/javascript">
+		var btnConfirmText = "확인";
+		var btnCancleText = "취소";
+		var btnCloseText = "닫기";
+		var layerAlert = function(msg, refresh) {
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += '<div class="dvp_container">';
+			alertTag += '	<div class="dvp_close_btn b-close" id="alertCloseDiv"><span>'
+					+ btnCloseText + "</span></div>";
+			alertTag += '	<h1 class="dvp_header"></h1>';
+			alertTag += '	<div class="dvp_content">';
+			alertTag += '		<div class="desc_box">' + msg + "</div>";
+			alertTag += "	</div>";
+			alertTag += '	<div class="btn_wrap">';
+			alertTag += '		<button class="btn btn_bg_b btn-alert-confirm ">'
+					+ btnConfirmText + "</button>";
+			alertTag += "	</div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : "fixed",
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				},
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find(".btn-alert-confirm").click(
+					function() {
+						if (refresh == true)
+							location.reload();
+						$("#alertCloseDiv").click();
+						t.confirmAction();
+					});
+		};
+
+		var layerAlertGnb = function(msg) {
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += '<div class="dvp_container">';
+			alertTag += '	<div class="dvp_close_btn b-close" id="alertCloseDiv"><span>'
+					+ btnCloseText + "</span></div>";
+			alertTag += '	<h1 class="dvp_header"></h1>';
+			alertTag += '	<div class="dvp_content">';
+			alertTag += '		<div class="desc_box">' + msg + "</div>";
+			alertTag += "	</div>";
+			alertTag += '	<div class="btn_wrap">';
+			alertTag += '		<button class="btn btn_bg_b btn-alert-confirm">'
+					+ btnConfirmText + "</button>";
+			alertTag += "	</div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : "fixed",
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find(".btn-alert-confirm").click(
+					function() {
+						//if(refresh==true) location.reload(); //refresh check 제거
+						$("#alertCloseDiv").click();
+						t.confirmAction();
+					});
+		};
+
+		var layerConfirm = function(msg, confirmMsg, cancleMsg) {
+			var t = this;
+
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+			this.cancleAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			if (confirmMsg != "") {
+				btnConfirmText = confirmMsg;
+			} else {
+				btnConfirmText = "확인";
+			}
+			if (cancleMsg != "") {
+				btnCancleText = cancleMsg;
+			} else {
+				btnCancleText = "취소";
+			}
+
+			var confirmTag = "";
+			confirmTag += '<div class="dvp_container">';
+			confirmTag += '	<div class="dvp_close_btn b-close" id="confirmCloseDiv"><span>'
+					+ btnCloseText + "</span></div>";
+			confirmTag += '	<div class="dvp_content">';
+			confirmTag += '		<div class="desc_box">' + msg + "</div>";
+			confirmTag += "	</div>";
+			confirmTag += '	<div class="btn_wrap btns">';
+			confirmTag += '		<button class="btn btn_bd_g btn-alert-close">'
+					+ btnCancleText + "</button>";
+			confirmTag += '		<button class="btn btn_bg_b btn-alert-confirm" id="btn-confirm">'
+					+ btnConfirmText + "</button>";
+			confirmTag += "	</div>";
+			confirmTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(confirmTag);
+
+			$(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : "fixed",
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				},
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find(".btn-alert-close").click(function() {
+				$("#confirmCloseDiv").click();
+				t.cancleAction();
+			});
+
+			$("#popAlertConfirmDiv").find(".btn-alert-confirm").click(
+					function() {
+						$("#confirmCloseDiv").click();
+						t.confirmAction();
+					});
+		};
+
+		var editableLayer = function(msg, style, refresh) {
+			btnConfirmText = "확인";
+			var t = this;
+			this.confirmAction = function() {
+				//console.log('함수를 재정의 해주세요!');
+			};
+
+			var alertTag = "";
+			alertTag += '<div class="dvp_container" style="' + style + '">';
+			alertTag += '   <div class="dvp_close_btn b-close" id="alertCloseDiv"><span>'
+					+ btnCloseText + "</span></div>";
+			alertTag += '   <h1 class="dvp_header"></h1>';
+			alertTag += '   <div class="dvp_content" style="margin-top: -21px;">';
+			alertTag += '       <div class="desc_box">' + msg + "</div>";
+			alertTag += "   </div>";
+			alertTag += '   <div class="btn_wrap" style="margin-top: 0px;">';
+			alertTag += '       <button class="btn btn_bg_b btn-alert-confirm" >'
+					+ btnConfirmText + "</button>";
+			alertTag += "   </div>";
+			alertTag += "</div>";
+
+			$("#popAlertConfirmDiv").html(alertTag);
+
+			$(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+				follow : [ false, false ],
+				escClose : false,
+				modalClose : false,
+				opacity : 0.3,
+				positionStyle : "fixed",
+				onClose : function() {
+					holdBodyHide();
+					$("#popAlertConfirmDiv").html("");
+				},
+			});
+			holdBodyShow();
+
+			$("#popAlertConfirmDiv").find(".btn-alert-confirm").click(
+					function() {
+						if (refresh == true)
+							location.reload();
+						$("#alertCloseDiv").click();
+					});
+			$("#alertCloseDiv").click(function() {
+				t.confirmAction();
+			});
+		};
+	</script>
+
+	<div class="background1"
+		style="background-color: rgb(0, 0, 0); position: fixed; inset: 0px; opacity: 0.3; z-index: 9998; display: none;"></div>
+	<div class="divpop_wrap_dev pop_mbr pop_alert_confirm"
+		id="popAlertConfirmDiv"
+		style="left: 0px; position: fixed; top: 100.5px; z-index: 9999; opacity: 1; display: none;">
+		<div class="dvp_container">
+			<div class="dvp_close_btn b-close" id="confirmCloseDiv">
+				<span>닫기</span>
+			</div>
+			<div class="dvp_content">
+				<div class="desc_box">선택하신 상품을 쇼핑백에서 삭제하시겠습니까?</div>
+			</div>
+			<div class="btn_wrap btns">
+				<button class="btn btn_bd_g btn-alert-close">취소</button>
+				<button class="btn btn_bg_b btn-alert-confirm"
+					id="btn-alert-confirm">확인</button>
+			</div>
+		</div>
+	</div>
+	<!-- layerpopupContent s -->
+	<!-- hsome_layer_menu_contents | 레이어팝업메뉴 컨텐츠 영역 s -->
+	<!-- depth1 s -->
+	<div class="hsome_layerpop_contents lp_depth1">
+		<div class="layerpop_wrap lp_order_apply_wrap" id="order_layerpop">
+
+			<!-- layerpop_top s -->
+			<div class="lyrpp_top" id="lyrppTopColseArea">
+				<!-- 		<a href="#none" class="lyrpp_close lyrpp_close_stl3  btn_lyrpp_close"><span>닫기</span></a> -->
+				<a href="javascript:;"
+					class="lyrpp_close lyrpp_close_stl3 btn_lyrpp_close "><span>닫기</span></a>
+			</div>
+			<!-- layerpop_top e -->
+
+			<!-- layerpop_middle  -->
+			<div class="lyrpp_mid">
+				<ul id="lpOrderApplyBtns"
+					class="btn_wrap btn_wrap_div1 lp_order_apply_btns">
+					<li><a href="#none" class="btnstl4 border_btn_blk"
+						id="orderClick">배송&amp;결제정보 입력</a></li>
+					<li><div class="lyrpp_desc ta_c">
+							해외 배송을 원할 경우 thehandsome.com 의 <br> 글로벌 서비스를 이용해주세요.
+						</div></li>
+				</ul>
+
+
+			</div>
+			<!-- layerpop_middle e -->
+
+		</div>
+	</div>
+
+	<!-- layerpop_middle e -->
+
+	</div>
+	<!-- layerpop_middle e -->
+
+	</div>
+	<!-- depth1 e -->
+	<!-- depth2 s -->
+	<div class="hsome_layerpop_contents lp_depth2"></div>
+	<!-- depth2 e -->
+	<!-- depth3 s -->
+	<div class="hsome_layerpop_contents lp_depth3"></div>
+	<!-- depth3 e -->
+	<!-- depth4 s -->
+	<div class="hsome_layerpop_contents lp_depth4"></div>
+	<!-- depth4 e -->
+	<!-- depth5 s -->
+	<div class="hsome_layerpop_contents lp_depth5"></div>
+	<!-- depth5 e -->
+	<!-- depth6 s -->
+	<div class="hsome_layerpop_contents lp_depth6"></div>
+	<!-- depth6 e -->
+	<!-- depth7 s -->
+	<div class="hsome_layerpop_contents lp_depth7"></div>
+	<!-- depth7 e -->
+	<!-- depth8 s -->
+	<div class="hsome_layerpop_contents lp_depth8"></div>
+	<!-- depth8 e -->
+
+	<script>
+		$(document)
+				.ready(
+						function() {
+							/* if($('#gl_rd_color').data(ocolor)==$('#gl_rd_color').data(color)){
+								$(this).prop("checked", true);
+							} */
+							$('#gl_check_all').prop("checked", true);
+							$('input:checkbox[name=cartlist]').prop("checked",
+									true);
+							$(".pymt_order_apply").show();
+							$(".pymt_select_first").hide();
+
+							$("#gl_check_all").click(
+									function() {
+										if ($("#gl_check_all").is(":checked"))
+											$("input[name=cartlist]").prop(
+													"checked", true);
+										else
+											$('input:checkbox[name=cartlist]')
+													.prop("checked", false);
+									});
+
+							$("input[name=cartlist]")
+									.click(
+											function() {
+												var total = $('input:checkbox[name=cartlist]').length;
+												var checked = $('input:checkbox[name=cartlist]:checked').length;
+
+												if (total != checked)
+													$("#gl_check_all").prop(
+															"checked", false);
+												else
+													$("#gl_check_all").prop(
+															"checked", true);
+											});
+
+							$(".border_btn").click(function() {
+								console.log("버튼");
+
+								let id = $(this).data("psid");
+								console.log(id);
+								if ($(this).hasClass("on")) {
+									$(this).removeClass("on");
+
+									$("#" + id).slideUp(200);
+									/* 	$(".gl_tgl, #id").slideUp(200); */
+								} else {
+									$(this).addClass("on");
+									$("#" + id).slideDown(200);
+								}
+							});
+							$('#slideUpBtn').click(function() {
+								console.log("버튼");
+
+								let id = $(this).data("psid");
+								console.log(id);
+
+								$("#" + id).slideUp(200);
+
+							});
+							/* 			$(".gl_check_all").click(function() {
+							 if ($(this).is(":checked")) {
+							 console.log("체크");
+							 $("input:checkbox").prop("checked", true);
+							 } else {
+							 $("input:checkbox").prop("checked", false);
+							 }
+							 }); */
+							$(".gpd_a_credit").click(function() {
+								console.log("결제수단");
+								if ($(this).parent("li").hasClass("on")) {
+									$(this).parent("li").removeClass("on");
+								} else {
+									$(this).parent("li").addClass("on");
+								}
+							});
+
+							$("input:checkbox")
+									.click(
+											function() {
+												let totalPrice = 0;
+												const pidList = [];
+												$(
+														"input:checkbox[name=cartlist]:checked")
+														.each(
+																function(index,
+																		item) {
+																	totalPrice += $(
+																			this)
+																			.data(
+																					'price');
+																	pidList
+																			.push(item.value)
+																})
+												$('#pidList').val(pidList);
+												if (totalPrice == 0) {
+													$(".pymt_select_first")
+															.show();
+													$(".pymt_order_apply")
+															.hide();
+												} else {
+													$(".pymt_order_apply")
+															.show();
+													$(".pymt_select_first")
+															.hide();
+												}
+												console.log(totalPrice);
+												$('#realTotal')
+														.text(
+																totalPrice
+																		.toString()
+																		.replace(
+																				/\B(?=(\d{3})+(?!\d))/g,
+																				','));
+												$('#cartDataSubtotal')
+														.text(
+																'₩'
+																		+ totalPrice
+																				.toString()
+																				.replace(
+																						/\B(?=(\d{3})+(?!\d))/g,
+																						','));
+												$('#cartDataTotalPrice')
+														.text(
+																'₩'
+																		+ totalPrice
+																				.toString()
+																				.replace(
+																						/\B(?=(\d{3})+(?!\d))/g,
+																						','));
+											});
+
+							$('.icon_btn.btn_gl_like').click(function() {
+								//상품 리스트 상단 버튼
+								console.log("hi");
+								$(this).toggleClass("icon_btn_on");
+
+							});
+
+							$(
+									'.divpop_wrap_dev .dvp_close_btn, .divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap.btns .btn:first-of-type')
+									.click(function() {
+										$('.divpop_wrap_dev').fadeOut(200);
+										$('.background1').fadeOut(200);
+									})
+							$('.lp_order_apply_wrap .lyrpp_close')
+									.click(
+											function() {
+												console.log("123");
+												$(
+														'.hsome_layerpop_contents, .iframe_popup_wrap')
+														.removeClass(
+																"dir_h lp_stl_black visible active");
+											});
+							$('.payment_btn_wrap .pymt_order_apply a')
+									.click(
+											function() {
+												$(
+														'.hsome_layerpop_contents.lp_depth1, .iframe_popup_wrap.lp_depth1')
+														.addClass(
+																"dir_h lp_stl_black visible active");
+												console.log("321");
+
+											});
+							$('.btn_plus')
+									.click(
+											function() {
+												console.log("+");
+												let plus = $(this)
+														.prev()
+														.children(
+																'input[type="text"]')
+														.val();
+
+												if (plus < 2) {
+
+													plus++
+													$(this)
+															.prev()
+															.children(
+																	'input[type="text"]')
+															.val(plus);
+													console.log(plus);
+
+												} else {
+													layerAlert("동일 상품(사이즈/컬러)은 최대 2개까지 선택 가능합니다.");
+												}
+
+												$(
+														'.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap .btn.btn_bg_b')
+														.click(function() {
+
+														})
+
+											})
+							$('.btn_minus').click(
+									function() {
+
+										console.log("-");
+										let minus = $(this).next().children(
+												'input[type="text"]').val();
+										if (minus > 1) {
+											console.log(minus);
+											minus--
+											$(this).next().children(
+													'input[type="text"]').val(
+													minus);
+										}
+									})
+
+							$('.sod_select, .sod_select *').click(
+									function() {
+										$('gl_slr_size_2').val('240').prop(
+												"selected", true);
+									})
+
+							$('.btn_color_wrap li input[type="radio"]').click(
+									function() {
+										let count = $(this).data('count');
+										console.log(count);
+
+										/* $('.sod_select, .sod_select *').attr("th:each","size : ${item.options["+count+"].sizes}" );  */
+									})
+
+						});
+	</script>
+
+	<form method="post" id="cartDeleteAll" th:action="@{/deleteAll}">
+		<th:block th:each="item : ${cartList.list}">
+			<input type="hidden" th:id="|psid_${itemStat.index}|"
+				th:name="|list[${itemStat.index}].psid|" value="i">
+		</th:block>
+	</form>
+
+	<form method="post" id="cartDelete" th:action="@{/delete}">
+		<input type="hidden" id="psid" name="psid">
+	</form>
+	<script>
+		$(document).ready(function() {
+			//	 $('#_size_2').val($(cartList.list.sizes)); 
+			/* 	 $('.icon_btn.btn_gl_del').click(function(){
+					 console.log("del"); */
+			/* 			 console.log($(this).data('psid'));
+			 $('#cartDelete').val($(this).data('psid')) 
+			 })*/
+			// $('.sod_select .sod_label').text($('.sod_select .sod_label').closest(sod_select).silbling(sod_label).text());
+			$('.icon_btn.btn_gl_del').click(function() {
+				console.log("hihi");
+
+				$('.divpop_wrap_dev').fadeIn(200);
+				$('.background1').fadeIn(200);
+				let psid = $(this).data('psid');
+				console.log(psid);
+				$('#btn-alert-confirm').click(function() {
+					$('#psid').val(psid);
+					$('#cartDelete').submit();
+				})
+
+			})
+			$('#select_del').click(function() {
+				$('input[name=cartlist]:checked').each(function(index, item) {
+
+					console.log(item);
+					console.log(index);
+					console.log(item.value);
+					$('#btn-confirm').click(function() {
+						$('#psid_' + index).val(item.value);
+						$('#cartDeleteAll').submit();
+					})
+
+				})
+
+			})
+
+		})
+	</script>
+	<form method="post" id="cartUpdate" th:action="@{/cart-update}">
+		<input type="hidden" id="updatePsid" name="psid"> <input
+			type="hidden" id="updatePccolorcode" name="pccolorcode"> <input
+			type="hidden" id="updatePsize" name="psize"> <input
+			type="hidden" id="updatePquantity" name="pquantity">
+	</form>
+	<form method="get" id="goOrderPage" th:action="@{/order}">
+		<input type="hidden" id="pidList" name="list">
+	</form>
+	<script>
+		$(document).ready(
+				function() {
+					$('.btn_save').click(
+							function() {
+								let index = $(this).data('index');
+
+								$('#updatePsid').val($(this).data('psid'))
+								$('#updatePccolorcode').val(
+										$(
+												'input[name=gl_rd_color_'
+														+ index + ']:checked')
+												.data('ocolor'));
+								$('#updatePsize').val(
+										$(
+												'select[name=gl_slr_size_'
+														+ index + ']').val());
+								$('#updatePquantity').val(
+										$('input[name=quantity_' + index + ']')
+												.val());
+								$('#cartUpdate').submit();
+							})
+					$('#orderClick').click(
+							function() {
+								let totalPrice = 0;
+								console.log('결제 정보 입력');
+								const pidList = [];
+								$("input:checkbox[name=cartlist]:checked")
+										.each(function(index, item) {
+
+											console.log(item.value);
+											pidList.push(item.value);
+										})
+								$('#pidList').val(pidList);
+								$('#goOrderPage').submit();
+							})
+				})
+	</script>
+
+
+
+</body>
+</html>

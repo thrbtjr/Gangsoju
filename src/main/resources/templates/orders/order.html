@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<!-- 소규석 -->
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+</head>
+<body class="back">
+
+	<div id="layer"
+		style="display: none; position: fixed; overflow: hidden; z-index: 10; -webkit-overflow-scrolling: touch; top: 70px;">
+		<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+			id="btnCloseLayer"
+			style="width: 18%; cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+			onclick="closeDaumPostcode()" alt="닫기 버튼">
+	</div>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+    // 우편번호 찾기 화면을 넣을 element
+    var element_layer = document.getElementById('layer');
+    
+    function goSearchPage() {
+        $("#searchForm").addClass("visible active activated");
+      }
+
+    function closeDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element_layer.style.display = 'none';
+    }
+
+    function sample2_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample2_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample2_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample2_postcode').value = data.zonecode;
+                document.getElementById("sample2_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample2_detailAddress").focus();
+
+                // iframe을 넣은 element를 안보이게 한다.
+                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                element_layer.style.display = 'none';
+            },
+            width : '100%',
+            height : '100%',
+            maxSuggestItems : 5
+        }).embed(element_layer);
+
+        // iframe을 넣은 element를 보이게 한다.
+        element_layer.style.display = 'block';
+
+        // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+        initLayerPosition();
+    }
+
+    // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
+    // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
+    // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
+    function initLayerPosition(){
+        var width = 300; //우편번호서비스가 들어갈 element의 width
+        var height = 400; //우편번호서비스가 들어갈 element의 height
+        var borderWidth = 5; //샘플에서 사용하는 border의 두께
+
+        // 위에서 선언한 값들을 실제 element에 넣는다.
+        element_layer.style.width = '';
+        element_layer.style.height = height + 'px';
+        element_layer.style.border = borderWidth + 'px solid  #afafaf'; 
+        element_layer.style.marginBottom = '10px';
+
+        // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+        //element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
+        //element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
+
+    }
+</script>
+
+
+	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<!-- ################## header ################## -->
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">배송&amp;결제정보 입력</h1>
+				<a href="/ko/main" class="h_top_home"><span>홈</span></a> <a
+					href="javascript:noLink();" onclick="goBack();" class="h_prev">이전
+					페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search">
+              <a onclick="goSearchPage();"><span>search</span></a>
+            </li>
+<li class="cart">
+              <a
+                href="/cart"
+                ><span>cart</span></a
+              >
+            </li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+			<div id="contents" class="hsome_contents delivery_payment_wrap"
+				style="margin-top: 50px;">
+				<form id="orderForm1" action="/ko/checkout/ordersheet" method="POST">
+					<!-- 상품 리스트 -->
+					<div id="checkoutCartView">
+						<!-- 4pm service-->
+						<!-- //4pm service-->
+
+						<!-- df_box : 주문상품 s -->
+						<div id="__div_sl" class="df_box df_box_slide">
+							<h3 class="df_box_tit" id="list1">
+								주문상품<span class="df_box_tit_sub">[[|(${orderList.count})개|]]</span>
+							</h3>
+
+							<ul class="order_gl_item goods_list_wrap">
+								<th:block th:each="item : ${orderList.products}">
+									<li th:if="${itemStat.index eq 0}"
+										class="ogl_main_item item_info">
+										<!-- goods_list_item s --> <a
+										th:href="@{/p/detail/{param}(param=${item.pcid})}">
+											<div class="ogl_item gl_item">
+												<div class="gl_tit">
+													<img th:src="${item.pcimg2}" alt="" class="gl_thumbimg" />
+												</div>
+												<ul class="gl_con">
+													<li class="gl_con_brand">[[${item.bname}]]</li>
+
+													<li class="gl_con_name">[[${item.pname}]]</li>
+													<li class="gl_con_option"
+														th:text="|${item.color} / ${item.psize} / ${item.pquantity}개|">IVORY
+														/ 82 / 2개</li>
+													<li class="gl_con_price"><span>
+															[[₩+${#numbers.formatInteger(item.dprice, 3, 'COMMA')}]]
+													</span></li>
+												</ul>
+											</div>
+									</a> <!-- goods_list_item e -->
+									</li>
+
+
+									<li th:unless="${itemStat.index eq 0}"
+										class="ogl_sub_item df_box_slide_con item_info"><a
+										href="@{/p/detail/{param}(param=${item.pcid})}">
+											<div class="ogl_item gl_item">
+												<div class="gl_tit">
+													<img th:src="${item.pcimg2}" alt="" class="gl_thumbimg" />
+												</div>
+												<ul class="gl_con">
+													<li class="gl_con_brand">[[${item.bname}]]</li>
+													<li class="gl_con_name">[[${item.pname}]]</li>
+													<li class="gl_con_option"
+														th:text="|${item.color} / ${item.psize} / ${item.pquantity}개|">[[${item.color}]]</li>
+													<li class="gl_con_price"><span>[[₩+${#numbers.formatInteger(item.dprice,
+															3, 'COMMA')}]]</span></li>
+												</ul>
+											</div>
+									</a></li>
+								</th:block>
+
+							</ul>
+
+
+							<!-- 툴팁 : 쇼핑백추가 s -->
+
+							<!-- 툴팁 : 쇼핑백추가 e -->
+						</div>
+						<!-- df_box : 주문상품 e -->
+					</div>
+
+					<input type="hidden" id="paytype" name="paytype" value="Inicis" />
+					<input type="hidden" id="globalPayment" name="globalPayment"
+						value="" />
+					<!-- 주문자 정보 -->
+					<input type="hidden" name="ordererMobilePhone"
+						id="ordererMobilePhone" value="" /> <input type="hidden"
+						name="ordererEmail" id="ordererEmail" value="" /> <input
+						type="hidden" name="pwdTypeChk" id="pwdTypeChk" value="" /> <input
+						type="hidden" name="pwdEmptyChk" id="pwdEmptyChk" value="" /> <input
+						type="hidden" name="pwdConfirmChk" id="pwdConfirmChk" value="" />
+					<input type="hidden" name="authYn" id="authYn" value="" /> <input
+						type="hidden" name="ordererName" id="ordererName" value="소규석" />
+
+					<div class="df_box">
+						<h3 class="df_box_tit">
+							배송지 정보
+
+							<!-- tootip s 배송지안내 툴팁 삽입 20191022 남일희-->
+
+							<!-- tootip : contents_area s -->
+
+							<!-- tootip : contents_area e -->
+							<!-- tootip e -->
+						</h3>
+
+
+						<!-- tootip : contents_area e -->
+						<!-- select_list : 배송지리스트 s -->
+						<input type="hidden" id="defaultShipmentAddressPk" value="" />
+						<div class="">
+							<!-- select_list : selected_item s -->
+							<div class="slcted_item delivery_selected_item_area">
+								<div class="slct_con">
+									<span class="dlvr_adrs_name">[[${orderList.member.mname}]]</span>
+									/ <span class="dlvr_adrs_phone">[[${orderList.member.mphone}]]</span><br />
+
+									<input type="hidden" id="address_line2_raw" value="203동  1502호" />
+									</span> <span class="none_delivery" style="display: none"> <span
+										class="none_delivery_id">10219297243159</span> <span
+										class="none_delivery_phone"></span> <span
+										class="none_delivery_email"></span> <span
+										class="none_delivery_firstName"></span> <span
+										class="none_delivery_country">KR</span> <span
+										class="none_delivery_state"></span> <span
+										class="none_delivery_town"></span> <span
+										class="none_delivery_localFirstName"></span> <span
+										class="none_delivery_localLastName"></span> <span
+										class="none_delivery_maxAmtForTax">0.0</span>
+									</span>
+								</div>
+							</div>
+							<!-- select_list : selected_item e -->
+							<!-- select_list : list_item s -->
+
+							<!-- select_list : list_item s -->
+						</div>
+						<input type="text" id="sample2_postcode" placeholder="우편번호">
+						<input type="button" onclick="sample2_execDaumPostcode()"
+							value="우편번호 찾기"><br> <input type="text"
+							id="sample2_address" placeholder="주소"><br> <input
+							type="text" id="sample2_detailAddress" placeholder="상세주소">
+						<input type="text" id="sample2_extraAddress" placeholder="참고항목">
+
+
+						<p class="err_box" id="zipCodeErr">배송지 주소를 입력하세요</p>
+						<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
+
+						<!-- select_list : 배송지메세지리스트 s -->
+						<input type="hidden" id="selectedCompany" name="selectedCompany"
+							value="" /> <input type="hidden" id="isPermanentCompany"
+							name="isPermanentCompany" value="" />
+						<!-- 211026 공동현관 출입방법 S -->
+						<h3 class="df_box_tit enter-door211026">배송 요청사항</h3>
+						<!-- 211026 공동현관 출입방법 E-->
+						<script>
+							$(document)
+									.ready(
+											function() {
+												$(".select_list_dlvr_msg")
+														.on(
+																"click",
+																".slct_list_con .slct_list_item",
+																function() {
+																	//select_list_wrap slide 클릭이벤트(배송메세지 > 직접입력)
+																	if ($(this)
+																			.hasClass(
+																					"slct_list_item_self")) {
+																		$(
+																				".slct_list_item_self_input")
+																				.stop()
+																				.slideDown();
+																	} else {
+																		$(
+																				".slct_list_item_self_input")
+																				.stop()
+																				.slideUp();
+																	}
+																})
+											});
+						</script>
+						<div class="select_list_wrap select_list_dlvr_msg"
+							id="requirement">
+							<!-- select_list : selected_item s -->
+							<div class="slcted_item">
+								<div class="slct_con">
+									<span class="gray_fc" id="memo">배송메세지를 선택해주세요. (선택)</span>
+								</div>
+							</div>
+							<!-- select_list : selected_item e -->
+							<!-- select_list : list_item s -->
+							<ul class="slct_list_con" style="display: none">
+								<li class="slct_list_item" style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_0"
+											name="gl_radio_dlvr_msg" value="빠른 배송 부탁드립니다" /> <label
+											for="gl_radio_dlvr_msg_0">
+											<div class="slct_con" deliveryrequestmessage="빠른 배송 부탁드립니다">
+												빠른 배송 부탁드립니다</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item" style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_1"
+											name="gl_radio_dlvr_msg" value="배송 전 연락 바랍니다" /> <label
+											for="gl_radio_dlvr_msg_1">
+											<div class="slct_con" deliveryrequestmessage="배송 전 연락 바랍니다">
+												배송 전 연락 바랍니다</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item" style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_2"
+											name="gl_radio_dlvr_msg" value="부재 시 문 앞에 놓아주세요" /> <label
+											for="gl_radio_dlvr_msg_2">
+											<div class="slct_con"
+												deliveryrequestmessage="부재 시 문 앞에 놓아주세요">부재 시 문 앞에
+												놓아주세요</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item" style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_3"
+											name="gl_radio_dlvr_msg"
+											value="부재 시 경비실에
+                      맡겨주세요" /> <label
+											for="gl_radio_dlvr_msg_3">
+											<div class="slct_con"
+												deliveryrequestmessage="부재 시 경비실에 맡겨주세요">부재 시 경비실에
+												맡겨주세요</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item" style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_4"
+											name="gl_radio_dlvr_msg" value="부재 시 핸드폰으로 연락바랍니다" /> <label
+											for="gl_radio_dlvr_msg_4">
+											<div class="slct_con"
+												deliveryrequestmessage="부재 시 핸드폰으로 연락바랍니다">부재 시 핸드폰으로
+												연락바랍니다</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item slct_list_item_self"
+									style="cursor: pointer">
+									<div class="radio_stl">
+										<input type="radio" id="gl_radio_dlvr_msg_5"
+											name="gl_radio_dlvr_msg" value="직접입력" /> <label
+											for="gl_radio_dlvr_msg_5">
+											<div class="slct_con" deliveryrequestmessage="직접입력">
+												직접입력</div>
+										</label>
+									</div>
+								</li>
+							</ul>
+							<!-- select_list : list_item e -->
+						</div>
+						<div class="slct_list_item_self_input" style="">
+							<input type="text"
+								onkeyup="chkword('orderr','orderr_text_length',20);;"
+								onblur="chkword('orderr','orderr_text_length',20);" id="orderr"
+								name="deliveryRequestContents" placeholder="20자 이내로 입력하세요."
+								value="" />
+						</div>
+
+						<!-- 211026 공동현관 출입방법 S -->
+						<div
+							class="select_list_wrap select_list_dlvr_msg enter-door211026">
+							<!-- select_list : selected_item s -->
+							<div class="slcted_item">
+								<div class="slct_con">
+									<span class="gray_fc">공동현관 출입방법을 선택해주세요</span><br /> <span
+										class="gray_fc2">-문 앞 배송 요청 시 필수사항</span>
+								</div>
+							</div>
+							<!-- select_list : selected_item e -->
+							<!-- select_list : list_item s -->
+							<ul class="slct_list_con" style="display: none">
+								<li class="slct_list_item">
+									<div class="radio_stl">
+										<input type="radio" id="enter_door_04"
+											name="frontDoorSelectMessage" value="공동현관 출입번호" /> <label
+											for="enter_door_04">
+											<div class="slct_con">공동현관 출입번호</div>
+										</label> <input type="text" class="enter_door" id="fdMessage_4"
+											placeholder="예) #12341234# (최대 15자)"
+											onkeyup="chkword('fdMessage_4','frontDoorMessage_text_length',15);"
+											onblur="chkword('fdMessage_4','frontDoorMessage_text_length',15);" />
+									</div>
+								</li>
+								<li class="slct_list_item">
+									<div class="radio_stl">
+										<input type="radio" id="enter_door_05"
+											name="frontDoorSelectMessage" value="자유 출입 가능" /> <label
+											for="enter_door_05">
+											<div class="slct_con">자유 출입 가능</div>
+										</label>
+									</div>
+								</li>
+								<li class="slct_list_item">
+									<div class="radio_stl">
+										<input type="radio" id="enter_door_06"
+											name="frontDoorSelectMessage" value="기타" /> <label
+											for="enter_door_06">
+											<div class="slct_con">기타</div>
+										</label> <input type="text" class="enter_door add_margin_bottom"
+											id="fdMessage_6" placeholder="15자 이내로 입력하세요"
+											onkeyup="chkword('fdMessage_6','frontDoorMessage_text_length',15);"
+											onblur="chkword('fdMessage_6','frontDoorMessage_text_length',15);" />
+									</div>
+								</li>
+							</ul>
+							<!-- select_list : list_item e -->
+							<input type="hidden" name="frontDoorMessage"
+								id="frontDoorMessage" />
+						</div>
+						<!-- 211026 공동현관 출입방법 E -->
+
+
+
+						<!-- select_list : 배송지메세지리스트 s -->
+					</div>
+					<!-- df_box : 배송지정보 e -->
+
+
+					<input type="hidden" name="addressId" id="addressId"
+						value="10219297243159" /> <input type="hidden" name="lastName"
+						id="rcpt_name" value="소규석" /> <input type="hidden"
+						name="postcode" id="adress" value="12949" /> <input type="hidden"
+						name="line1" id="line1"
+						value="경기도 하남시 하남대로802번길 55(신장동,
+                      에코타운)" />
+					<input type="hidden" name="line2" id="line2" value="203동  1502호" />
+					<input type="hidden" name="hp_num1" id="hp" value="010" /> <input
+						type="hidden" name="hp_num2" id="hp_num2" value="9559" /> <input
+						type="hidden" name="hp_num3" id="hp_num3" value="2602" /> <input
+						type="hidden" name="ph_num1" id="ph" value="" /> <input
+						type="hidden" name="ph_num2" id="ph_num2" value="" /> <input
+						type="hidden" name="ph_num3" id="ph_num3" value="" /> <input
+						type="hidden" name="email" id="email" value="" />
+
+
+
+					<!-- 할인 ( 쿠폰, 보조결제수단 ) -->
+					<!-- ì¿ í° ì ì© -->
+					<!-- df_box : ì¿ í°ì ì© s -->
+
+					<div class="df_box">
+						<h3 class="df_box_tit">쿠폰 및 혜택 적용</h3>
+						<div id="voucherArea" class="couponselectArea">
+							<div class="text_coupon_slct_wrap online_coupon_box">
+								<div class="select_box">
+									<select id="selectVoucher">
+										<option value="" data-coupon="" data-discount="0">쿠폰을
+											선택해 주세요.</option>
+										<option th:each="coupon : ${orderList.member.list}"
+											th:value="${coupon.cpid}" th:data-coupon="${coupon.econtent}"
+											th:data-discount="${coupon.ediscount}" ]>
+											[[${coupon.etitle}]]</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div id="pvoucherArea" class="couponselectArea"></div>
+					</div>
+					<!-- df_box : ì¿ í°ì ì© e -->
+
+
+
+					<!-- ë³´ì¡°ê²°ì ìë¨ -->
+
+					<!-- df_box : í¬ì¸í¸ì¬ì© s -->
+					<div class="df_box" id="secondaryPaymentArea">
+						<h3 class="df_box_tit">
+							마일리지 사용
+
+							<!-- tootip e -->
+						</h3>
+
+						<ul class="mpg_list_wrap list_secondary_payment">
+							<!-- ë§ì¼ë¦¬ì§ -->
+							<li class="mpg_li_mileage" style="display: none">
+								<div class="mpg_tit">한섬마일리지</div>
+								<div class="mpg_input">
+									<input type="tel" id="pointpay" name="usePoint"
+										class="only_number set_comma" value="" data-unit="M"
+										placeholder="0 M" autocomplete="nope" max-point="0" /> <a
+										href="javascript:void 0 ;"
+										class="btnstl2 border_btn_blk btn_input_apply"
+										id="btnUsePoint" data-poptarget="">적용</a> <a href="#none"
+										class="btn_input_reset"><span>초기화</span></a>
+									<div class="check_stl">
+										<input type="checkbox" id="mpg_all_use_1" value="" /> <label
+											for="mpg_all_use_1">전액사용 (<span>0</span> M)
+										</label>
+									</div>
+								</div>
+
+							</li>
+
+							<!-- H.Point -->
+							<li class="mpg_li_point mt0">
+								<div class="mpg_tit">한섬마일리지</div>
+								<div class="mpg_input">
+									<input type="tel" id="hpointpay" name="useHPoint"
+										class="only_number set_comma" data-unit="M" placeholder="0 M"
+										autocomplete="nope"
+										th:max-point="${orderList.member.mmileage}" /> <a
+										href="javascript:void 0 ;"
+										class="btnstl2 border_btn_blk btn_input_apply"
+										id="btnUseHPoint" data-poptarget="" style="display: block;">적용</a>
+									<a href="#none" class="btnstl2 border_btn_blk btn_input_apply"
+										id="btnCancelHPoint" data-poptarget="" style="display: none;">취소</a>
+
+									<div class="check_stl">
+										<input type="checkbox" id="mpg_all_use_2" value="" /> <label
+											for="mpg_all_use_2">전액사용 (<span>[[${#numbers.formatInteger(orderList.member.mmileage,
+												3, 'COMMA')}]]</span> M)
+										</label>
+									</div>
+								</div>
+							</li>
+							<!-- eGfit -->
+							<li class="mpg_li_gift" style="display: none">
+								<div class="mpg_tit">e-money</div>
+								<div class="mpg_input">
+									<input type="tel" id="egiftpay" name="useEGiftAmount"
+										class="only_number set_comma" data-unit="원" placeholder="0 원"
+										autocomplete="nope" max-point="0" /> <a href="#none"
+										class="btnstl2 border_btn_blk btn_input_apply"
+										id="btnUseEGiftAmount" data-poptarget="">적용</a> <a
+										href="#none" class="btn_input_reset"><span>초기화</span></a>
+									<div class="check_stl">
+										<input type="checkbox" id="mpg_all_use_4" value="" /> <label
+											for="mpg_all_use_4">전액사용 (<span>0</span> 원)
+										</label>
+									</div>
+								</div>
+							</li>
+
+							<!-- ê¸°íí¸ì¹´ë -->
+							<li class="mpg_li_gift" style="display: none">
+								<div class="mpg_tit">기프트카드</div>
+								<div class="mpg_input">
+									<input type="tel" id="giftpay" name="useGiftAmount"
+										class="only_number set_comma" data-unit="원" placeholder="0 원"
+										autocomplete="nope" max-point="0" /> <a href="#none"
+										class="btnstl2 border_btn_blk btn_input_apply"
+										id="btnUseGiftAmount" data-poptarget="">적용</a> <a href="#none"
+										class="btn_input_reset"><span>초기화</span></a>
+									<div class="check_stl">
+										<input type="checkbox" id="mpg_all_use_3" value="" /> <label
+											for="mpg_all_use_3">전액사용 (<span>0</span> 원)
+										</label>
+									</div>
+								</div>
+							</li>
+						</ul>
+
+						<a href="javascript:;" class="btn_popup" data-poptarget=""
+							id="btn_popupgw" style="display: none"></a>
+					</div>
+					<!-- df_box : í¬ì¸í¸ì¬ì© e -->
+
+					<div
+						class="divpop_wrap dvp_style_2 pop_pw_confirm pop_recheckpassword"
+						id="userInfoForm">
+						<input id="uid" name="uid" type="hidden" value="thrbtjr" /> <input
+							id="gubun" name="gubun" type="hidden" value="" /> <input
+							id="pnt" name="pnt" type="hidden" value="" />
+
+						<div class="dvp_container">
+							<div class="dvp_close_btn b-close">
+								<span>취소</span>
+							</div>
+							<h1 class="dvp_header">비밀번호 재확인</h1>
+							<div class="dvp_content">
+								<div class="desc_box">고객님의 소중한 포인트/기프트카드를 보호하기 위하여 비밀번호를
+									확인하고 있습니다.로그인 비밀번호를 입력해 주시기 바랍니다.</div>
+								<div class="pw_confilm_wrap">
+									<input type="password" id="pw" name="pw" class="pw_confirm"
+										autocomplete="new-password" placeholder="비밀번호를 입력하세요" />
+								</div>
+								<div class="btn_wrap btn_wrap_div2">
+									<a href="#none" class="btnstl3 border_btn_gray b-close"><span>취소</span></a>
+									<a href="#none" class="btnstl3 solid_btn_blk"><span><span>확인</span></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						var $list_secondary_payment = $("ul.list_secondary_payment");
+						var isMileageVisible = $list_secondary_payment.find(
+								"li.mpg_li_mileage").css("display") != "none";
+						var isPointVisible = $list_secondary_payment.find(
+								"li.mpg_li_point").css("display") != "none";
+						var isGiftVisible = $list_secondary_payment.find(
+								"li.mpg_li_gift").css("display") != "none";
+
+						if (!isMileageVisible && !isPointVisible
+								&& !isGiftVisible) {
+							$("#secondaryPaymentArea").hide();
+						} else {
+							$("#secondaryPaymentArea li:visible").first()
+									.addClass("mt0");
+						}
+
+						$(document)
+								.ready(
+										function() {
+											$(".quick-h-point-btn").on("click",
+													function() {
+														fnHpointChargeLink();
+													});
+
+											/* íë©´ s*/
+											$(".mpg_list_wrap")
+													.on(
+															"blur",
+															".mpg_input input.set_comma",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : blur
+																if ($(this)
+																		.val() != "") {
+																	$(this)
+																			.val(
+																					setComma($(
+																							this)
+																							.val())
+																							+ " "
+																							+ $(
+																									this)
+																									.attr(
+																											"data-unit"));
+																}
+																inputValResetBtnCheck($(this));
+																pointValCheck($(this));
+															});
+											$(".mpg_list_wrap")
+													.on(
+															"focus",
+															".mpg_input input.set_comma",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : focus
+																inNumber($(this));
+																inputValResetBtnCheck($(this));
+															});
+											$(".mpg_list_wrap")
+													.on(
+															"change",
+															".mpg_input .check_stl input",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : ì ì¡ì¬ì©
+
+																var tempPointAll = $(
+																		this)
+																		.siblings(
+																				"label")
+																		.find(
+																				"span")
+																		.html();
+																if (tempPointAll == ""
+																		|| Number(tempPointAll
+																				.replace(
+																						/[^0-9]/g,
+																						"")) <= 0) {
+																	$(this)
+																			.attr(
+																					"checked",
+																					false);
+																	return;
+																}
+
+																var tempPointInput = $(
+																		this)
+																		.parents(
+																				".mpg_input")
+																		.find(
+																				"input.set_comma");
+																var tempButton = $(
+																		this)
+																		.parents(
+																				".mpg_input")
+																		.find(
+																				"a.btnstl2");
+																var alluseId = $(
+																		this)
+																		.attr(
+																				"id");
+																if ($(this)
+																		.is(
+																				":checked")) {
+																	// ì ì©
+																	var isFirstCancel = typeof tempPointInput != "undefined"
+																			&& Number(tempPointInput
+																					.val()
+																					.replace(
+																							/[^0-9]/g,
+																							"")) > 0
+																			&& tempButton
+																					.hasClass("btn_input_apply_cancle");
+																	var result = null;
+																	if ("mpg_all_use_1" == alluseId) {
+																		// íì¬ë§ì¼ë¦¬ì§
+																		if (isFirstCancel) {
+																			result = cancelUsePoint($("#btnUsePoint"));
+																		}
+																		if (result != null) {
+																			result
+																					.done(function(
+																							data) {
+																						tempPointInput
+																								.setPointLimit();
+																						tempButton
+																								.click();
+																					});
+																		} else {
+																			tempPointInput
+																					.setPointLimit();
+																			tempButton
+																					.click();
+																		}
+																	} else if ("mpg_all_use_2" == alluseId) {
+																		// H.Point
+																		if (isFirstCancel) {
+																			result = cancelUseHPoint(tempButton);
+																		}
+																		if (result != null) {
+																			result
+																					.done(function(
+																							data) {
+																						tempPointInput
+																								.setPointLimit();
+																						doUseHPoint(tempButton);
+																					});
+																		} else {
+																			tempPointInput
+																					.setPointLimit();
+																			doUseHPoint(tempButton);
+																		}
+																	} else if ("mpg_all_use_3" == alluseId) {
+																		// ê¸°íí¸ì¹´ë
+																		if (isFirstCancel) {
+																			result = cancelUseGiftAmount(tempButton);
+																		}
+																		if (result != null) {
+																			result
+																					.done(function(
+																							data) {
+																						tempPointInput
+																								.setPointLimit();
+																						doUseGiftAmount(tempButton);
+																					});
+																		} else {
+																			tempPointInput
+																					.setPointLimit();
+																			doUseGiftAmount(tempButton);
+																		}
+																	} else if ("mpg_all_use_4" == alluseId) {
+																		// Eê¸°íí¸ì¹´ë
+																		if (isFirstCancel) {
+																			result = cancelUseEGiftAmount(tempButton);
+																		}
+																		if (result != null) {
+																			result
+																					.done(function(
+																							data) {
+																						tempPointInput
+																								.setPointLimit();
+																						doUseEGiftAmount(tempButton);
+																					});
+																		} else {
+																			tempPointInput
+																					.setPointLimit();
+																			doUseEGiftAmount(tempButton);
+																		}
+																	}
+																} else {
+																	// ì·¨ì
+
+																	if ("mpg_all_use_1" == alluseId) {
+																		cancelUsePoint($("#btnUsePoint"));
+																	} else if ("mpg_all_use_2" == alluseId) {
+																		cancelUseHPoint(tempButton);
+																	} else if ("mpg_all_use_3" == alluseId) {
+																		cancelUseGiftAmount(tempButton);
+																	} else if ("mpg_all_use_3" == alluseId) {
+																		cancelUseEGiftAmount(tempButton);
+																	}
+																}
+
+																inputValResetBtnCheck(tempPointInput);
+															});
+											$(".mpg_list_wrap")
+													.on(
+															"click",
+															".mpg_input .btn_input_reset",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : ì´ê¸°í
+																if ($(this)
+																		.prev()
+																		.hasClass(
+																				"btn_input_apply")) {
+																	$(this)
+																			.parent()
+																			.find(
+																					".set_comma")
+																			.val(
+																					"");
+																	pointValCheck($(
+																			this)
+																			.parent()
+																			.find(
+																					".set_comma"));
+																} else {
+																	pointToggleBtnInputApply($(
+																			this)
+																			.prev());
+																}
+															});
+											$(".mpg_list_wrap")
+													.on(
+															"click",
+															".mpg_input .btn_input_apply",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : ì ì©ë²í¼
+																pointToggleBtnInputApply($(this));
+															});
+											$(".mpg_list_wrap")
+													.on(
+															"click",
+															".mpg_input .btn_input_apply_cancle",
+															function() {
+																// í¬ì¸í¸ì¬ì©ê´ë ¨ : ì·¨ìë²í¼
+																pointToggleBtnInputApply($(this));
+															});
+											/* íë©´ e */
+										});
+
+						$.fn.setPointLimit = function() {
+							var usepoint = $("#total").val()
+									- $("#cartDeliveryCost").val();
+							var maxPoint = this.attr("max-point");
+							if (parseInt(maxPoint) > usepoint) {
+								this.val(setComma(usepoint) + " "
+										+ this.attr("data-unit"));
+							} else {
+								this.val(setComma(maxPoint) + " "
+										+ this.attr("data-unit"));
+							}
+						};
+
+						/* íë©´ s*/
+						function pointToggleBtnInputApply(obj) {
+							//ì ì©, ì·¨ìë²í¼
+
+							var spObj = obj.parent().find(".set_comma");
+							var spId = spObj.attr("id");
+							var spVal = Number(spObj.val().replace(/[^0-9]/g,
+									""));
+							if (obj.hasClass("btn_input_apply")) {
+								if (spVal <= 0) {
+									return;
+								}
+
+								if ("pointpay" == spId) {
+									doUsePoint(obj);
+								} else if ("hpointpay" == spId) {
+									doUseHPoint(obj);
+								} else if ("giftpay" == spId) {
+									doUseGiftAmount(obj);
+								} else if ("egiftpay" == spId) {
+									doUseEGiftAmount(obj);
+								}
+							} else {
+								if ("pointpay" == spId) {
+									cancelUsePoint(obj);
+								} else if ("hpointpay" == spId) {
+									cancelUseHPoint(obj);
+								} else if ("giftpay" == spId) {
+									cancelUseGiftAmount(obj);
+								} else if ("egiftpay" == spId) {
+									cancelUseEGiftAmount(obj);
+								}
+							}
+						}
+						function pointValCheck(obj) {
+							//í¬ì¸í¸
+							if (obj.val() != "") {
+								var inputVal = Number(obj.val().replace(
+										/[^0-9]/g, ""));
+								var inputAllVal = Number(obj.parent().find(
+										".check_stl label span").html()
+										.replace(/[^0-9]/g, ""));
+								if (inputAllVal > inputVal) {
+									obj.parent().find(".check_stl input").attr(
+											"checked", false);
+								} else if (inputAllVal == inputVal) {
+									obj.val(setComma(inputAllVal) + " "
+											+ obj.attr("data-unit"));
+									obj.parent().find(".check_stl input").attr(
+											"checked", true);
+								} else if (inputAllVal < inputVal) {
+									obj.val(setComma(inputAllVal) + " "
+											+ obj.attr("data-unit"));
+									obj.parent().find(".check_stl input").attr(
+											"checked", true);
+								}
+							} else {
+								obj.parent().find(".check_stl input").attr(
+										"checked", false);
+								obj.parent().find(".btnstl2").removeClass(
+										"btn_input_apply_cancle").addClass(
+										"btn_input_apply");
+								obj.parent().find(".btnstl2").html("적용");
+							}
+							inputValResetBtnCheck(obj);
+						}
+						function inputValResetBtnCheck(obj) {
+							//ì´ê¸°íë²í¼ ì²´í¬
+							if (obj.val() != "") {
+								obj.siblings(".btn_input_reset").addClass(
+										"btn_input_reset_on");
+							} else {
+								obj.siblings(".btn_input_reset").removeClass(
+										"btn_input_reset_on");
+							}
+						}
+
+						/* íë©´ e*/
+
+						function doUseHPoint(self) {
+							var use_point = $("#hpointpay").val().replace(
+									/[^0-9]/g, "");
+							var saleCheck = "0";
+							var deliveryCost = $("#cartDeliveryCost").val();
+							var voucherRateCheck = $("#voucherRateCheck").val();
+
+							if (use_point == "" || use_point == "0") {
+								layerAlert("100 포인트 이상부터 사용하실 수 있습니다.");
+								return;
+							}
+
+							// 2020.03.13 hmk
+							// h point ìµì  ì¬ì©ê¸ì¡ 100ìì¼ë¡ ë³ê²½
+							if (use_point < 100) {
+								layerAlert("100 포인트 이상부터 사용하실 수 있습니다.");
+								return;
+							}
+
+							if (parseInt(1000) < 0) {
+								$("#hpointpay").val("");
+								return;
+							}
+
+							//if(saleCheck == "1"){
+							//    layerAlert("10% í ì¸ì¨ì ì´ê³¼íë ì¸ì¼ìí êµ¬ë§¤ì í¬ì¸í¸ë¥¼ ì¬ì©íì¤ ì ììµëë¤.");
+							//    return;
+							//}
+
+							if (voucherRateCheck == "1") {
+								layerAlert("할인율이 10%를 초과하여 포인트를 사용하실 수 없습니다.");
+								return;
+							}
+
+							if (use_point > parseInt($("#total").val())) {
+								layerAlert("H.Point 사용액은 결제할 금액보다 같거나 작아야 합니다.");
+								return;
+							}
+
+							if (use_point >= 100000) {
+								$("#counter").html("03:00초");
+								$("#codeInput").val("");
+								showlayer(self, "#popwrap3", "use_hpoint",
+										use_point);
+								return;
+							}
+
+							if (parseInt(deliveryCost) > 0) {
+								var total = $("#total").val();
+								if ((parseInt(total) <= parseInt(deliveryCost) && parseInt(use_point) >= parseInt(total))
+										|| (parseInt(total) >= parseInt(deliveryCost) && parseInt(use_point) > parseInt(total)
+												- parseInt(deliveryCost))) {
+									layerAlert("배송비는 한섬마일리지/기프트카드로 결제하실 수 없습니다.");
+									return;
+								}
+							}
+
+							doPwcheck(self, "3", use_point);
+						}
+					</script>
+
+
+					<!-- 결제 수단 선택 -->
+					<!-- df_box : 결제수단선택 s -->
+					<div class="df_box payment_choice_wrap" style="overflow: hidden">
+						<h3 class="df_box_tit">결제수단선택</h3>
+
+						<!-- tab_head e -->
+						<!-- tab_cont s -->
+						<div class="tab_cont on">
+							<!-- tab_cont : 카드간편결제 s -->
+							<div class="cont" id="tabCardEasyPay">
+								<div
+									class="card_easy_pay_wrap swiper-container swiper_card_easy_pay swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal"
+									id="card_easy_pay">
+									<ul class="swiper-wrapper" style="transition-duration: 0ms">
+										<li class="swiper-slide last">
+											<div class="card_item cd_kind_add">
+												<a href="javascript:;" class="card_add_btn"
+													onclick="checkoutWpay.btnCardRegist()">카드등록</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<!-- card_easy_pay s -->
+								<!-- card_easy_pay e -->
+							</div>
+							<!-- tab_cont : 카드간편결제 s -->
+							<!-- tab_cont : 일반결제 s -->
+							<div class="cont on" id="general_pay">
+								<div class="general_pay_wrap" style="overflow: hidden">
+									<ul class="general_pay_list gpd_tab_w1">
+										<li class="on"><a href="#none" class="gpd_a_credit"
+											data-g-pay-kind="credit" data-g-pay-mode="KO001">신용카드</a></li>
+									</ul>
+
+									<ul class="general_pay_list gpd_tab_w3">
+										<li class=""><a href="#none" class="gpd_a_real_account"
+											data-g-pay-kind="real_account" data-g-pay-mode="KO002">실시간
+												계좌이체</a></li>
+
+										<!-- #2610 [주문] 가상계좌 결제수단 제외 및 중복 구매 제한 처리 요청 건 (가상계좌 선택 삭제) 50268 -->
+
+										<li class=""><a href="#none" class="gpd_a_smilepay"
+											data-g-pay-kind="smilepay" data-g-pay-mode="KO006">카카오페이</a>
+										</li>
+										<li class=""><a href="#none" class="gpd_a_tosspay"
+											data-g-pay-kind="tosspay" data-g-pay-mode="KO007">토스</a></li>
+									</ul>
+									<!-- 추가(redmine:1173) : 20180912 s -->
+									<!-- 								<p class="text_box desc_box2">※ 카카오페이는 곧 서비스 예정입니다.</p> -->
+									<!-- 추가(redmine:1173) : 20180912 e -->
+
+									<div
+										class="general_pay_desc gpd_con_real_account gpd_con_virtual_account">
+										<p class="text_box mt0">※ 한섬마일리지 / 기프트카드와 가상계좌 함께 사용 시,
+											입금시점에 한섬마일리지 / 기프트카드의 결제 잔액이 있어야 주문이 완료됩니다.</p>
+										<p id="virtualText" class="text_box mt0">
+											※ <font color="red">4시간 이내 입금</font> 하셔야 주문이 완료 됩니다.
+										</p>
+										<p class="text_desc_tit">에스크로 서비스</p>
+										<ul class="radio_ul escrow_rd_wrap">
+											<li class="">
+												<div class="radio_stl radio_stl1">
+													<input type="radio" id="ipt_escrow_01" name="escrowYn"
+														value="N" checked="" /> <label for="ipt_escrow_01"
+														class="agr_escrow">아니오</label>
+												</div>
+											</li>
+											<li class="">
+												<div class="radio_stl radio_stl1">
+													<input type="radio" id="ipt_escrow_02" name="escrowYn"
+														value="Y" /> <label for="ipt_escrow_02"
+														class="agr_escrow">예</label>
+												</div>
+											</li>
+										</ul>
+										<p class="text_box">정부방침에 따라 실시간계좌이체 및 무통장입금, 가상계좌로 주문하시는
+											경우 에스크로 서비스 이용여부를 선택하실 수 있습니다.</p>
+										<p>
+											<a
+												href="https://mark.inicis.com/mark/escrow_popup.php?mid=handsomem1"
+												class="text_btn" id="id_escrow_popup" target="_blank">에스크로
+												서비스 가입확인</a>
+										</p>
+									</div>
+								</div>
+							</div>
+							<!-- tab_cont : 일반결제 e -->
+						</div>
+
+						<div class="hympoint_banner_wrap" style="display: none">
+							<div class="hympoint_banner" style="margin-top: 23px">
+								<div class="img">
+									<img
+										src="http://cdn.thehandsome.com/mobile/hyundai_mpointcard.png"
+										alt="현대카드 Mpoint" />
+								</div>
+								<p>
+									현대카드 M카드계열 결제 시,<br /> 최종 결제금액의 10%(최대 3만원)<br /> M포인트로 사용 가능<br />
+									<span>(자세한 내용 이벤트 페이지 참고)</span>
+								</p>
+							</div>
+						</div>
+
+						<div class="NEWhyRed_banner_wrap" style="display: none">
+							<div class="hyRed_banner" style="margin-top: 23px">
+								<div class="img">
+									<img
+										src="http://cdn.thehandsome.com/mobile/hyundaiRedcard_220502.png"
+										alt="더한섬닷컴x현대카드" />
+								</div>
+								<p>
+									현대카드 the Red Edition 2/3/4/5 결제 시, 쇼핑바우처 사용 가능 <br /> <span>(자세한
+										내용 이벤트 페이지 참고)</span>
+								</p>
+							</div>
+						</div>
+						<div class="hyred_notice" id="NEWredVoucherBenefit"
+							style="display: none">
+							<strong>NOTICE</strong>
+							<ul>
+								<li>현대카드 the Red Edition 2/4/5로 30만원 이상 결제 시, 쇼핑바우처 10만원권
+									사용 가능합니다.<br /> 현대카드 the Red Edition 3 으로 50만원 이상 결제 시, 쇼핑바우처
+									15만원권 사용 가능합니다.
+								</li>
+								<li>레드카드 쇼핑바우처는 부분 사용 불가하며 카드대금 결제일에 일괄 <span>청구할인</span>
+									됩니다.
+								</li>
+								<li>예약 판매 상품은 레드카드 쇼핑바우처 사용 불가합니다.</li>
+								<li>레드카드 쇼핑바우처를 사용한 구매는 <span>부분취소/부분반품</span> <span>불가</span>
+									하오니 단품 주문을 권장합니다.
+								</li>
+								<li>취소 시 <span>전체취소 후 재결제 필요</span> 하며, 교환/취소 관련 문의는 고객센터
+									1:1 문의를 이용해 주세요.
+								</li>
+							</ul>
+						</div>
+						<div class="smilepay_banner_wrap" style="display: none">
+							<img
+								src="http://cdn.thehandsome.com/mobile/event/detail/image/m_banner_smilepay_210929.jpg"
+								alt="스마일페이" style="width: 100%; margin-top: 23px" />
+						</div>
+
+						<div class="tosspay_banner_wrap" style="display: none">
+							<img
+								src="http://cdn.thehandsome.com/mobile/event/detail/image/toss_card_banner_200630.jpg"
+								alt="토스페이" style="width: 100%; margin-top: 23px" />
+						</div>
+						<!-- #3068 [수정] 결제수단 선택 영역 띠배너 & 노티스 문구 수정 (현대카드, 페이코) hyunbae 20220620 -->
+						<div class="payco_banner_wrap" style="display: none">
+							<div class="payco_banner">
+								<img
+									src="http://cdn.thehandsome.com/mobile/event/detail/image/m_banner_payco.jpg"
+									alt="페이코" style="width: 100%; margin-top: 23px" />
+							</div>
+						</div>
+						<!-- guide e -->
+					</div>
+
+					<!-- 최종 결제금액 -->
+					<div id="checkoutCartTotalPrice">
+						<!-- df_box : ìµì¢ê²°ì ê¸ì¡ s -->
+						<div class="df_box total_price_wrap">
+							<h3 class="df_box_tit">
+								최종 결제금액
+								<div class="pay_price">[[₩+${#numbers.formatInteger(orderList.totalPrice,
+									3, 'COMMA')}]]</div>
+							</h3>
+
+							<ul class="total_price_detail">
+								<li id="subtotal" class="sub_total190816">
+									<div class="ttpd_tit">상품 합계</div>
+									<div class="ttpd_con" id="totalPrice">[[₩+${#numbers.formatInteger(orderList.totalPrice,
+										3, 'COMMA')}]]</div>
+								</li>
+								<li>
+									<div class="ttpd_tit">
+										쿠폰
+										<!-- tootip s -->
+
+										<!-- tootip : contents_area e -->
+										<!-- tootip e -->
+									</div>
+
+									<div class="ttpd_con" id="usedCoupon">없음</div>
+								</li>
+
+								<li>
+									<div class="ttpd_tit">
+										마일리지
+										<!-- tootip s -->
+
+										<!-- tootip : contents_area e -->
+										<!-- tootip e -->
+									</div>
+
+									<div class="ttpd_con" id="usedMileage">0 M</div>
+								</li>
+
+
+								<li>
+									<div class="ttpd_tit">
+										배송비
+										<!-- tootip s -->
+
+										<!-- tootip : contents_area e -->
+										<!-- tootip e -->
+									</div>
+
+									<div class="ttpd_con">₩ 0</div>
+								</li>
+							</ul>
+						</div>
+						<input type="hidden" name="total" id="total" value="580000.0" />
+						<input type="hidden" name="cartDeliveryCost" id="cartDeliveryCost"
+							value="0.0" /> <input type="hidden" name="voucherRateCheck"
+							id="voucherRateCheck" value="" /> <input type="hidden"
+							id="customDueAmount" value="0.0" />
+						<!-- df_box : ìµì¢ê²°ì ê¸ì¡ e -->
+					</div>
+					<!-- 구매 시 지급 포인트 -->
+					<!-- lang : ko -->
+					<!--known Member-->
+					<!-- ê°í¸íìì´ ìë ë s -->
+					<!-- df_box : ì ë¦½ìì í¬ì¸í¸ s -->
+					<div class="df_box">
+						<h3 class="df_box_tit">
+							적립 예정 포인트
+							<!-- tootip s -->
+
+							<!-- tootip : contents_area s -->
+							<div class="tooltip_contens">
+								<div class="tooltip_wrap tooltip_buy_point_guide"
+									style="display: none">
+									<div class="tltp_close_btn btn_tltp_close">
+										<span>닫기</span>
+									</div>
+									<h1 class="tltp_header">적립 예정 포인트</h1>
+									<div class="tltp_content">
+										<ul class="ul_dot_blk">
+											<li>기존 마이너스 포인트를 보유하고 있는 고객은 포인트가 차감되어 적립됩니다. 적립 예정 포인트가
+												상이할 수 있습니다.</li>
+											<li>통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이 가능합니다.</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- tootip : contents_area e -->
+							<!-- tootip e -->
+						</h3>
+
+						<!-- í´í : ì ë¦½ìì í¬ì¸í¸ s ê°í¸íì ìë ëë§-->
+						<div class="tooltip_html">
+							<div class="tooltip_wrap tooltip_buy_point_guide">
+								<div class="tltp_close_btn btn_tltp_close">
+									<span>닫기</span>
+								</div>
+								<h1 class="tltp_header">적립 예정 포인트</h1>
+								<div class="tltp_content">
+									<ul class="ul_dot_blk">
+										<li>기존 마이너스 포인트를 보유하고 있는 고객은 포인트가 차감되어 적립됩니다. 적립 예정 포인트가
+											상이할 수 있습니다.</li>
+										<li>통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이 가능합니다.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- í´í : ì ë¦½ìì í¬ì¸í¸ e -->
+
+						<ul class="ul_dot point_back_wrap">
+							<li>
+								<div class="udot_tit">한섬마일리지</div>
+								<div class="udot_con">
+									<span id="txtAccumulationPoint">[[${#numbers.formatInteger(orderList.totalPrice/20,
+										3, 'COMMA')}]]</span> M
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!-- df_box : ì ë¦½ìì í¬ì¸í¸ e -->
+					<!-- ê°í¸íìì´ ìë ë  e -->
+					<!--known Member-->
+
+					<!--Unknown Member-->
+					<input type="hidden" name="accumulationPoint"
+						id="accumulationPoint" value="29000" /> <input type="hidden"
+						name="accumulationHPoint" id="accumulationHPoint" value="580" />
+					<!--unknown Member-->
+					<!-- lang : ko -->
+					<!-- 구매자 동의 -->
+					<!-- df_box : êµ¬ë§¤ìëì s -->
+					<div class="df_box df_box_slide" id='agree1'>
+						<div class="check_stl df_box_tit">
+							<input type="checkbox" id="agree" value=""> <label
+								for="agree" id="notagree"><h3 class="df_box_tit">[필수]
+									구매자 동의</h3></label>
+						</div>
+						<div class="df_box_slide_con desc_box" id="desc_box"
+							style="display: none;">
+							주문할 상품의 상품명, 가격, 배송정보 등을 확인하였으며, <br>구매 진행에 동의합니다. (전자상거래법 제
+							8조 2항)
+						</div>
+					</div>
+					<!-- df_box : êµ¬ë§¤ìëì e -->
+					<div>
+						<input type="hidden" name="CSRFToken"
+							value="0bee0866-6445-48d0-a377-fc25c4526d78" />
+					</div>
+				</form>
+				<!-- 결제처리 -->
+				<!-- Smile Pay 연동 스크립트 포함 Start -->
+
+				<!-- Smile Pay 연동 스크립트 포함 End -->
+				<!-- payment_btn s -->
+				<!-- 수정(47489) : 20180807 s -->
+				<div class="df_box payment_btn_wrap last_box fs1904">
+					<div class="btn_desc_oera">
+						<p>
+							먼저 준비된 상품부터 순차적으로 발송하므로, <br />부분 배송될 수 있습니다.
+						</p>
+					</div>
+					<ul class="btn_wrap btn_wrap_div1" id="orderBtn">
+						<li class="pymt_call_pg"><a href="#none"
+							class="btnstl6 solid_btn_point" id="doOrderBtn"><span><b>[[${#numbers.formatInteger(orderList.totalPrice,
+										3, 'COMMA')}]]</b> 원&nbsp;주문하기</span></a></li>
+					</ul>
+				</div>
+				<!-- 수정(47489) : 20180807 e -->
+				<!-- payment_btn e -->
+
+				<div id="payinfo">
+					<form id="PAY_FORM" method="post" accept-charset="euc-kr"></form>
+				</div>
+
+				<!-- hsome_divpop_list | í´íëª©ë¡ s -->
+				<div class="hsome_tooltip_list">
+					<!-- í´í : ì¼íë°±ì¶ê° s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_shoppingbag_add">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">쇼핑백추가</h1>
+							<div class="tltp_content">
+								<div class="shoppingbag_img">
+									<img src="/_ui/handsomemobile/images/order/img_shoppingbag.jpg"
+										alt="쇼핑백" />
+								</div>
+								<ul class="ul_dot_blk">
+									<li>선물용이나 이동 시, 편리하게 사용할 수 있는 쇼핑백에 포장해 드립니다.</li>
+									<li>브랜드 쇼핑백 또는 더한섬닷컴 전용 쇼핑백 중 1개로 무작위 발송되며, 고객님의 요청사항이
+										반영되지는 않습니다.</li>
+									<li>쇼핑백 선택 시, 기본 포장에 포함된 페이퍼 백은 동봉되지 않습니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : ì¼íë°±ì¶ê° e -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_buy_delivery_charge">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">배송비</h1>
+							<div class="tltp_content">
+								<ul class="ul_dot_blk">
+									<li>쿠폰/바우처 할인금액 및 한섬마일리지/H.Point 사용을 제외한 실 결제금액 기준 <strong>3만원
+											미만 결제 시 2,500원 배송비가 부과</strong>됩니다. (3만원 이상 구매 시 무료배송)
+									</li>
+									<li>도서산간 지역은 배송비가 추가 될 수 있습니다.</li>
+									<li>한섬마일리지, H.Point, e-money로 배송비 결제가 불가합니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : í¬ì¸í¸ì¬ì© s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_discout_info">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">포인트 사용</h1>
+							<div class="tltp_content">
+								<div class="desc_box">보유 한섬마일리지 / H.Point / 기프트카드 금액을
+									확인하시고 사용하실 금액을 입력 후 [사용]을 선택하세요.</div>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : í¬ì¸í¸ì¬ì© e -->
+
+					<!-- í´í : ì ë¦½ìì í¬ì¸í¸ s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_buy_point_guide">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">적립 예정 포인트</h1>
+							<div class="tltp_content">
+								<ul class="ul_dot_blk">
+									<li>기존 마이너스 포인트를 보유하고 있는 고객은 포인트가 차감되어 적립됩니다. 적립 예정 포인트가
+										상이할 수 있습니다.</li>
+									<li>통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이 가능합니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : ì ë¦½ìì í¬ì¸í¸ e -->
+				</div>
+				<!-- hsome_divpop_list | í´íëª©ë¡ e -->
+			</div>
+			<div th:replace="~{product/search :: searchForm}"></div>
+			<div class="m_popModalBg_ldg" style="display: none"></div>
+			<div class="divpop_wrap dvp_style_3 privacy_info_popwrap_01"
+				style="display: none"></div>
+
+			<form id="autologinForm" name="autologinForm"
+				action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com" />
+			</form>
+			<!-- ################## footer ################## -->
+		</div>
+	</div>
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+
+	<div style="display: none">
+		<a href="javascript:;" id="btnWpayCookieSetting"
+			class="btn_plusbox btn_popup" data-poptarget="pop_wpay_cookie_info"><span></span></a>
+		<div class="divpop_wrap dvp_style_2 pop_wpay_cookie_info">
+			<div class="dvp_container">
+				<div class="dvp_close_btn b-close">
+					<span>닫기</span>
+				</div>
+				<h1 class="dvp_header">
+					등록 및 결제창이 잘 안 열릴 경우,<br /> <span class="point_fc">[브라우저 쿠키
+						설정]</span>을 <span class="point_fc">‘항상허용’</span>으로<br />변경해주세요.
+				</h1>
+				<div class="dvp_content">
+					<div class="dvp_tit">iOS</div>
+					<ul class="ul_dot_blk">
+						<li>홈 화면의 [설정] 메뉴 실행</li>
+						<li>설정의 Safari 선택<br />
+							<ul>
+								<li>① [방문기록 및 웹사이트 데이터 지우기]&gt;[방문기록 및 데이터 지우기] 선택</li>
+								<li>② [쿠키차단] 항목을 항상 허용으로 선택</li>
+								<li>③ [사이트간 추적방지]를 미허용으로 선택</li>
+								<li>④ [고급] 메뉴의 [javascript] 항목을 허용으로 설정</li>
+							</ul>
+						</li>
+						<li>Safari 실행 후 [개인정보 브라우징] 미허용</li>
+						<li>브라우저 새로 고침</li>
+					</ul>
+					<div class="dvp_tit">Android(갤럭시 기준)</div>
+					<ul class="ul_dot_blk">
+						<li>홈 화면의 [인터넷] 실행</li>
+						<li>우측상단(또는 좌측상단) 목록 버튼&gt;[설정] 선택<br />
+							<ul>
+								<li>① 개인정보보호&gt;[쿠키허용] 항목 선택</li>
+								<li>② 개인정보보호&gt;개인데이터삭제&gt;[방문기록, 캐시, 쿠키 및 사이트데이터] 삭제</li>
+								<li>③ 고급&gt;자바스크립트 사용, 팝업차단 해제 선택 브라우저 새로 고침</li>
+							</ul>
+						</li>
+						<li>인터넷 실행 후 [개인정보 브라우징] 미허용</li>
+						<li>브라우저 새로 고침</li>
+					</ul>
+					<div class="btn_wrap btn_wrap_div1">
+						<a href="#none" class="btnstl3 solid_btn_blk b-close"><span>확인</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- depth1 e -->
+	<!-- depth2 s -->
+	<div class="hsome_layerpop_contents lp_depth2 ">
+		<style>
+.bul_sty01_li li {
+	padding-left: 10px;
+	background: url("/_ui/desktop/common/images/common/li_bul_1.png") 0 8px
+		no-repeat;
+	line-height: 22px;
+	font-size: 13px;
+	color: #888;
+}
+</style>
+		<!-- layerpop_wrap | 배송지등록 s -->
+		<form id="addrAddForm">
+			<div class="layerpop_wrap layerpop_wrap_full lp_new_dlvr_wrap">
+				<!-- layerpop_top s -->
+				<div class="lyrpp_top">
+					<a href="#none"
+						class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"><span>닫기</span></a>
+					<h2>배송지 등록</h2>
+				</div>
+				<!-- layerpop_top e -->
+
+				<!-- layerpop_middle s -->
+				<div class="lyrpp_mid">
+					<p class="desc_box">
+						<span class="point_star_l">표시는 필수항목입니다.</span>
+					</p>
+					<ul class="bul_sty01_li">
+						<li>선택사항을 미입력하더라도 불이익은 발생하지 않습니다.</li>
+					</ul>
+					<!-- input_box s -->
+					<div class="input_box input_box_mydelivery">
+						<div class="ipt_tit">
+							<span class="point_star_r">배송지 주소</span>
+						</div>
+						<div class="ipt_con">
+							<ul class="input_address_stl">
+								<li class="inp_address1"><input type="hidden"
+									name="postalcode" value="" /> <input type="hidden"
+									name="streetname" value="" /> <input type="text"
+									id="dlvr_addres" value="" readonly="readonly" /> <a
+									onclick="execPostCode();" data-layerpop-depth="depth3"
+									class="btnstl2 border_btn_blk btn_layerpopup_call btn_find_zipcode">우편번호
+										찾기</a></li>
+
+								<li class="inp_address2"><input type="text"
+									name="streetnumber" id="dlvr_addres2" value="" /></li>
+							</ul>
+							<p class="err_box" id="zipCodeErr">배송지 주소를 입력하세요</p>
+						</div>
+					</div>
+					<!-- input_box e -->
+					<!-- input_box s -->
+					<div class="input_box">
+						<div class="ipt_tit">
+							<span class="point_star_r">수령인</span>
+						</div>
+						<div class="ipt_con">
+							<input type="text" name="lastname" id="receivername" value=""
+								maxlength="10" />
+							<p class="err_box" id="nameErr">수령인을 입력하세요</p>
+						</div>
+					</div>
+					<!-- input_box e -->
+					<!-- input_box s -->
+					<div class="input_box">
+						<div class="ipt_tit">
+							<span class="point_star_r">휴대폰 번호</span>
+						</div>
+						<div class="ipt_con">
+							<ul class="input_phone_stl">
+								<li class="inp_phone1">
+									<div class="select_box">
+										<select id="addDeliveryHp1" readonly="readonly">
+											<option value="010">010</option>
+
+										</select>
+									</div>
+								</li>
+								<li class="inp_phone2"><input type="tel"
+									id="addDeliveryHp2" numberonly="true" maxlength="4" value="" />
+								</li>
+								<li class="inp_phone3"><input type="tel"
+									id="addDeliveryHp3" numberonly="true" maxlength="4" value="" />
+								</li>
+							</ul>
+							<p class="err_box" id="hp1Err">휴대폰 번호를 입력하세요</p>
+						</div>
+					</div>
+					<!-- input_box e -->
+					<!-- input_box s -->
+
+
+
+					<!-- input_box e -->
+
+
+					<!-- layerpop_btns s -->
+					<div class="btn_wrap btn_wrap_div2 btn_group_mydelivery">
+						<a href="#none" class="btnstl3 border_btn_gray btn_lyrpp_close"
+							id="cancelBtn"><span>취소</span></a> <a href="#none"
+							class="btnstl3 solid_btn_blk" id="checkDetail"><span>확인</span></a>
+					</div>
+					<!-- layerpop_btns e -->
+				</div>
+				<!-- layerpop_middle e -->
+			</div>
+		</form>
+	</div>
+	<!-- depth2 e -->
+	<!-- depth3 s -->
+
+	<!-- depth3 e -->
+	<!-- depth4 s -->
+	<div class="hsome_layerpop_contents lp_depth4"></div>
+	<!-- depth4 e -->
+	<!-- depth5 s -->
+	<div class="hsome_layerpop_contents lp_depth5"></div>
+	<!-- depth5 e -->
+	<!-- depth6 s -->
+	<div class="hsome_layerpop_contents lp_depth6"></div>
+	<!-- depth6 e -->
+	<!-- depth7 s -->
+	<div class="hsome_layerpop_contents lp_depth7"></div>
+	<!-- depth7 e -->
+	<!-- depth8 s -->
+	<div class="hsome_layerpop_contents lp_depth8"></div>
+	<!-- depth8 e -->
+
+	<div id="mainPopwrap1908"
+		style="position: absolute; top: 50%; left: 50%; width: 90%; transform: translate(-50%, -50%); z-index: 999;"></div>
+	<div class="noti_popup190906_dim" style="display: none"></div>
+	<div class="b-modal __b-popup1__"
+		style="background-color: rgb(0, 0, 0); position: fixed; inset: 0px; opacity: 0.3; z-index: 9998; display: none"></div>
+
+	<script th:inline="javascript" type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							let originPrice = [[${orderList.totalPrice}]];
+							let discountPrice=0;
+							let mileage=0;
+							let discount=0;
+							let totalPrice=0;
+							$(".slcted_item")
+									.click(
+											function() {
+												if ($(this).siblings(
+														".slct_list_con").is(
+														":visible") == true) {
+													$(this).siblings(
+															".slct_list_con")
+															.slideUp(200);
+													$(this)
+															.parent(
+																	".select_list_wrap")
+															.removeClass(
+																	"select_list_wrap_on");
+												} else {
+													$(this).siblings(
+															".slct_list_con")
+															.slideDown(200);
+													$(this)
+															.parent(
+																	".select_list_wrap")
+															.addClass(
+																	"select_list_wrap_on");
+												}
+											});
+
+							$(".general_pay_list li a").click(
+									function() {
+										console.log("결제수단");
+
+										$(".general_pay_list li a").parents(
+												"li").removeClass("on");
+										$(this).parent("li").addClass("on");
+									});
+
+							$('#list1')
+									.click(
+											function() {
+												console.log("리스트");
+												if ($('#__div_sl')
+														.hasClass(
+																"df_box_slide_on")) {
+													$(
+															'#__div_sl')
+															.removeClass(
+																	"df_box_slide_on");
+												} else {
+													$('#__div_sl')
+															.addClass(
+																	"df_box_slide_on");
+												}
+											});
+							$("#requirement")
+									.children(
+											".select_list_wrap .slct_list_con")
+									.click(
+											function() {
+												console.log("체크박스 클릭시");
+												$(this).slideUp(200);
+												$(this)
+														.parent(
+																".select_list_wrap")
+														.removeClass(
+																"select_list_wrap_on");
+
+												$("#requirement")
+														.find(".gray_fc")
+														.text(
+																$(
+																		"input[name=gl_radio_dlvr_msg]:checked")
+																		.val())
+														.css("color", "#000000");
+
+											});
+							$(".btn_other_dlvr")
+									.click(
+											function() {
+												$(
+														".hsome_layerpop_contents.lp_depth2, .iframe_popup_wrap.lp_depth2")
+														.addClass(
+																"dir_h visible active");
+											});
+							
+							
+							$(
+							 '.layerpop_wrap .lyrpp_close_stl1,#cancelBtn')
+							.click(function(){
+								$(
+								".hsome_layerpop_contents.lp_depth2, .iframe_popup_wrap.lp_depth2")
+								.removeClass(
+										"dir_h visible active");
+								
+							});
+							
+							
+							$('#checkDetail')
+									.click(
+											
+											function() {
+												
+												 if($('#dlvr_addres').val()==""){
+													$('#zipCodeErr').show();
+												}else if($('#dlvr_addres2').val()==""){
+													$('#zipCodeErr').show();
+												}else if($('#receivername').val()==""){
+													$('#zipCodeErr').hide();
+													$('#nameErr').show();												
+												}else if($('#addDeliveryHp2').val()==""){
+													$('#nameErr').hide();
+													$('#hp1Err').show();
+												}else if($('#addDeliveryHp3').val()==""){
+													$('#hp1Err').show(); 
+												}else{ 
+												
+													$(
+													".hsome_layerpop_contents.lp_depth2, .iframe_popup_wrap.lp_depth2")
+													.removeClass(
+															"dir_h visible active");
+												
+												let address1 = $(
+														"#dlvr_addres")
+														.val();
+												let address2 =$("#dlvr_addres2").val();
+												let receivername =$("#receivername").val();
+												let phone1=$("#addDeliveryHp2").val();
+												let phone2=$("#addDeliveryHp3").val();
+												console.log(address1);
+												console.log(address2);
+												
+												$('.dlvr_adrs_zipcode').text(
+														address1.substr(1,5));
+												$('.address_line1').text(
+														address1.substr(7));
+												
+												$('.address_line2').text(
+														address2);
+												$('.dlvr_adrs_name').text(
+														receivername);
+												$('.dlvr_adrs_phone').text(
+														"010-"+phone1+"-"+phone2);
+										
+												} 
+											});
+
+							$(
+									'.divpop_wrap_dev .dvp_close_btn,.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap .btn.btn_bg_b')
+									.click(
+											function() {
+												$('.divpop_wrap_dev.pop_mbr')
+														.fadeOut(200);
+												$('.b-modal.__b-popup1__')
+														.fadeOut(200);
+											});
+
+							$('#agree1').click(
+									function() {
+										console.log("동의 리스트");
+										if ($('#agree1').hasClass(
+												"df_box_slide_on")) {
+											$('#agree1').removeClass(
+													"df_box_slide_on");
+											$('#desc_box')
+													.slideUp(200);
+
+										} else {
+											$('#agree1').addClass(
+													"df_box_slide_on");
+
+											$('#desc_box')
+													.slideDown(200);
+										}
+
+									});
+
+							 $('#selectVoucher').change(function(){
+								 $('#usedCoupon').text($('#selectVoucher option:selected').data('coupon'));
+								 discount=$('#selectVoucher option:selected').data('discount');
+								 if(discount>=100){
+									 totalPrice=originPrice-discount-mileage;
+									 discountPrice=discount;
+									 $('.pay_price').text("₩"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+									 $('#txtAccumulationPoint').text((totalPrice/20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); 
+									 $('#doOrderBtn > span').text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+" 원 주문하기");
+								 }else{
+									 discountPrice=discount/100*originPrice;
+									 totalPrice=originPrice-discount/100*originPrice-mileage;
+									 discountPrice=discount/100*originPrice;
+									 $('.pay_price').text("₩"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+									 $('#txtAccumulationPoint').text((totalPrice/20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); 
+									 $('#doOrderBtn > span').text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+" 원 주문하기");
+								 }
+							 })
+							
+							 $('#btnUseHPoint').click(function(){
+								 console.log($('#hpointpay').val()!="");
+								 if($('#hpointpay').val()!=""){ 
+								 let reg = /[,₩M ]/gim;
+									mileage = $('#hpointpay').val().replace(reg, "");
+									totalPrice=originPrice-discountPrice-mileage;
+								$('.pay_price').text("₩"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+								$('#txtAccumulationPoint').text((totalPrice/20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); 
+								 $('#doOrderBtn > span').text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+" 원 주문하기");
+								$('#usedMileage').text("-"+$('#hpointpay').val());
+								
+								$('#btnUseHPoint').hide();
+								$('#btnCancelHPoint').show();
+								
+								
+								  } 
+							}); 
+							 $('#btnCancelHPoint').click(function(){
+								  if($('#hpointpay').val()!=""){ 
+								 let reg = /[,₩M ]/gim;
+								 totalPrice=originPrice-discountPrice;
+								mileage=0;
+								 
+								$('#btnCancelHPoint').hide();
+								$('#btnUseHPoint').show();
+								$('#hpointpay').val("");
+								$('#mpg_all_use_2').prop("checked", false);
+								$('.pay_price').text("₩"+totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+								$('#txtAccumulationPoint').text((totalPrice/20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')); 
+								 $('#doOrderBtn > span').text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+" 원 주문하기");
+								 $('#usedMileage').text("0 M");
+								  } 
+								});
+							 
+							 
+							 
+							
+							
+
+						});
+	</script>
+	<div class="divpop_wrap_dev pop_mbr pop_alert_confirm"
+		id="popAlertConfirmDiv"
+		style="left: 0px; position: fixed; top: 100.5px; z-index: 9999; opacity: 1; display: none;">
+		<div class="dvp_container">
+			<div class="dvp_close_btn b-close" id="alertCloseDiv">
+				<span>닫기</span>
+			</div>
+			<h1 class="dvp_header"></h1>
+			<div class="dvp_content">
+				<div class="desc_box">구매자 동의 항목을 체크하여 주세요.</div>
+			</div>
+			<div class="btn_wrap">
+				<form method="post" id="orderForm" th:action="@{/order-form}">
+					<input type="hidden" name="ozipcode"> <input type="hidden"
+						name="oaddress1"> <input type="hidden" name="oreceiver">
+					<input type="hidden" name="ophone"> <input type="hidden"
+						name="omemo"> <input type="hidden" name="cpid"> <input
+						type="hidden" name="pmcode"> <input type="hidden"
+						name="ousedmileage"> <input type="hidden"
+						name="obeforeprice" th:value="${orderList.totalPrice}"> <input
+						type="hidden" name="oafterprice"> <input type="hidden"
+						name="oaddress2"> <input type="hidden" name="odate" value>
+					<th:block th:each="item : ${orderList.products}">
+						<input type="hidden" th:name="|list[${itemStat.index}].psid|"
+							th:value="${item.psid}">
+						<input type="hidden" th:name="|list[${itemStat.index}].oicount|"
+							th:value="${item.pquantity}">
+						<input type="hidden"
+							th:name="|list[${itemStat.index}].oitotalPrice|"
+							th:value="${item.pquantity * item.dprice}">
+						<input type="hidden" class="list_ophone"
+							th:name="|list[${itemStat.index}].ophone|">
+					</th:block>
+
+				</form>
+				<button class="btn btn_bg_b btn-alert-confirm">확인</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+$(document).ready(function(){
+	  
+	$('#doOrderBtn').click(function() {
+		if ($('#agree').is(':checked') == false) {
+			console.log("동의하자");
+			$('.divpop_wrap_dev.pop_mbr').fadeIn(200);
+			$('.b-modal.__b-popup1__').fadeIn(200);
+		}
+	});
+	
+	
+	$('#doOrderBtn').click(function(){
+	    console.log("주문하기");
+	    let reg = /[-,₩M ]/gim;
+	    let enter
+	    if ($('#agree').is(':checked') == false) {
+			console.log("동의하자");
+			$('.divpop_wrap_dev.pop_mbr').fadeIn(200);
+			$('.b-modal.__b-popup1__').fadeIn(200);
+		}else{
+	    $('input[name=frontDoorSelectMessage]:checked').each(function(index, item){
+            //var txt = $(item).text();           
+            console.log(item);
+
+            if(item.value == '공동현관 출입번호'){
+            	$('input[name=omemo]').val($('#memo').text()+"\n"+item.value+" "+$('#fdMessage_4').val());
+            	console.log($('#memo').text()+"\n"+item.value+" "+$('#fdMessage_4').val());
+            }else if(item.value == '기타'){
+            	$('input[name=omemo]').val($('#memo').text()+"\n"+item.value+" "+$('#fdMessage_6').val());
+            	console.log($('#memo').text()+"\n"+item.value+" "+$('#fdMessage_6').val());
+            }else {
+            	$('input[name=omemo]').val($('#memo').text()+"\n"+item.value);
+            	console.log($('#memo').text()+"\n"+item.value);
+            }
+            
+
+        })
+
+	    
+		$('input[name=ozipcode]').val($('#sample2_postcode').val());
+		$('input[name=oaddress1]').val($('#sample2_address').val());
+		$('input[name=oreceiver]').val($('.dlvr_adrs_name').text());
+		$('input[name=ophone]').val($('.dlvr_adrs_phone').text().replace(reg, ""));
+		console.log($('#selectVoucher option:selected').text().replace(/[ ]/gim, ""));
+		
+		$('input[name=cpid]').val($('#selectVoucher option:selected').val());
+		
+		$('input[name=pmcode]').val($('.general_pay_list li.on a').text());
+								/* $('input[name=omemo]').val(); */
+		$('input[name=ousedmileage]').val($('#usedMileage').text().replace(reg, ""));
+		$('input[name=oafterprice]').val($('.pay_price').text().replace(reg, ""));
+		$('input[name=oaddress2]').val($('#sample2_detailAddress').val());
+		$('.list_ophone').val($('.dlvr_adrs_phone').text().replace(reg, ""));
+								
+		$('#orderForm').submit(); 
+		}
+	  })
+	  
+	})
+						
+						
+						
+</script>
+
+</body>
+<!-- This script is for AceCounter START -->
+</html>

@@ -1,0 +1,352 @@
+@charset "UTF-8";
+
+/* ---------------------------------------------------------- */
+/* display_mod s ============================================ */
+.hsome_contents {
+	min-height:330px;
+}
+
+//base.scss
+a {
+  @include linkCursor();
+  font-weight:inherit;
+}
+
+button {
+  @include linkCursor();
+}
+
+fieldset {
+	margin:0;
+	padding:0;
+}
+
+//search.scss
+.sch_searchPhoto {
+	.btns {
+		.img_input_file_wrap {
+			display:inline-block;
+			font-size:12px;
+			color:$gray_fc2;
+			width:33%;
+			&+.img_input_file_wrap {
+				border-left:1px solid #e2e2e2;
+			}
+		}
+	}
+}
+
+//layer_popup.scss
+//댓글 입력 영역
+.sns_comment_ipt_pop{
+  .sns-comment-ipt {
+    &.actOn {
+      @include transform(translateY(0));
+    }
+  }
+}
+
+//form.scss
+.hs_search_input input[type="text"] {
+	line-height:20px !important;
+}
+.hs_tit_select{
+  position:relative;
+  height:23px;
+  &:after{
+    content:'';
+    display:block;
+    clear:both;
+    @include posa_tr(50%, 2px);
+    width:5px;
+    height:5px;
+    margin-top:-6px;
+    border-left:1px solid #222;
+    border-bottom:1px solid #222;
+    @include css3-prefix(transform, rotate(-45deg));
+  }
+  select{
+    padding:5px 18px 5px 0;
+    font-size:13px;
+    color:#222;
+    text-align-last:right;
+    text-align:-moz-right;
+    text-align:-webkit-right;
+    direction:rtl;
+    option{
+      direction:ltr;
+      text-align-last:right;
+      text-align:-moz-right;
+      text-align:-webkit-right;
+    }
+  }
+}
+
+//button.scss
+.hs_paging.assist {
+  padding: 20px 0;
+  /*.pre{float: left;}*/
+  /*.nxt{float: right;}*/
+}
+
+//header.scss
+header.header_fixed {
+  position:fixed !important;
+  top: 0;  
+  left:0;
+  width:100%;
+  background:$white;
+  border-bottom:1px solid $border_clr !important;
+  @include transform(translateY(-$hd_h) !important);
+  @include transition(top 0.3s ease-in-out);
+  z-index:100;
+  &.on {
+    @include transform(translateY(0) !important);
+  }
+}
+
+//quick.scss
+.hand_footer_gnb_wrap .shop_cont .smart_wrap .smart_list .left_tab .fcs {
+	display:none !important;
+}
+.hand_footer_gnb_wrap .shop_cont .smart_wrap .smart_list .left_tab li {
+	margin-top:0;
+	margin-bottom:37px;
+}
+//shop menu 재정의
+/*
+.hand_footer_gnb_wrap .shop_cont [class^="shop_list"] .two_depth {
+	padding:9px 25px 24px 15px;
+}
+.hand_footer_gnb_wrap .shop_cont [class^="shop_list"] .two_lists {
+	margin-top:0;
+}
+.hand_footer_gnb_wrap .shop_cont [class^="shop_list"] .two_link {
+	padding-top:16px;
+	padding-bottom:16px;
+}
+*/
+
+//main.scss
+.hsome_main {
+	.main_cont_tab .ui_tab li {
+    &.fcs {
+			display:none !important;
+    }
+  }
+  .magazine_cont {
+  	.txt_wrap {
+  		margin-bottom:initial;
+  		text-align:inherit;
+  		font-size:inherit;
+  	}
+  }
+}
+
+//etc.scss
+.omemship_graph_wrap {
+	.graph_wrap {
+		.graph {
+			cursor:pointer;
+		}
+		.grade {
+			color: $point_clr;
+		}
+	}
+}
+
+//quick.scss
+.hand_footer_gnb_wrap {
+	.shop_cont {
+		.smart_pop {
+			.filter_list {
+				.top_cont  {
+					.btn_wrap  {
+						width: auto;
+					}			
+				}		
+			}	
+		}	
+	}
+}
+
+//sns.scss
+.hs_sns_wrap {
+	.hs_sns_post_cont {
+		.pro_cont {
+			.btn_wrap {
+				width:auto;
+			}
+		}
+	}
+}
+.hs_sns_wrap .hs_sns_img_slide_wrap .swiper-pagination .swiper-pagination-bullet {
+	margin-left:0;
+}
+.sns_comment_ipt_pop .sns-comment-op {
+	touch-action: none; 
+	cursor:pointer;
+}
+.sns-comment-ipt.active.fcsng {
+	bottom:258px;
+}
+
+//product_list.scss, mypage.scss
+.mp_wishlist_wrap {
+	.hs_product_list {
+		.func_as {
+			a {
+				&:before {
+					background:none;
+				}
+				&.alt {
+          background:url("#{$img_url}#{$img_common_url}ico_restock.png") no-repeat center 10px;
+          @include css3-prefix(background-size, 17px auto);
+          &.on{
+            background:url("#{$img_url}#{$img_common_url}ico_restock_on.png") no-repeat center 10px;
+            @include css3-prefix(background-size, 17px auto);
+          }
+        }
+        &.del{
+          background:url("#{$img_url}#{$img_common_url}ico_bin_14.png") no-repeat center 10px;
+          @include css3-prefix(background-size, 14px auto);
+        }
+			}
+		}
+	}
+}
+.hs_product_list_wrap {
+	.hs_product_list {
+		.chk_mark {
+			min-width:36px;
+			height:36px;
+			padding-left:36px;
+			.mark {
+				width:21px;				
+				height:21px;
+			}
+		}
+	}
+}
+/* display_mod e ============================================ */
+/* ---------------------------------------------------------- */
+/* reset_magazine s ========================================= */
+/* base.scss */
+.renewal_mg_wrap {
+	* {
+		box-sizing:initial;
+	}
+	.txt_wrap {
+		margin-bottom:unset;
+		text-align:initial;
+		font-size:inherit;
+	}
+}
+
+/* header.scss*/
+header.hsome_header {
+	padding:0;
+	h1.h_select {
+		padding:0;
+		width:auto;
+		min-width:150px;
+		height:auto;
+		text-indent:initial;
+	}
+}
+
+/* footer.scss*/
+footer.hsome_footer {
+ .f_policy {
+ 		.language {
+	 		select {
+				font-size:11px;
+				line-height:normal;
+	 			padding-right:9px;
+				float:left;
+				height:auto;
+				padding-top:0;
+				padding-bottom:0;
+				background:none;
+				border:0;
+	 		}
+	 	}
+ 	} 
+}
+/* reset_magazine e ========================================= */
+/* ---------------------------------------------------------- */
+/* 20181022 new_fourm_main s ========================================= */
+
+.fourm_list_wrap{
+	width: 100%;
+
+	// bg colors
+	$f_studio: #f386a3;
+	$f_store: #d899c4;
+	$f_atelier: #efeba2;
+	$f_men: #38bdaa;
+	.fourm_list{
+		li{
+			position: relative;
+			width: 100%;
+			height: 158px;
+			padding-top: 15px;
+			text-align: center;
+			&:nth-child(odd){
+				padding-left: 6px;
+			}
+			&:nth-child(even){
+				padding-right: 6px;
+			}
+			//sub_tit : 22px
+			&.fourm_std{
+				background: $f_studio;
+			}
+			&.fourm_sto{
+				background: $f_store;
+			}
+			&.fourm_atl{
+				background: $f_atelier;
+				padding-left: 17px;
+			}
+			&.fourm_men{
+				background: $f_men;
+			}
+
+			a{
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: $white;
+				cursor: pointer;
+				color: $black;
+				.f_logo {
+					height: 15px;
+					margin-top: 15px;
+				}
+				.fourm_sub_txt{
+    			line-height: 1;
+    			&.top{
+    				display: block;
+    				padding-top: 35px;
+    				font-size: 12px;
+    			}
+    			&.btm{
+						position: absolute;
+    				left: 0;
+    				right: 0;
+    				bottom: 27px;
+    				font-size: 10px;
+    			}
+					> span {
+						border-bottom: 1px solid $black;
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+/* 20181022 new_fourm_main e ============================================ */

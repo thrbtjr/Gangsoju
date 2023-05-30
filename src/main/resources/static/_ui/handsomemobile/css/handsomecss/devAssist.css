@@ -1,0 +1,85 @@
+@charset "UTF-8";
+.main_back {position: absolute; width:100%; height:100%; background-color: #ffffff; top: 0; left: 0; right: 0; bottom: 0; display:block; z-index:10000;}
+/* common divpop s ========================================== */
+.divpop_wrap_dev { display: none; max-width: 600px; }
+
+.divpop_wrap_dev .dvp_close_btn { position: absolute; top: 7px; right: 7px; width: 30px; height: 30px; text-indent: -5000px; font-size: 0; background: url("../../images/common_sub/ico_close_14.png") no-repeat 50% 50%; -webkit-background-size: 14px auto; -khtml-background-size: 14px auto; -moz-background-size: 14px auto; -ms-background-size: 14px auto; -o-background-size: 14px auto; background-size: 14px auto; }
+
+.divpop_wrap_dev.dvp_style_1 { margin-right: 15px; margin-left: 15px; padding: 25px 20px 20px 20px; background: #fff; border: 1px solid #ccc; }
+
+.divpop_wrap_dev.dvp_style_1 .dvp_header { display: none; }
+
+.divpop_wrap_dev .desc_box { padding-top: 25px; padding-bottom: 25px; font-size: 16px; color: #222; text-align: center; }
+
+.divpop_wrap_dev .btn_wrap { margin-top: 20px; }
+
+.divpop_wrap_dev.pop_mbr { margin: 50% 0; padding: 0 15px; width: 100%; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container { position: relative; width: 100%; min-height: 200px; height: auto; padding: 15px 15px 20px; background: #fff; text-align: center; font-size: 16px; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .dvp_header { display: none; }
+
+/*.divpop_wrap_dev.pop_mbr .dvp_container .dvp_close_btn { top: 15px; right: 15px; width: 14px; height: 14px; background: url(../../images/common_sub/ico_close_14.png) no-repeat 50% 50%; }*/
+
+.divpop_wrap_dev.pop_mbr .dvp_container .dvp_content { width: 100%; height: 100%; margin-top: 14px; padding-top: 22px; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .dvp_content .desc_box { font-size: 16px; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap { width: 100%; margin-bottom: 10px; margin-bottom: 0; bottom: 0; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap .btn { width: 100%; display: block; height: 40px; font-size: 14px; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap .btn.btn_bg_b { background-color: #222; color: #fff; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap .btn.btn_bd_g { background-color: #fff; color: #222; border: 1px solid #ccc; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap.btns { display: block; clear: both; content: ''; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap.btns:after { display: block; clear: both; content: ''; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap.btns .btn { float: left; width: 49.4%; }
+
+.divpop_wrap_dev.pop_mbr .dvp_container .btn_wrap.btns .btn:first-of-type { margin-right: 1.2%; }
+
+.divpop_wrap_dev.pop_mbr.pop_alert_login_auto .dvp_container { padding-bottom: 15px; }
+
+.divpop_wrap_dev.pop_mbr.pop_alert_login_auto .dvp_container .dvp_content { padding-top: 16px; }
+
+.divpop_wrap_dev.pop_mbr.pop_alert_login_auto .dvp_container .btn_wrap { margin-bottom: 15px; }
+
+.divpop_wrap_dev.pop_mbr.pop_alert_login_auto .dvp_container .check_area { text-align: left; }
+
+.divpop_wrap_dev.pop_mbr.pop_alert_login_auto .dvp_container .check_area label { vertical-align: bottom; }
+
+/* common divpop s ========================================== */
+
+.hsome_setting_wrapper .setContents.dev_scene2 { position: fixed; top: 0; left: 0; width: 100%; padding: 75px 0 100px; }
+.hsome_setting_wrapper .setContents.dev_scene2.active { position: absolute; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setTitle2 { font-size: 19px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setStitle { font-size: 19px; font-weight: bold; margin-top: 30px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCategory { margin: 15px 12px 0; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCategory:after { display: block; clear: both; content: ''; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCategory li { float: left; width: calc(100%/3); padding: 0 3px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCategory li button { width: 100%; height: 40px; -webkit-border-radius: 25px; -moz-border-radius: 25px; border-radius: 25px; background-color: transparent; font-size: 15px; border: 1px solid #909192; color: #fff; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCategory li button.active { background-color: #f6f6f6; border: 0; color: #000; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand { margin: 30px 12px 0; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand:after { display: block; clear: both; content: ''; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li { float: left; width: 50%; padding: 0 3px; margin-top: 10px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button { float: left; width: 100%; height: 45px; position: relative; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button:before { position: absolute; top: 0; left: 0; content: ''; display: block; right: 0; bottom: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border: 1px solid #909192; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button i { display: block; margin: 0 auto; width: 169px; height: 45px; overflow: hidden; line-height: 500px;}
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button.b100 i {  }
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button.b100.active { background-color: #fff; color: #000; font-weight: bold;}
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button.b100.active:before { border-color: #fff; color: #000; font-weight: bold;}
+.hsome_setting_wrapper .setContents.dev_scene2 .setBrand li button.b100.active i { color: #000; font-weight: bold;}
+.hsome_setting_wrapper .setContents.dev_scene2 .setCheck { margin-left: 15px; text-align: left; margin-top: 20px; color: #888; font-size: 14px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCheck .chk { position: relative; display: block; min-height: 21px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCheck .chk input[type="checkbox"] + label { display: inline-block; position: relative; padding-left: 30px; font-size: 14px; color: #888; line-height: 22px; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCheck .chk input[type="checkbox"] + label:before { content: ''; display: block; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; overflow: hidden; width: 21px; height: 21px; position: absolute; top: 0; left: 0; background: transparent; border: 1px solid #888576; opacity: .5; }
+.hsome_setting_wrapper .setContents.dev_scene2 .setCheck .chk input[type="checkbox"]:checked + label:before { background: url("../../images/common/form.png") no-repeat -51px -51px; -webkit-background-size: 100px; -khtml-background-size: 100px; -moz-background-size: 100px; -ms-background-size: 100px; -o-background-size: 100px; background-size: 100px; }
+.hsome_setting_wrapper .setContents.dev_scene2 a.setBtn { position: fixed; top: 0; left: 0; top: auto; bottom: 0; width: 100%; height: 50px; overflow: hidden; line-height: 51px; background-color: #e35d5a; color: #fff; font-weight: bold; font-size: 16px; }
+.hsome_setting_wrapper .setContents.dev_scene2 a.swrCls { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; text-indent: -9999em; }
+.hsome_setting_wrapper .setContents.dev_scene2 a.swrCls:before, .hsome_setting_wrapper .setContents.dev_scene2 a.swrCls:after { content: ''; display: inline-block; position: absolute; top: 14px; clear: both; width: 20px; height: 2px; background-color: #fff; }
+.hsome_setting_wrapper .setContents.dev_scene2 a.swrCls:before { left: 5px; -webkit-transform: rotate(45deg); -khtml-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); }
+.hsome_setting_wrapper .setContents.dev_scene2 a.swrCls:after { right: 5px; -webkit-transform: rotate(-45deg); -khtml-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); }
+

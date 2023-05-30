@@ -1,0 +1,533 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+
+  <script type="text/javascript" th:fragment="popup_script">
+    /*
+    layer popup 형식의 alert 창
+    
+    ========================[example code]===========================
+    layerAlert('메세지를 입력하세요');
+    
+    var lc = new layerAlert('입력하신 정보가 변경완료 되었습니다.');
+    lc.confirmAction = function(){
+        //alert화면 실행후 후속 처리 부분 추가
+        location.href="/ko/mypage/order/myorders";
+    };
+    =============================================================
+    */
+
+    var btnConfirmText = "확인";
+    var btnCancleText = "취소";
+    var btnCloseText = "닫기";
+    var layerAlert = function (msg, refresh) {
+      btnConfirmText = "확인";
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      var alertTag = "";
+      alertTag += '<div class="dvp_container">';
+      alertTag +=
+        '	<div class="dvp_close_btn b-close" id="alertCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      alertTag += '	<h1 class="dvp_header"></h1>';
+      alertTag += '	<div class="dvp_content">';
+      alertTag += '		<div class="desc_box">' + msg + "</div>";
+      alertTag += "	</div>";
+      alertTag += '	<div class="btn_wrap">';
+      alertTag +=
+        '		<button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      alertTag += "	</div>";
+      alertTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(alertTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        },
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          if (refresh == true) location.reload();
+          $("#alertCloseDiv").click();
+          t.confirmAction();
+        });
+    };
+
+    /*
+    layer popup 형식의 alert 창 변형 -> 팝업창에서의 팝업창일 때 확인 누르거나 X 눌렀을 때 holdBodyHide();를 타면서 Gnb가 나타나는 현상 때문에 layerAlertGnb로 하나 추가하여
+    refresh 변수 제거, onClose function 제거
+    
+    ========================[example code]===========================
+    layerAlertGnb('메세지를 입력하세요');
+    
+    var la = new layerAlertGnb('입력하신 정보가 변경완료 되었습니다.');
+    
+    =============================================================
+    */
+    var layerAlertGnb = function (msg) {
+      btnConfirmText = "확인";
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      var alertTag = "";
+      alertTag += '<div class="dvp_container">';
+      alertTag +=
+        '	<div class="dvp_close_btn b-close" id="alertCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      alertTag += '	<h1 class="dvp_header"></h1>';
+      alertTag += '	<div class="dvp_content">';
+      alertTag += '		<div class="desc_box">' + msg + "</div>";
+      alertTag += "	</div>";
+      alertTag += '	<div class="btn_wrap">';
+      alertTag +=
+        '		<button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      alertTag += "	</div>";
+      alertTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(alertTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          //if(refresh==true) location.reload(); //refresh check 제거
+          $("#alertCloseDiv").click();
+          t.confirmAction();
+        });
+    };
+
+    /*
+    layer popup 형식의 confirm 창
+    
+    
+    
+    ========================[example code]===========================
+    
+    var lc = new layerConfirm('메세지를 입력하세요', '확인버튼', '취소버튼');
+    lc.confirmAction = function(){
+        console.log('재정의한 함수입니다.');
+    };
+    
+    =============================================================
+    
+    */
+    var layerConfirm = function (msg, confirmMsg, cancleMsg) {
+      var t = this;
+
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+      this.cancleAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      if (confirmMsg != "") {
+        btnConfirmText = confirmMsg;
+      } else {
+        btnConfirmText = "확인";
+      }
+      if (cancleMsg != "") {
+        btnCancleText = cancleMsg;
+      } else {
+        btnCancleText = "취소";
+      }
+
+      var confirmTag = "";
+      confirmTag += '<div class="dvp_container">';
+      confirmTag +=
+        '	<div class="dvp_close_btn b-close" id="confirmCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      confirmTag += '	<div class="dvp_content">';
+      confirmTag += '		<div class="desc_box">' + msg + "</div>";
+      confirmTag += "	</div>";
+      confirmTag += '	<div class="btn_wrap btns">';
+      confirmTag +=
+        '		<button class="btn btn_bd_g btn-alert-close">' +
+        btnCancleText +
+        "</button>";
+      confirmTag +=
+        '		<button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      confirmTag += "	</div>";
+      confirmTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(confirmTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        },
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-close")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.cancleAction();
+        });
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.confirmAction();
+        });
+    };
+
+    /*
+    layer popup 형식의 confirm 창
+    특정 ios 기종에서 하단 버튼부분이 짤려나오는 현상이 있어서 ios용으로 별도 생성
+    */
+    var layerConfirmIos = function (msg, confirmMsg, cancleMsg) {
+      var t = this;
+
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+      this.cancleAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      if (confirmMsg != "") {
+        btnConfirmText = confirmMsg;
+      } else {
+        btnConfirmText = "확인";
+      }
+      if (cancleMsg != "") {
+        btnCancleText = cancleMsg;
+      } else {
+        btnCancleText = "취소";
+      }
+
+      var confirmTag = "";
+      confirmTag += '<div class="dvp_container">';
+      confirmTag +=
+        ' <div class="dvp_close_btn b-close" id="confirmCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      confirmTag += ' <div class="dvp_content">';
+      confirmTag += ' <div class="desc_box">' + msg + "</div>";
+      confirmTag += " </div>";
+      confirmTag += ' <div class="btn_wrap btns">';
+      confirmTag +=
+        ' <button class="btn btn_bd_g btn-alert-close">' +
+        btnCancleText +
+        "</button>";
+      confirmTag +=
+        ' <button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      confirmTag += " </div>";
+      confirmTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(confirmTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        },
+      });
+      $(".divpop_wrap_dev.pop_alert_confirm").css({
+        top: "50%",
+        margin: "0",
+        transform: "translate3d(0, -50%, 0)",
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-close")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.cancleAction();
+        });
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.confirmAction();
+        });
+    };
+
+    /*
+     * var lc = new layerConfirm2('메세지를 입력하세요', '취소버튼', '확인버튼');
+     */
+    var layerConfirm2 = function (msg, confirmMsg, cancleMsg) {
+      var t = this;
+
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+      this.cancleAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      if (confirmMsg != "") {
+        btnConfirmText = confirmMsg;
+      } else {
+        btnConfirmText = "확인";
+      }
+      if (cancleMsg != "") {
+        btnCancleText = cancleMsg;
+      } else {
+        btnCancleText = "취소";
+      }
+
+      var confirmTag = "";
+      confirmTag += '<div class="dvp_container">';
+      confirmTag +=
+        ' <div class="dvp_close_btn b-close" id="confirmCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      confirmTag += ' <div class="dvp_content">';
+      confirmTag += '     <div class="desc_box">' + msg + "</div>";
+      confirmTag += " </div>";
+      confirmTag += ' <div class="btn_wrap btns">';
+      confirmTag +=
+        '     <button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      confirmTag +=
+        '     <button class="btn btn_bd_g btn-alert-close">' +
+        btnCancleText +
+        "</button>";
+      confirmTag += " </div>";
+      confirmTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(confirmTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        },
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-close")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.cancleAction();
+        });
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          $("#confirmCloseDiv").click();
+          t.confirmAction();
+        });
+    };
+
+    var editableLayer = function (msg, style, refresh) {
+      btnConfirmText = "확인";
+      var t = this;
+      this.confirmAction = function () {
+        //console.log('함수를 재정의 해주세요!');
+      };
+
+      var alertTag = "";
+      alertTag += '<div class="dvp_container" style="' + style + '">';
+      alertTag +=
+        '   <div class="dvp_close_btn b-close" id="alertCloseDiv"><span>' +
+        btnCloseText +
+        "</span></div>";
+      alertTag += '   <h1 class="dvp_header"></h1>';
+      alertTag += '   <div class="dvp_content" style="margin-top: -21px;">';
+      alertTag += '       <div class="desc_box">' + msg + "</div>";
+      alertTag += "   </div>";
+      alertTag += '   <div class="btn_wrap" style="margin-top: 0px;">';
+      alertTag +=
+        '       <button class="btn btn_bg_b btn-alert-confirm">' +
+        btnConfirmText +
+        "</button>";
+      alertTag += "   </div>";
+      alertTag += "</div>";
+
+      $("#popAlertConfirmDiv").html(alertTag);
+
+      $(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+        follow: [false, false],
+        escClose: false,
+        modalClose: false,
+        opacity: 0.3,
+        positionStyle: "fixed",
+        onClose: function () {
+          holdBodyHide();
+          $("#popAlertConfirmDiv").html("");
+        },
+      });
+      holdBodyShow();
+
+      $("#popAlertConfirmDiv")
+        .find(".btn-alert-confirm")
+        .click(function () {
+          if (refresh == true) location.reload();
+          $("#alertCloseDiv").click();
+        });
+      $("#alertCloseDiv").click(function () {
+        t.confirmAction();
+      });
+    };
+
+    function updateLocation() {
+      $.ajax({
+        type: "POST",
+        url: "/ko/mobilecommon/updateLocation",
+        datatype: "json",
+        data: {
+          CSRFToken: "1acbd0eb-432f-40fa-add1-e9475ad978e2",
+          provideLocationYN: $("#isChcked").val(),
+        },
+        error: function (request, status, error) {
+          // 			console.log( "code:" + request.status+"\n\n\n\n" + "message:" + request.responseText+"\n\n\n\n" + "error:" + error );
+        },
+        success: function (result) {
+          if (result == "SUCCESS") {
+          }
+        },
+      });
+    }
+
+    function updatePush() {
+      $.ajax({
+        type: "POST",
+        url: "/ko/mobilecommon/updatePush",
+        datatype: "json",
+        data: {
+          CSRFToken: "1acbd0eb-432f-40fa-add1-e9475ad978e2",
+          pushCd: $("#pushCd").val(),
+          pushVal: $("#pushVal").val(),
+        },
+        error: function (request, status, error) {
+          // 			console.log( "code:" + request.status+"\n\n\n\n" + "message:" + request.responseText+"\n\n\n\n" + "error:" + error );
+        },
+        success: function (result) {
+          if (result == "SUCCESS") {
+          }
+        },
+      });
+    }
+
+    function AppCallLocation(result) {
+      $("#isChcked").val(result);
+      updateLocation();
+    }
+
+    function AppCallPushAll(result) {
+      $("#pushCd").val("all");
+      $("#pushVal").val(result);
+      updatePush();
+    }
+
+    function AppCallPushOrder(result) {
+      $("#pushCd").val("order");
+      $("#pushVal").val(result);
+      updatePush();
+    }
+
+    function AppCallPushEvent(result) {
+      $("#pushCd").val("event");
+      $("#pushVal").val(result);
+      updatePush();
+    }
+
+    function AppCallPushBenefit(result) {
+      $("#pushCd").val("benefit");
+      $("#pushVal").val(result);
+      updatePush();
+    }
+
+    function AppCallPushSilent(result) {
+      $("#pushCd").val("silent");
+      $("#pushVal").val(result);
+      updatePush();
+    }
+  </script>
+
+  <div th:fragment="popup_html">
+    <div
+      class="divpop_wrap_dev pop_mbr pop_alert_confirm"
+      id="popAlertConfirmDiv"
+    ></div>
+    <!-- layerpopupContent s -->
+    <!-- hsome_layer_menu_contents | 레이어팝업메뉴 컨텐츠 영역 s -->
+    <!-- depth1 s -->
+    <div class="hsome_layerpop_contents lp_depth1"></div>
+    <!-- depth1 e -->
+    <!-- depth2 s -->
+    <div class="hsome_layerpop_contents lp_depth2"></div>
+    <!-- depth2 e -->
+    <!-- depth3 s -->
+    <div class="hsome_layerpop_contents lp_depth3"></div>
+    <!-- depth3 e -->
+    <!-- depth4 s -->
+    <div class="hsome_layerpop_contents lp_depth4"></div>
+    <!-- depth4 e -->
+    <!-- depth5 s -->
+    <div class="hsome_layerpop_contents lp_depth5"></div>
+    <!-- depth5 e -->
+    <!-- depth6 s -->
+    <div class="hsome_layerpop_contents lp_depth6"></div>
+    <!-- depth6 e -->
+    <!-- depth7 s -->
+    <div class="hsome_layerpop_contents lp_depth7"></div>
+    <!-- depth7 e -->
+    <!-- depth8 s -->
+    <div class="hsome_layerpop_contents lp_depth8"></div>
+    <!-- depth8 e -->
+  </div>
+</html>

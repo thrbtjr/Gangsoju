@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hd03.gangsoju.mapper.ProductMapper">
+
+	<!-- 상품 상세 -->
+	<resultMap id="productDetailMap"
+		type="com.hd03.gangsoju.domain.product.ProductDetailCommonVO">
+		<result property="pid" column="pid" />
+		<result property="pname" column="pname" />
+		<result property="pnote" column="pnote" />
+		<result property="bno" column="bno" />
+		<result property="bname" column="bname" />
+		<result property="pstatus" column="pstatus" />
+		<collection property="colors"
+			resultMap="productDetailColorMap" />
+	</resultMap>
+
+	<resultMap id="productDetailColorMap"
+		type="com.hd03.gangsoju.domain.product.ProductDetailColorPerSizeVO">
+		<result property="pcid" column="pcid" />
+		<result property="pcimg1" column="pcimg1" />
+		<result property="pcimg2" column="pcimg2" />
+		<result property="pcimg3" column="pcimg3" />
+		<result property="pcchipimg" column="pcchipimg" />
+		<result property="pccolorcode" column="pccolorcode" />
+		<result property="pcprice" column="pcprice" />
+		<result property="pid" column="pid" />
+		<collection property="sizes"
+			resultMap="productDetailSizeMap" />
+	</resultMap>
+
+	<resultMap id="productDetailSizeMap"
+		type="com.hd03.gangsoju.domain.product.ProductDetailSizeVO">
+		<result property="psid" column="psid" />
+		<result property="psstock" column="psstock" />
+		<result property="psize" column="psize" />
+		<result property="pcid" column="pcid" />
+	</resultMap>
+
+	<select id="getProductDetail" resultMap="productDetailMap">
+		select p.pid, pname,
+		pnote, p.bno, b.bname, pstatus,
+		pc.pcid, pcimg1, pcimg2, pcimg3,
+		pcchipimg,
+		pccolorcode, pcprice, pc.pid,
+		psid, psstock, psize, pc.pcid
+		from
+		product_common p join product_color pc on p.pid = pc.pid join
+		product_stock ps
+		on pc.pcid = ps.pcid
+		join brand b
+		on p.bno = b.bno
+		where
+		p.pid = #{pid}
+	</select>
+
+	<!-- 추천 상품 -->
+	<resultMap id="recommendProd"
+		type="com.hd03.gangsoju.domain.product.RecommendProdListDTO">
+		<result property="bname" column="bname" />
+		<result property="pcid" column="pcid" />
+		<result property="pcimg1" column="pcimg2" />
+		<result property="pcprice" column="pcprice" />
+	</resultMap>
+
+	<select id="getRecommendProdList" resultMap="recommendProd">
+	   <![CDATA[
+		   	select p.pname, b.bname, pc.pcid, pc.pcimg2, pc.pcprice
+			from product_common p join product_color pc on p.pid = pc.pid 
+				join brand b on p.bno = b.bno
+			where p.bno = #{bno} and pcid not like #{pid} and rownum <= 7
+		]]>
+	</select>
+
+	<!-- 함께 코디한 상품 -->
+	<resultMap id="SimpleProduct"
+		type="com.hd03.gangsoju.domain.product.SimpleProductDTO">
+		<id property="pid" column="pid" />
+		<result property="pcid" column="pcid" />
+		<result property="bno" column="bno" />
+		<result property="bname" column="bname" />
+		<result property="pname" column="pname" />
+		<result property="pcimg2" column="pcimg2" />
+		<result property="pcprice" column="pcprice" />
+		<collection property="colors"
+			ofType="com.hd03.gangsoju.domain.product.SimpleColorDTO">
+			<id property="pcid" column="pcid" />
+			<result property="pcchipimg" column="pcchipimg" />
+			<result property="pccolorcode" column="pccolorcode" />
+			<result property="pcimg2" column="pcimg2"/>
+		</collection>
+	</resultMap>
+
+	<select id="getWithCodyList" resultMap="SimpleProduct">
+		<![CDATA[
+			select p.pid, p.bno, b.bname, p.pname,
+				pc.pcid, pc.pcimg2, pc.pcprice, pc.pcchipimg, pc.pccolorcode
+			from product_color pc join product_common p on pc.pid = p.pid join 
+				brand b on p.bno = b.bno
+			where p.pid in
+				(
+					select REGEXP_SUBSTR(withpcid,'[^_]+',1,1) withpcid 
+					from with_product 
+					where pcid = #{pcid}
+				)
+		]]>
+	</select>
+	
+	<!-- 상품 상세_ 새로운 정보 -->
+	<resultMap id="reloadProdInfo" type="com.hd03.gangsoju.domain.product.ReloadProdDTO">
+		<result property="pcid" column="pcid" />
+		<result property="pcimg2" column="pcimg2" />
+		<result property="pcprice" column="pcprice" />
+		<collection property="sizes"
+			resultMap="productDetailSizeMap" />
+	</resultMap>
+	<select id="reloadProd" resultMap="reloadProdInfo">
+		select pc.pcid, pcimg2, pc.pcprice, ps.psid, ps.psize, psstock
+		from product_color pc join product_stock ps on pc.pcid = ps.pcid
+		where pc.pcid = #{pcid}
+	</select>
+
+
+	<!-- 상품 리스트 대분류 -->
+	<select id="getProdListByCate" resultMap="SimpleProduct">
+		select p.pid, p.bno, b.bname, p.pname, pc.pcid, pc.pcimg2, pc.pcprice,
+		pc.pcchipimg,pc.pccolorcode
+		from product_common p join product_color pc
+		on p.pid = pc.pid join brand b
+		on p.bno = b.bno
+		where pc.pid in (
+		<foreach collection="pids" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<!-- OFFSET: 시작행(이 다음부터), NEXT: 나올 만큼 -->
+	<select id="getPidList" resultType="String">
+	<![CDATA[
+			SELECT pid
+		FROM (
+			SELECT
+	        	ROW_NUMBER () OVER (ORDER BY cate.pid) as row_num, cate.pid
+		    FROM  product_category cate join product_common p on cate.pid = p.pid
+		    WHERE cateno like '%'||#{cateno}||'%'
+		    OFFSET #{offset} ROWS FETCH NEXT 14 ROWS ONLY
+		)
+	]]>
+	</select>
+
+	<select id="getProdListCount" resultType="int">
+		select count(*) FROM
+		product_category cate join product_common p on cate.pid = p.pid
+		WHERE
+		cateno like '%'||#{cate}||'%'
+	</select>
+
+	<!-- 카테고리 리스트 가져오기 -->
+	<resultMap id="categorySet"
+		type="com.hd03.gangsoju.domain.product.CategorySetVO">
+		<id property="parentCategory.cateno" column="parent_no" />
+		<result property="parentCategory.catename" column="parent_name" />
+		<collection property="categories" resultMap="category" />
+	</resultMap>
+
+	<resultMap id="category"
+		type="com.hd03.gangsoju.domain.product.Category">
+		<result property="cateno" column="cateno" />
+		<result property="catename" column="catename" />
+	</resultMap>
+
+	<!-- 대분류 + 중분류 리스트 -->
+	<select id="getCategoryNamesDepth1" resultMap="categorySet">
+		select distinct
+		substr(cateno, 0, 2) as parent_no, depth1name as parent_name,
+		substr(cateno, 0, 4) as cateno, depth2name as catename
+		from category
+		where cateno like '%'||#{cate}||'%'
+		order by 3
+	</select>
+
+	<!-- 중+ 소분류 -->
+	<select id="getCategoryNamesDepth2or3" resultMap="categorySet">
+		select distinct
+		substr(cateno, 0, 4) as parent_no, depth2name as parent_name, cateno,
+		depth3name as catename
+		from category
+		where cateno like '%'||#{cate}||'%'
+		order by 3
+	</select>
+
+	<!-- 모든 대분류 -->
+	<select id="getDepth1Categories" resultMap="category">
+		select distinct
+		substr(cateno, 0, 2) as cateno, depth1name as catename
+		from category
+		order by 1 desc
+	</select>
+
+	<!-- 모든 중분류 -->
+	<select id="getDepth2Categories" resultMap="category">
+		select distinct
+		substr(cateno, 0, 4) as cateno, depth2name as catename
+		from category
+		where cateno like '%'||#{cate}||'%'
+		order by 1
+	</select>
+
+	<!-- 모든 소분류 -->
+	<select id="getDepth3Categories" resultMap="category">
+		select distinct
+		cateno, depth3name as catename
+		from category
+		where cateno like
+		'%'||#{cate}||'%'
+		order by 1
+	</select>
+
+	<!-- 브랜드 -->
+	<!-- 브랜드 정보 -->
+	<select id="findOneBrandInfo" resultMap="category">
+		select bno as cateno,
+		bname as catename
+		from brand
+		where bno = #{bno}
+	</select>
+
+	<!-- 해당 브랜드에 포함된 카테고리들 -->
+	<select id="findBigCategoryFromBrand" resultMap="categorySet">
+		select
+		distinct
+		b.bno as parent_no, bname as parent_name, substr(c.cateno, 0, 2) as
+		cateno, depth1name as catename
+		from
+		product_category pc join category c
+		on pc.cateno = c.cateno join
+		product_common p on pc.pid = p.pid join
+		brand b on b.bno = p.bno
+		where
+		p.pid
+		in(
+		select pid from product_Common
+		where bno in #{bno}
+		)
+		group by
+		b.bno, bname, depth1name, c.cateno
+		order by
+		3 desc
+	</select>
+
+	<!-- 상품 개수 -->
+	<select id="prodCountFromBrand" resultType="int">
+		select count(pid)
+		from product_common
+		where bno = #{bno}
+	</select>
+
+	<select id="prodCountFromBrandAndCateno" resultType="int">
+		select
+		count(*)
+		from product_common p join product_category pc on p.pid =
+		pc.pid
+		where bno
+		= #{bno} and cateno like '%'||#{cateno}||'%'
+	</select>
+
+	<!-- 해당 브랜드들의 상품들 모두 -->
+	<select id="findAllPidsFromBrand" resultType="String">
+		SELECT pcid
+		FROM (
+		SELECT
+		ROW_NUMBER () OVER ( ORDER BY #{sort} ) as row_num, pc.pcid, pcprice
+		FROM brand b join product_common p on b.bno = p.bno 
+		join product_color pc on p.pid = pc.pid
+		WHERE p.bno = #{bno}
+		OFFSET
+		#{offset} ROWS FETCH NEXT 14 ROWS ONLY
+		) order by #{sort}
+	</select>
+
+	<select id="findAllProductsFromBrand" resultMap="SimpleProduct">
+		select p.pid, pname, b.bno, bname, pstatus, pc.pcid, pcimg2,
+		pcchipimg,
+		pccolorcode,
+		pcprice, preleasedate
+		from product_common p join product_color pc on p.pid = pc.pid 
+		join brand b on p.bno = b.bno
+		where
+		pc.pcid in (
+		<foreach collection="pids" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<!-- 해당 브랜드+카테고리에 해당하는 상품리스트 -->
+	<select id="getPidListByBrandAndCategory" resultType="String">
+		SELECT pid
+		FROM (
+		SELECT
+		ROW_NUMBER () OVER (ORDER BY p.pid) as row_num, p.pid
+		FROM
+		brand b join product_common p on b.bno = p.bno join product_category
+		pc on p.pid = pc.pid
+		WHERE p.bno = #{bno} and pc.cateno like
+		'%'||#{cate}||'%'
+		OFFSET 0 ROWS FETCH NEXT 14 ROWS ONLY
+		)
+	</select>
+
+	<select id="getProdListByBrandAndCategory"
+		resultMap="SimpleProduct">
+		select p.pid, pname, b.bno, bname, pstatus, pcid, pcimg2,
+		pcchipimg,
+		pccolorcode,
+		pcprice, preleasedate
+		from product_common p join
+		product_color pc on
+		p.pid = pc.pid join brand b on p.bno = b.bno
+		join
+		product_category pcc on p.pid = pcc.pid
+		where
+		p.pid in (
+		<foreach collection="pids" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</select>
+
+	<!-- 메인 -->
+	<!-- 신상품 -->
+	<resultMap id="productForMain"
+		type="com.hd03.gangsoju.domain.product.ProductMainpDTO">
+		<result property="pcid" column="pcid" />
+		<result property="pname" column="pname" />
+		<result property="pcimg2" column="pcimg1" />
+		<result property="pcprice" column="pcprice" />
+		<result property="bname" column="bname" />
+		<result property="cateno" column="cateno" />
+	</resultMap>
+
+	<select id="getNewestProducts" resultMap="productForMain">
+		select distinct
+		pc.pcid, p.pname, pcimg1, pcprice, b.bname, preleasedate,
+		substr(cate.cateno, 0, 2) as cateno
+		from product_color pc join
+		product_category cate on pc.pid = cate.pid join product_common p on
+		pc.pid = p.pid join brand b on p.bno = b.bno
+		where
+		to_char(preleasedate, 'yyyy-mm') = #{date} and cate.cateno
+		like
+		#{cateno}||'%'
+		order by preleasedate desc
+	</select>
+
+	<select id="getNewestCategories"
+		resultType="com.hd03.gangsoju.domain.product.CategoryForMainDTO">
+		select cateno,
+		catename, count(*) totalProdCnt
+		from(
+		select
+		distinct substr(c.cateno, 0, 2) as cateno, c.depth1name as catename,
+		pc.pcid, count(c.cateno) as totalProdCnt
+		from category c join
+		product_category cate on c.cateno = cate.cateno
+		join product_common p
+		on p.pid = cate.pid
+		join product_color pc on pc.pid = p.pid
+		where
+		to_char(pc.preleasedate, 'yyyy-mm') = #{date}
+		group by
+		substr(c.cateno,
+		0, 2), c.depth1name, pc.pcid
+		)
+		group by cateno,
+		catename
+		order by cateno
+		desc
+	</select>
+
+	<!-- 베스트 -->
+
+	<select id="getBestCategories"
+		resultType="com.hd03.gangsoju.domain.product.CategoryForMainDTO">
+		select distinct substr(cate.cateno, 0,2) as cateno,
+		cate2.depth1name as
+		catename
+		from (
+		select
+		REGEXP_SUBSTR(product_stock.psid,'[^_]+',1,1) as
+		pid, oicount
+		from
+		order_item join product_stock on order_item.psid =
+		product_stock.psid
+		join orders on order_item.oid = orders.oid
+		where
+		to_char(odate,
+		'yyyy-mm') between #{date} and #{date2}
+		group by
+		REGEXP_SUBSTR(product_stock.psid,'[^_]+',1,1), oicount
+		order by 2 desc
+		) oi join product_common p on oi.pid = p.pid
+		join product_category cate
+		on p.pid = cate.pid
+		join category cate2 on cate.cateno = cate2.cateno
+		group by substr(cate.cateno, 0,2), cate2.depth1name
+		order by 1 desc
+	</select>
+
+	<select id="getBestProducts" resultMap="productForMain">
+		select pc.pcid, p.pname,
+		pc.pcimg1, pc.pcprice, b.bname, substr(cate.cateno, 0, 2) as cateno
+		from (
+		select
+		REGEXP_SUBSTR(pss.psid,'[^_]+',1,1)||'_'||REGEXP_SUBSTR(pss.psid,'[^_]+',1,2)
+		as pcid, count(*) as cnt
+		from orders oo join order_item ooi on oo.oid = ooi.oid
+		join product_stock pss on pss.psid = ooi.psid
+		where to_char(odate, 'yyyy-mm') between #{date} and #{date2}
+		group by
+		REGEXP_SUBSTR(pss.psid,'[^_]+',1,1)||'_'||REGEXP_SUBSTR(pss.psid,'[^_]+',1,2)
+		order by 2 desc
+		) o join product_color pc on o.pcid = pc.pcid
+		join product_common p on p.pid = pc.pid
+		join brand b on p.bno = b.bno
+		join product_category cate on p.pid = cate.pid
+		where cate.cateno like #{cateno}||'%'
+		group by pc.pcid, p.pname, pc.pcimg1, pc.pcprice, b.bname,
+		substr(cate.cateno, 0, 2)
+	</select>
+	
+	<!-- 검색 -->
+	<select id="searchProducts" resultType="com.hd03.gangsoju.domain.product.SearchProductDTO">
+	<![CDATA[
+		      select pc.pcid, pname, pcimg2, pcprice, bname
+      from product_color pc join product_common p on pc.pid = p.pid
+      join brand b on b.bno = p.bno
+      where (pname like '%'||#{word}||'%' or bname like '%'||#{word}||'%' or pc.pcid like '%'||#{word}||'%' ) and rownum <= 100
+			]]>
+	</select>
+
+</mapper>

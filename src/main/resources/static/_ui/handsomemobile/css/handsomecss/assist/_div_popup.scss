@@ -1,0 +1,227 @@
+@charset "UTF-8";
+// ========================================================== */
+// version : div_popup.scss v1 */
+// wirter : IDR Ryu */
+// date : 20180525 */
+// ========================================================== */
+/* ---------------------------------------------------------- */
+/* common divpop s ========================================== */
+.divpop_wrap {
+	display:none;
+	max-width:600px;
+	max-height:96%;
+	overflow:auto;
+	.dvp_close_btn {
+		//@include posa_tr($con_pd, $con_pd);
+		//width:14px;
+		//height:14px;
+		@include posa_tr(7px, 7px);
+		width:30px;
+		height:30px;
+		@include t_idt();
+		background:url("#{$img_url}#{$img_common_url}ico_close_14.png") no-repeat 50% 50%;
+    @include css3-prefix(background-size, 14px auto);
+	}
+	.dvp_header {
+		padding-top:$con_pd;
+		font: {
+			size:19px;
+			weight:$b;
+		}
+		text-align:center;
+	}
+	.desc_box {
+		padding-top:$con_pd3;
+		padding-bottom:$con_pd3;
+		font: {
+			size:16px;
+		}
+		color:$black;
+		text-align:center;
+		line-height:24px;
+	}
+	.btn_wrap {
+		margin-top:$con_pd2;
+	}
+	&.dvp_style_1 {
+		margin-right:$con_pd;
+		margin-left:$con_pd;
+		padding:$con_pd3 $con_pd2 $con_pd2 $con_pd2;
+		// width:345px;
+		width:92%;
+		max-width:345px;
+		min-height:200px;
+		background:$white;
+		.dvp_header {display:none;}
+	}
+	&.dvp_style_2 {
+		margin-right:$con_pd;
+		margin-left:$con_pd;
+		padding:$con_pd3 $con_pd2 $con_pd2 $con_pd2;
+		// width:345px;
+		width:92%;
+		max-width:345px;
+		min-height:200px;
+		background:$white;
+		.desc_box {
+			font-size:14px;
+			line-height:22px;
+			text-align:left;
+		}
+		.btn_wrap {
+			margin-top:$con_pd2;
+			padding-top:$con_pd2;
+			border-top:1px solid $border_clr;
+		}
+	}
+	&.dvp_style_3 {
+		margin-right:$con_pd;
+		margin-left:$con_pd;
+		padding:$con_pd3 $con_pd2 $con_pd2 $con_pd2;
+		// width:345px;
+		width:92%;
+		max-width:345px;
+		min-height:200px;
+		background:$white;
+		.desc_box {
+			font-size:14px;
+			line-height:22px;
+			text-align:left;
+		}
+		.btn_wrap {
+			margin-top:0;
+		}
+	}
+}
+
+.tooltip_wrap {
+  display:none;
+  float:left;
+  width:100%;
+  padding:$con_pd2 $con_pd2 $con_pd2 $con_pd;
+  background:$white_gray;
+  border:1px solid $border_clr3;
+  border-radius:5px;
+  .tltp_close_btn {
+    @include posa_tr(10px, 11px);
+    width:10px;
+    height:10px;
+    @include t_idt();    
+    background:url("#{$img_url}#{$img_common_url}ico_close_10_gray.png") no-repeat 50% 50%;
+    @include css3-prefix(background-size, 10px auto);
+  }
+  .tltp_header {display:none;}
+  .tltp_content {
+    width:100%;
+    font: {
+      size:12px;
+    }
+    > * {
+    	color: $default_fc;
+    }
+  }
+}
+
+.tooltip_shoppingbag_add {
+	.shoppingbag_img,
+	.ul_dot_blk {
+		float:left;
+	}
+	.shoppingbag_img {
+		width:30%;
+		img {margin-top:15%;width:100%;}
+	}
+	.ul_dot_blk {
+		margin-left:5%;
+		width:65%;
+		line-height:18px;
+	}
+}
+.tooltip_buy_point_guide {
+	.ul_dot_blk {
+		line-height:18px;
+	}
+}
+
+.pop_store_edit,
+.pop_phone_certi,
+.pop_pw_confirm {width:90%;}
+/* common divpop s ========================================== */
+/* ---------------------------------------------------------- */
+/* each divpop s ============================================ */
+//매장수령변경
+.pop_store_edit {}
+
+//휴대폰인증
+.pop_phone_certi {
+}
+
+//비밀번호 재확인
+.pop_pw_confirm {
+}
+
+//구매자동의
+.pop_agree_third_party {
+
+}
+
+//쿠폰/포인트적용
+.pop_coupon_point_summary {
+	width:90%;
+	.ul_dot {
+		width:auto;
+		li {
+			background-position:0 7px;
+		}
+	}
+	.total_price_detail {
+		li {
+			.ttpd_tit,
+			.ttpd_con {
+				font-size:13px;
+				color:$gray_fc;
+			}
+			.ttpd_tit {
+				width:60%;
+			}
+			.ttpd_con {
+				width:38%;
+			}
+		}
+		li {
+			&.total_sum {
+				margin-top:$con_pd;
+				padding-top:$con_pd;
+				padding-left:0;
+				background:none;
+				border-top:1px solid $border_clr;
+				.ttpd_tit,
+				.ttpd_con {
+					font-size:16px;
+					font-weight:$b;
+				}
+				.ttpd_con {
+					color:$point_clr !important;
+				}
+			}
+		}
+	}
+}
+
+//환경설정변경알림
+.pop_browser_setup_notice {
+	.dvp_tit {
+		padding-top:$con_pd;
+		padding-bottom:$con_pd;
+		font-size:14px;
+		font-weight:bold;
+	}
+	.ul_dot_blk {
+		padding-bottom:$con_pd;
+		li {
+			font-size:13px;
+			line-height:20px;
+		}
+	}
+}
+/* each divpop e ============================================ */

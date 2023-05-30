@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* 메인 app다운로드 팝업 (20210521) */
+.popupwrap.app-down{position:fixed; bottom:48px; left:0; width:100%; z-index:9999; background-color:rgba(0, 0, 0, 0.8); box-sizing:border-box;}
+.popupwrap.app-down .blind{font-size:0; overflow:hidden; display:block; text-indent:-99999px; color:transparent;}
+.popupwrap.app-down .popup-in{position:relative; padding:28px 30px 17px;}
+.popupwrap.app-down .con{display:flex; justify-content:center; align-items:center;}
+.popupwrap.app-down .con .sb-logo{width:65px; margin-right:21px;}
+.popupwrap.app-down .con .sb-logo img{width:100%;}
+.popupwrap.app-down .con .guide-text strong{font-size:14px; color:#fff;}
+.popupwrap.app-down .con .guide-text p{font-size:14.5px; color:#fff;}
+.popupwrap.app-down .app-btn{margin-top:25px;}
+.popupwrap.app-down .app-btn a{display:block; background-color:#d9625e; height:45px; line-height:45px; text-align:center; max-width:365px; margin:0 auto;}
+.popupwrap.app-down .app-btn a span{font-size:17px; color:#fff; vertical-align:middle;}
+.popupwrap.app-down .app-btn a .down-mark{background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/main/m-appdown-mark-icon.png) 0 0 no-repeat; width:16.5px; height:17px; background-size:16.5px auto; display:inline-block; vertical-align:middle; text-align:center; margin-left:3px;}
+.popupwrap.app-down .close-btn{position:absolute; top:1px; right:20px;}
+.popupwrap.app-down .close-btn .close-btn-icon{background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/main/m-appdown-close-icon.png) center center no-repeat; background-size:12px auto; width:12px; height:12px; display:block; padding:10px; box-sizing: content-box;}
+
+@media (max-width:350px) {
+  .popupwrap.app-down .con .guide-text p{font-size:13px;}
+}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hd03.gangsoju.mapper.MemberMapper">
+ 	<select id="findByEmail" resultType="com.hd03.gangsoju.domain.member.LoginMemberDTO">
+		select mid, mpassword, mname, memail, mbirth, mrole
+		from member
+		where mid = #{memberId} and menabled=0
+	</select>
+	
+	<insert id="insertMember">
+	insert into member(MID,MPASSWORD,MNAME,MEMAIL,MPHONE,MTEL,MZIPCODE,
+						MADDRESS1,MADDRESS2,MBIRTH,MGENDER,MREFID,MLOGINTYPE,
+						MTOSNO,MENABLED,MROLE,MGRADE,MMILEAGE) 
+	values(#{mid},#{mpassword},#{mname},#{memail},#{mphone},#{mtel,jdbcType=VARCHAR},#{mzipcode,jdbcType=VARCHAR},
+			#{maddress1,jdbcType=VARCHAR},#{maddress2,jdbcType=VARCHAR},#{mbirth,jdbcType=TIMESTAMP},#{mgender},
+			#{mrefid,jdbcType=VARCHAR},#{mlogintype,jdbcType=VARCHAR},
+			#{mtosno,jdbcType=INTEGER},#{menabled,jdbcType=INTEGER},
+			#{mrole},#{mgrade,jdbcType=INTEGER},#{mmileage,jdbcType=INTEGER})
+	</insert>
+
+	<select id="checkId" resultType="Integer">
+		select count(mid)
+		from member
+		where mid = #{checkMid}
+	</select>
+	
+	
+	<select id="getMypageInfo" resultMap="myPageMap">
+		select mid,mName, mMileage,mGrade from member where mid = #{userId}
+	</select>
+	
+	<resultMap type="com.hd03.gangsoju.domain.member.MypageDTO" id="myPageMap">
+		<result property="mid" column = "mid"/>
+		<result property="mName" column = "mName"/>
+		<result property="mMileage" column = "mMileage"/>
+		<result property="mGrade" column = "mGrade"/>
+		<collection property="orderList" column="{mid=mid}" ofType="com.hd03.gangsoju.domain.member.OrderSuccessDTO" 
+																								select="selectOrder"></collection>
+		<collection property="couponList" column="{mid=mid}" ofType="com.hd03.gangsoju.domain.member.CouponDTO" 
+																								select="selectCoupon"></collection>
+	</resultMap>
+	
+	<select id="selectOrder" resultType="com.hd03.gangsoju.domain.member.OrderSuccessDTO">
+		select oid, pcimg2 as orderImg, pName, mid, to_char(oDate,'YYYY.MM.DD') oDate, 
+				total_count as totalCount, total_price as totalPrice,bName
+		from myPageOrderInfo
+		where mid = #{mid}
+	</select>
+		
+	<select id="selectCoupon" resultType="com.hd03.gangsoju.domain.member.CouponDTO">
+		select mid, cIssuedate,cExpiredate, expDday, eTitle, eContent, eDiscount
+		from myPageCouponInfo
+		where mid = #{mid}
+	</select>
+	
+	
+	<update id="deleteMember">
+		update member set menabled=1 where mid= #{userId}
+	</update>
+
+	<select id="checkPwd" resultType="String">
+		select mpassword from member where mid = #{userId}
+	</select>
+
+	<update id="modifyMember">
+		update member set mname=#{dto.mName},mphone=#{dto.mPhone} where mid=#{userId}
+	</update>
+	
+	<select id="findIdCheck" resultType="Integer">
+		select count(mphone)
+		from member
+		where mphone = #{phoneNum,jdbcType=INTEGER} and mbirth=#{birth,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="findIdVal" resultType="String">
+		select mid
+		from member
+		where mphone = #{mPhone,jdbcType=INTEGER} and mbirth=#{mBirth,jdbcType=VARCHAR} and menabled=0 and mname not like '%@%'
+	</select>
+	
+	<update id="resetPwd">
+		update member set mpassword = #{pwd} where mid = #{userId}
+	</update>
+	
+	<select id="checkIdVal" resultType="Integer">
+		select count(mid)
+		from member
+		where mid=#{userId} and mphone = #{mphone}
+	</select>
+	
+	<select id="checkPhoneNum" resultType="Integer">
+		select count(mphone)
+		from member
+		where mphone = #{mphone}
+	</select>
+	
+	<insert id="insertRegCp1">
+   		insert into coupon_detail values (substr(SYS_GUID(),0,20),1,#{userId},sysdate, sysdate+30,'',1)
+   	</insert>
+   
+   	<insert id="insertRegCp2">
+   		insert into coupon_detail values (substr(SYS_GUID(),0,20),2,#{userId},sysdate, sysdate+30,'',1)
+   	</insert>
+	
+	<update id="insertMileage">
+		update member set mmileage = 2000 where mid = #{userId}
+	</update>
+	
+</mapper>
+ 
+ 
+
+
+

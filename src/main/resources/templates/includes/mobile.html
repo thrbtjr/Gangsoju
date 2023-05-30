@@ -1,0 +1,288 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+
+  <!-- Mobile Smart Banner for Anroid Device -->
+  <script defer="defer" th:fragment="mobile">
+    var appDownPopContentHtml = "";
+    $(document).ready(function () {
+      if ("N" == "N") {
+        var linkGateway = window.sessionStorage.getItem("linkGateway");
+        var mobileWebView = getCookie("mobileWebView");
+        if (mobileWebView == "" && linkGateway == "Y") {
+          appDownPopContentHtml += '<div class="app-down-popup-wrap">';
+          appDownPopContentHtml += '	<div class="app-down-popup-box">';
+          appDownPopContentHtml += '		<div class="ad-guide">';
+          appDownPopContentHtml +=
+            '			<i class="logo"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/popup/apppop_logo.png" alt="HAND SOME"></i>';
+          appDownPopContentHtml += '			<P class="con">';
+          appDownPopContentHtml += "				더한섬닷컴 앱으로<br>";
+          appDownPopContentHtml += "				첫 구매 시<br>";
+          appDownPopContentHtml += "				<strong>3만원 쿠폰</strong> 증정";
+          appDownPopContentHtml += "			</P>";
+          appDownPopContentHtml += "		</div>";
+          appDownPopContentHtml +=
+            '		<div class="btn"><a href="javascript:appUseCheck();"><span>앱 설치하고 쿠폰 받기</span><i class="icon"></i></a></div>';
+          appDownPopContentHtml +=
+            '		<a class="web-quick">모바일 웹으로 보기</a>';
+          appDownPopContentHtml += "	</div>";
+          appDownPopContentHtml += "</div>";
+
+          $(".b-modal.__b-popup1__").show();
+          $(".hsome_allContents_wrapper").after(appDownPopContentHtml);
+          window.sessionStorage.removeItem("linkGateway");
+        }
+
+        $(".app-down-popup-wrap").on("click", ".web-quick", function () {
+          var $popupWrap = $(this).parents(".app-down-popup-wrap");
+          $popupWrap.hide();
+
+          $(".b-modal.__b-popup1__").hide();
+          if ($(".hsome_quickMenu").length == 0) {
+            if (appDownPopContentHtml != "") {
+              holdBodyHide();
+            }
+          }
+        });
+      } else {
+      }
+
+      var tempDate = "2022/09/16 10:00:00";
+      if (location.href.indexOf("www.thehandsome.com") == -1) {
+        //test
+        tempDate = "2022/09/06 10:00:00";
+      }
+
+      var todayDate = new Date();
+      var startDate = new Date(tempDate),
+        endDate = new Date("2022/09/22 23:59:59");
+      if (
+        todayDate.getTime() >= startDate.getTime() &&
+        todayDate.getTime() <= endDate.getTime()
+      ) {
+        // 노출페이지 : 정상/아울렛 상품상세페이지, 기획전 (상세), 더매거진(상세)
+        var uid = "hsProductDetailPage";
+
+        var chkPage = [
+          "hsProductDetailPage",
+          "editorialDetailPage",
+          "productList",
+        ];
+        var target_url = document.location.href;
+      }
+    });
+
+    $(window).load(function () {
+      if ($(".hsome_quickMenu").length == 0) {
+        if (appDownPopContentHtml != "") {
+          holdBodyShow();
+        }
+      }
+    });
+
+    function appUseCheck() {
+      var userAgent = navigator.userAgent.toLocaleLowerCase();
+      var url =
+        "http://www.thehandsome.com:80/ko/HANDSOME/WOMEN/PANTS/CASUAL/%EC%84%B8%EB%AF%B8-%EC%99%80%EC%9D%B4%EB%93%9C-%EB%8B%88%ED%8A%B8-%ED%8C%AC%EC%B8%A0/p/CM2D1KPC007W_KE";
+      var openAt = new Date().getTime(); // 방문 시간
+      var customUrlScheme = "page?url=" + encodeURIComponent(url);
+
+      if (userAgent.match(/android/)) {
+        if (userAgent.match(/chrome/)) {
+          // 				location.href = "intent://"+customUrlScheme+"#Intent;scheme=thehandsome;package=com.handsome.thehandsome;end";
+          location.href =
+            "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
+        } else {
+          setTimeout(function () {
+            if (new Date().getTime() - openAt < 2500) {
+              location.href =
+                "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
+            }
+          }, 2000);
+
+          var iframe = document.createElement("iframe");
+          iframe.style.visibility = "hidden";
+          iframe.src = customUrlScheme;
+          document.body.appendChild(iframe);
+          document.body.removeChild(iframe);
+        }
+      } else {
+        window.location.replace(
+          document.head.querySelector("[name=fallbackUrl]").content
+        );
+      }
+    }
+
+    function executeAppOrGoStore() {
+      var openAt = new Date(),
+        uagentLow = navigator.userAgent.toLocaleLowerCase(),
+        chrome25,
+        kitkatWebview;
+
+      setTimeout(function () {
+        if (new Date() - openAt < 4000) {
+          if (uagentLow.search("android") > -1) {
+            location.href =
+              "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
+          } else if (uagentLow.search("iphone") > -1) {
+            location.replace(
+              "https://itunes.apple.com/kr/app/itunes-connect/id1072288949?mt=8"
+            );
+          }
+        }
+      }, 1000);
+
+      if (uagentLow.search("android") > -1) {
+        document.location.href = "thehandsometransfer://applink?version=1.1";
+      } else if (uagentLow.search("iphone") > -1) {
+        var isSafari = navigator.userAgent.toLowerCase().indexOf("safari") > -1;
+        var isChrome = navigator.userAgent.toLowerCase().indexOf("chrome") > -1;
+        if (isSafari) {
+          if (isChrome) {
+            isSafari = false;
+          } else {
+            if (navigator.userAgent.toLowerCase().indexOf("crios") > -1) {
+              isSafari = false;
+            }
+          }
+        }
+
+        if (isSafari) {
+          location.replace("thehandsomePayment://1072288949");
+        } else {
+          document.location.href = "thehandsomePayment://1072288949";
+        }
+      }
+    }
+
+    function mobileWebView() {
+      $(".b-modal.__b-popup1__").hide();
+      if ($(".hsome_quickMenu").length == 0) {
+        if (appDownPopContentHtml != "") {
+          holdBodyHide();
+        }
+      }
+      setMobileWebViewCookie("mobileWebView", "Y", 1);
+    }
+
+    //쿠키 생성
+    function setExternalCookie(cName, cValue, cDay) {
+      var currentDate = new Date();
+      var expire = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() + cDay,
+        0,
+        0,
+        0
+      );
+      cookies = cName + "=" + escape(cValue) + "; path=/ ";
+      if (typeof cDay != "undefined")
+        cookies += ";expires=" + expire.toGMTString() + ";";
+      document.cookie = cookies;
+    }
+
+    //쿠키 생성
+    function setMobileWebViewCookie(cName, cValue, cDay) {
+      var currentDate = new Date();
+      var expire = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() + cDay,
+        0,
+        0,
+        0
+      );
+      cookies = cName + "=" + escape(cValue) + "; path=/ ";
+      if (typeof cDay != "undefined")
+        cookies += ";expires=" + expire.toGMTString() + ";";
+      document.cookie = cookies;
+    }
+
+    // 현재 정보 가져오기
+    function getCurrentlyInfo() {
+      $.ajax({
+        url: "/ko/intro/getCurrentlyInfo",
+        dataType: "json",
+        type: "get",
+        cache: false,
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+          // 장바구니
+          $(".h_gnbMenu > .cart i").html(data.cartCount);
+          // 푸터 로그인
+          if ("Y" == data.loginYn) {
+            // 로그인
+            if ($(".login").length > 0) {
+              for (var i = 0; i < $(".login").length; i++) {
+                $(".login")
+                  .parent()
+                  .eq(i)
+                  .html(
+                    '<a href="javascript:ftLogout();" class="login" style="float:left;" onclick="">로그아웃<!-- 로그아웃 --></a>'
+                  );
+              }
+            }
+
+            if ("mobileMain201908Page" == "hsProductDetailPage") {
+            } // 메인
+          } else {
+            // 로그아웃
+            if ($(".login").length > 0) {
+              for (var i = 0; i < $(".login").length; i++) {
+                $(".login")
+                  .parent()
+                  .eq(i)
+                  .html(
+                    '<a href="/ko/member/login" class="login" style="float:left;" onclick="">로그인<!--로그인--></a>'
+                  );
+              }
+            }
+          }
+        },
+        error: function (e) {
+          console.log(e);
+        },
+      });
+    }
+
+    function setCategoryNameInKO(targetCateCode, defaultCateName) {
+      var cates =
+        "AS|잡화^AS011|부츠^AS012|로퍼/블로퍼^AS013|스니커즈^AS014|플랫^AS015|힐/슬링백^AS016|샌들/슬라이드^AS017|기타 슈즈^AS02|남성슈즈^AS021|부츠^AS022|포멀슈즈^AS023|스니커즈^AS024|샌들/슬라이드^AS025|기타 슈즈^AS03|여성백^AS031|토트백^AS032|숄더/크로스바디백^AS033|클러치 백^AS034|기타 백^AS041|토트백^AS042|숄더/크로스바디백^AS043|클러치 백^AS044|기타 백^AS051|머플러^AS052|스카프^AS061|이어링/커프^AS062|목걸이^AS063|팔찌^AS064|반지^AS065|기타 주얼리^AS071|모자^AS072|양말^AS073|장갑^AS074|벨트^AS075|지갑^AS076|헤어ACC^AS077|테크ACC^AS078|기타소품^BE011|토너/에멀전/크림^BE012|세럼/앰플/오일/밤^BE013|클렌징/스크럽/마스크^BE021|페이스 메이크업^BE023|립 메이크업^BE031|핸드·바디로션/크림/오일^BE032|핸드·바디워시/스크럽^BE033|샴푸/컨디셔너^BE034|트리트먼트/오일/스프레이^BE035|기타 바디/헤어케어^BE041|향수^EG02|감사^GF011|아우터^GF012|가디건/베스트^GF013|탑^GF014|스커트/원피스^GF015|팬츠^GF021|아우터^GF022|베스트^GF023|탑^GF024|팬츠^GF031|골프백^GF032|골프화^GF033|모자^GF034|장갑^GF035|양말^GF036|벨트^GF037|기타^LS011|패브릭^LS012|프래그런스^LS013|데코레이션^LS014|기타소품^LS022|욕실용품^LS031|그릇^LS032|보드/트레이^LS033|커트러리^LS034|커피/티^LS035|패브릭/냅킨^LS036|기타소품^LS041|문구^LS042|책^LS043|기타소품^LS051|패션^LS061|의류^LS062|잡화^ME011|티셔츠^ME012|셔츠^ME013|니트^ME014|스웨터^ME015|가디건/베스트^ME021|루즈/테이퍼드^ME022|데님^ME023|쇼츠^ME025|슬림/스트레이트^ME028|조거/트랙^ME031|재킷^ME032|점퍼^ME033|트렌치코트^ME034|코트^ME035|다운/패딩^ME041|드레스셔츠^ME042|수트재킷^ME044|수트팬츠^ME093|SYSTEM HOMME : TYPE 2^ME095|TIME HOMME : ONLINE EXCLUSIVE^WE011|티셔츠^WE012|블라우스^WE013|셔츠^WE014|니트^WE015|가디건/베스트^WE021|캐주얼^WE022|포멀^WE023|데님^WE024|쇼츠^WE031|미니 스커트^WE032|펜슬 스커트^WE033|플레어 스커트^WE034|롱/맥시 스커트^WE041|미니 드레스^WE042|미디 드레스^WE043|롱/맥시 드레스^WE051|재킷^WE052|점퍼^WE053|트렌치 코트^WE054|코트^WE055|다운/패딩^WE091|OBZEE : ICONIC OBZEE^WE092|TIME : SIGNATURE SUIT^WE095|FOURM THE STORE: EXCLUSIVE^WE096|FOURM STUDIO : RE:STUDIO^WE098|SYSTEM : STUDIO (PARIS)^WE09F|SYSTEM : 한국타이어 COLLABORATION^WE09N|SJSJ : Wheat Capsule^WE09Q|LATT : VISIONARY COLLECTION^WE09S|SYSTEM : MODULAR COMFORT^WE102|점퍼/가디건^WE103|베스트^WE106|스커트"; //WE011|티셔츠^WE012|블라우스^...
+      var cateArr = null;
+      var returnCateName = "";
+      if (targetCateCode != "") {
+        if (cates != "") {
+          cateArr = cates.split("^");
+          if (cateArr.length > 0) {
+            $(cateArr).each(function (idx) {
+              if (cateArr[idx] != "") {
+                // WE011|티셔츠
+                var compareCate = cateArr[idx].split("|");
+                if (compareCate.length == 2) {
+                  // code | name
+                  var compareCateCode = compareCate[0]; //WE011
+                  if (
+                    compareCateCode.toUpperCase() ==
+                    targetCateCode.toUpperCase()
+                  ) {
+                    returnCateName = compareCate[1]; //티셔츠
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        // 한글 카테고리명이 없을경우 defaultCateName로 재설정
+        if (returnCateName == "") {
+          returnCateName = defaultCateName;
+        }
+      }
+      return returnCateName;
+    }
+  </script>
+  <!-- //Mobile Smart Banner for Anroid Device -->
+</html>

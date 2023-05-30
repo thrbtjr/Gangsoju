@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 소규석 -->
+<mapper namespace="com.hd03.gangsoju.mapper.OrderMapper">
+
+	<select id="orderList"
+		resultType="com.hd03.gangsoju.domain.order.OrderProductVO">
+		select 
+				b.bname, 
+				p.pname,
+				trunc(pc.pcprice*(100-nvl(dd.drate,0))/100,-2)
+				dprice, 
+				pc.pcprice,
+				ps.psstock,
+				ps.pcid, 
+				pc.pccolorcode,
+				substr(pc.pcid,-2) color, 
+				ps.psize,
+				c.pquantity, 
+				pc.pcimg2 ,
+				ps.psid
+				from cart c
+				join product_stock ps on c.psid = ps.psid
+				join product_color pc on ps.pcid = pc.pcid
+				join product_common p on pc.pid = p.pid
+				join brand b on b.bno = p.bno
+				left join (
+							select *
+							from product_discount pd
+							join discount d on pd.did =	d.did
+							) dd on dd.psid = ps.psid
+				where mid= #{mid} and ps.psid = #{psid}
+	</select>
+
+	<!-- <select id="orderMember" resultType="com.hd03.gangsoju.domain.order.OrderMemberVO"> 
+		select mname, mphone, mzipcode, maddress1, maddress2, mmileage,(select count(*) 
+		from cart where mid = #{mid}) count from member where mid= #{mid} </select> -->
+
+	<resultMap
+		type="com.hd03.gangsoju.domain.order.OrderMemberVO"
+		id="orderMemberMap">
+		<result property="mname" column="mname" />
+		<result property="mphone" column="mphone" />
+		<result property="mzipcode" column="mzipcode" />
+		<result property="maddress1" column="maddress1" />
+		<result property="maddress2" column="maddress2" />
+		<result property="mmileage" column="mmileage" />
+		<result property="count" column="count" />
+		<collection property="list" resultMap="orderCouponMap" />
+	</resultMap>
+
+	<resultMap id="orderCouponMap"
+		type="com.hd03.gangsoju.domain.order.OrderCouponVO">
+		<result property="cpid" column="cpid" />
+		<result property="etitle" column="etitle" />
+		<result property="econtent" column="econtent" />
+		<result property="ediscount" column="ediscount" />
+	</resultMap>
+
+	<select id="orderMember" resultMap="orderMemberMap">
+		select mname, mphone, mzipcode, maddress1, maddress2, mmileage,(select
+		count(*)from cart where mid = #{mid}) count, cpid, etitle, econtent,
+		ediscount from member m left join
+		(select mid,cpid, etitle, econtent, ediscount from coupon_detail cd join
+		event e on cd.eno=e.eno
+		where CPSTATUS = '1') cc
+		on m.mid= cc.mid
+		where m.mid= #{mid}
+	</select>
+
+	<insert id="insertOrders">
+		insert into orders values
+		(#{ordersDTO.oid},#{ordersDTO.ozipcode},#{ordersDTO.oaddress1},
+		#{ordersDTO.oreceiver}, #{ordersDTO.ophone},'', #{ordersDTO.omemo},
+		#{ordersDTO.ousedmileage},#{ordersDTO.obeforeprice},
+		#{ordersDTO.oafterprice}, '배송 완료',#{mid}, #{ordersDTO.pmcode},
+		sysdate, #{ordersDTO.cpid}, #{ordersDTO.oaddress2})
+	</insert>
+
+	<update id="insertOrderItem" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO order_item
+			(
+			psid, oid,
+			oicount, oitotalPrice
+			)
+			VALUES
+			(
+			#{item.psid},
+			#{oid},
+			#{item.oicount},
+			#{item.oitotalPrice}
+			)
+		</foreach>
+	</update>
+
+	<delete id="boughtItemDelete" parameterType="java.util.List">
+		DELETE FROM cart
+		<where>
+			<foreach collection="list" item="item" open="" close=""
+				separator="OR">
+				(psid = #{item.psid} AND mid = #{mid})
+			</foreach>
+		</where>
+	</delete>
+
+
+	<update id="stockUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index"
+			separator=";" open="DECLARE BEGIN" close="; END;">
+			UPDATE product_stock
+			SET psstock =psstock-#{item.oicount}
+			WHERE psid = #{item.psid}
+		</foreach>
+	</update>
+
+	<update id="mileageUpdate">
+		update member set
+		mmileage=trunc(mmileage-#{ordersDTO.ousedmileage}+#{ordersDTO.oafterprice}/20,-1)
+		where mid=#{mid}
+	</update>
+
+	<update id="usedCouponUpdate">
+		update coupon_detail set CPSTATUS='0', cpusedate=sysdate  where
+		cpid=#{ordersDTO.cpid} and mid=#{mid}
+	</update>
+
+
+	<update id="gradeUpdate1">
+		update member set mgrade = 1 where nvl((select sum(oitotalprice) from
+		order_item oi join orders o on oi.oid=o.oid where mid= #{mid}),0)> 2000000
+		and mid=#{mid} and mgrade=0
+	</update>
+	<update id="gradeUpdate2">
+		update member set mgrade = 2 where nvl((select sum(oitotalprice) from
+		order_item oi join orders o on oi.oid=o.oid where mid= #{mid}),0)>
+		10000000 and mid=#{mid} and mgrade=1
+	</update>
+	<insert id="giveCoupon3">
+	insert into coupon_detail values (substr(SYS_GUID(),0,20),3,#{mid},sysdate, sysdate+30,'',1)
+	</insert>
+	
+	<insert id="giveCoupon4">
+	insert into coupon_detail values (substr(SYS_GUID(),0,20),4,#{mid},sysdate, sysdate+30,'',1)
+	</insert>
+	<insert id="giveCoupon5">
+	insert into coupon_detail values (substr(SYS_GUID(),0,20),5,#{mid},sysdate, sysdate+30,'',1)
+	</insert>
+	
+	<insert id="giveCoupon6">
+	insert into coupon_detail values (substr(SYS_GUID(),0,20),6,#{mid},sysdate, sysdate+30,'',1)
+	</insert>
+
+	 <select id="orderCompleteVO" resultType="com.hd03.gangsoju.domain.order.OrderCompleteVO"> 
+		select   oid ,
+        	oreceiver,
+        	ophone,
+        	ozipcode,
+        	oaddress1,
+        	oaddress2,
+        	omemo,
+        	obeforeprice,
+        	oafterprice,
+        	pmcode
+ 			from orders 
+ 			where mid=#{mid} and oid=#{oid}
+ 	 </select>
+ 	 
+ 	
+ 	 
+	
+</mapper>

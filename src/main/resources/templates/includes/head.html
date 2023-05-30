@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<!--
+  작성자: 김주현
+-->
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"
+    />
+
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+    <meta
+      id="_csrf_header"
+      name="_csrf_header"
+      th:content="${_csrf.headerName}"
+    />
+
+    <script type="text/javascript">
+      var appYn = "N";
+      var appOs = ""; //ios, android
+
+      var uid = "";
+      var pageUid = "mobileMain202105Page";
+      var chkScreenPage = [];
+
+      if (appYn == "Y") {
+        //appì¼ëë§ ì²´í¬
+        if (
+          uid == "snsMain" ||
+          uid == "snsDetail" ||
+          uid == "snsMyProfile" ||
+          uid == "snsCollectionDetail" ||
+          uid == "snsSearchList" ||
+          chkScreenPage.indexOf(pageUid) > -1
+        ) {
+          //íì©íì´ì§
+          if (appOs == "ios") {
+            //ios
+            webkit.messageHandlers.screenShotEnable.postMessage("false");
+          } else {
+            //android
+            Android.screenShotEnable("false");
+          }
+        } else {
+          //ì¬ì©ìí¨
+          if (appOs == "ios") {
+            //ios
+            webkit.messageHandlers.screenShotEnable.postMessage("true");
+          } else {
+            //android
+            Android.screenShotEnable("true");
+          }
+        }
+      }
+    </script>
+
+    <title>&#45908;&#54620;&#49452;&#45815;&#52980;</title>
+    <link
+      rel="shortcut icon"
+      href="/_ui/mobile/common/images/common/thehandsome_ic_16x16.ico"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/_ui/mobile/common/images/common/app_ban_logo.png"
+    />
+    <link
+      rel="apple-touch-icon-precomposed"
+      href="/_ui/mobile/common/images/common/app_ban_logo.png"
+    />
+    <link
+      rel="apple-touch-icon-120x120"
+      href="/_ui/mobile/common/images/common/app_ban_logo.png"
+    />
+    <link
+      rel="apple-touch-icon-120x120-precomposed"
+      href="/_ui/mobile/common/images/common/app_ban_logo.png"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" media="all" href="//" />
+
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/font_80.css?20221121"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/jquery-ui.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/selectordie.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/default.css?202200826"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/display.css?20221107"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/assist.css?20220929"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/devAssist.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/swiper-vr1908.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/main201909.css?20200423"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/renew_main.css?20220826"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/_ui/handsomemobile/css/handsomecss/popup.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+      /*<![CDATA[*/
+
+      var ACCMOB = { config: {} };
+      ACCMOB.config.contextPath = "";
+      ACCMOB.config.encodedContextPath = "/ko";
+      ACCMOB.config.commonResourcePath = "/_ui/handsomemobile/common";
+      ACCMOB.config.themeResourcePath = "/_ui/handsomemobile/theme-blue";
+      ACCMOB.config.siteResourcePath = "/_ui/handsomemobile/site-handsome";
+      ACCMOB.config.rootPath = "/_ui/handsomemobile";
+      ACCMOB.config.CSRFToken = "14609db7-15a1-4974-9caf-4ebc9a90916b";
+
+      /*]]>*/
+    </script>
+    <script type="text/javascript">
+      /*<![CDATA[*/
+      ACCMOB.addons = {}; //JS holder for addons properties
+
+      /*]]>*/
+    </script>
+    <script type="text/javascript">
+      var handsomePageId = "mobileMain202105Page";
+      var main_bul = false;
+    </script>
+
+    <script type="text/javascript">
+      var goToMySmartFilterYn = "N";
+      var gnbType = "br";
+      var UserAgent = navigator.platform;
+      var userPhoneOs = "";
+      if (UserAgent.match(/i(Phone|Pod|Pad)/i) != null) {
+        userPhoneOs = "IOS";
+      } else {
+        userPhoneOs = "ANDROID";
+      }
+    </script>
+
+    <script type="text/javascript">
+      var handsomeUserLoginYn = "N";
+    </script>
+    <script type="text/javascript">
+      var isoKoYn = "Y";
+    </script>
+    <script type="text/javascript">
+      var handsomeIsoCode = "ko";
+      var handsomeContextPath = "/ko";
+    </script>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.vticker.js"
+    ></script>
+    <!-- 200318 Ã¬Â¶ÂÃªÂ°Â -->
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/masonry.pkgd.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.form.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.cookie.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery-ui.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/selectordie.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.bpopup.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/echarts.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/common.js?20210501"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/assist_common.js?v=20220630"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/handsome.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/common_function.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/json2.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/SsoAjax.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/makePCookie.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/popup.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/simplepagination.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/swiper_vr1908.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/jquery.lazyload.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/netfunnel.js"
+      charset="UTF-8"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/netfunnel_skin.js"
+      charset="UTF-8"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="/_ui/handsomemobile/js/unorm.js"
+    ></script>
+
+    <script type="text/javascript">
+      var setDimensionData = function () {
+        //GA 설정 sessionStorage 페이지 이동시 초기화
+        window.sessionStorage.removeItem("main_new_ecommerceDataList");
+        window.sessionStorage.removeItem("main_best_ecommerceDataList");
+        var smartListSize = window.sessionStorage.getItem(
+          "smart_ecommerceDataList_size"
+        );
+        for (var i = 0; i <= smartListSize; i++) {
+          window.sessionStorage.removeItem("smart_ecommerceDataList_" + i);
+        }
+        window.sessionStorage.removeItem("smart_ecommerceDataList_size");
+        window.sessionStorage.removeItem("smart_more_ecommerceDataList");
+        window.sessionStorage.removeItem("search_recommend_ecommerceDataList");
+        window.sessionStorage.removeItem("ecommerceDataList");
+        window.sessionStorage.removeItem("yours_lately_ecommerceDataList");
+        window.sessionStorage.removeItem("yours_shoppingbag_ecommerceDataList");
+        window.sessionStorage.removeItem("yours_wish_ecommerceDataList");
+        window.sessionStorage.removeItem("yours_recommend_ecommerceDataList");
+        window.sessionStorage.removeItem("ou_main_ecommerceDataList");
+
+        var categoryListSize = window.sessionStorage.getItem(
+          "category_ecommerceDataList_size"
+        );
+        for (var i = 0; i <= categoryListSize; i++) {
+          window.sessionStorage.removeItem(
+            "normal_cate_ecommerceDataList_" + i
+          );
+        }
+        window.sessionStorage.removeItem("category_ecommerceDataList_size");
+
+        var cid = getCid();
+        var device = "";
+
+        if (getCookie2("app") == null || getCookie2("app") == "") {
+          device = "MO_WEB";
+        } else {
+          device = "APP";
+        }
+
+        var entrySite = "";
+
+        entrySite = "KO";
+
+        var oneDepthPage; // 없을 경우 undifined 그대로 넘겨야 하기 때문에 초기화 X
+        var pageTitle = "";
+        var tmp = getPageDepth();
+        if (tmp != "") {
+          oneDepthPage = tmp;
+          pageTitle = getGAPageTitle(oneDepthPage);
+          if (pageTitle == "") {
+            oneDepthPage = undefined;
+            pageTitle = document.title;
+          }
+        } else {
+          pageTitle = document.title;
+        }
+
+        var pageviewObj = new Object();
+        pageviewObj.dimension1 = cid; //고객_ClientID
+        pageviewObj.dimension15 = device; //채널_채널유형
+        pageviewObj.dimension16 = entrySite; //채널_언어 - #2846 삭제요청 hychung, #2846 복원요청 hychung
+        pageviewObj.dimension18 = oneDepthPage; //페이지_1Depth (페이지depth 없는경우 undefined처리)
+        pageviewObj.title = pageTitle; //페이지제목     (페이지제목 없는경우 document.title 입력)
+
+        //로그인 했을경우만 추가 dimension 세팅
+
+        // 검색 결과 페이지 일 경우만 처리
+        if (window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+          pageviewObj.dimension17 = ""; //검색_검색어(검색결과페이지일때 사용)
+        }
+
+        return pageviewObj;
+      };
+
+      function getPageDepth() {
+        var returnDepth = "";
+        var target_url = document.location.href;
+
+        if (target_url.substring(target_url.indexOf("/ko/") + 4) == "") {
+          returnDepth = "메인";
+        } else if (target_url.substring(target_url.indexOf("/ko") + 3) == "") {
+          returnDepth = "메인";
+        } else if (target_url.indexOf("/p/") > -1) {
+          returnDepth = "상품상세";
+        } else if (target_url.indexOf("/b/") > -1) {
+          returnDepth = "브랜드";
+        } else if (target_url.indexOf("/c/") > -1) {
+          // if'/c/카테고리코드' : /가 한개면
+
+          if (
+            target_url.substring(target_url.indexOf("/c/") + 3).indexOf("/") >
+            -1
+          ) {
+            if (
+              target_url
+                .toLowerCase()
+                .substring(target_url.indexOf("/c/") + 3)
+                .indexOf("br") > -1
+            ) {
+              returnDepth = "브랜드";
+            } else {
+              returnDepth = "카테고리";
+            }
+          } else {
+            returnDepth = "카테고리";
+          }
+        } else if (target_url.indexOf("/mypage") > -1) {
+          returnDepth = "마이페이지";
+        } else if (target_url.indexOf("/shoppingbag") > -1) {
+          returnDepth = "쇼핑백";
+        } else if (target_url.indexOf("/checkout/") > -1) {
+          returnDepth = "주문";
+        } else if (target_url.indexOf("/member/") > -1) {
+          returnDepth = "로그인";
+        } else if (target_url.indexOf("/login/") > -1) {
+          returnDepth = "로그인";
+        } else if (target_url.indexOf("/footer/") > -1) {
+          returnDepth = "FOOTER";
+        } else if (target_url.indexOf("/intro/") > -1) {
+          returnDepth = "당신만의 한섬";
+        } else if (target_url.indexOf("/mobilecommon/mainIntro") > -1) {
+          returnDepth = "공통";
+        } else if (target_url.indexOf("/mobilecommon/search") > -1) {
+          returnDepth = "공통";
+        } else if (target_url.indexOf("/hssearch") > -1) {
+          returnDepth = "검색";
+        } else if (target_url.indexOf("/product/") > -1) {
+          returnDepth = "상품";
+        } else if (target_url.indexOf("/main") > -1) {
+          returnDepth = "메인";
+        } else {
+          returnDepth = "";
+        }
+        return returnDepth;
+      }
+
+      function getCookie2(cname) {
+        var name = cname + "=";
+        var decodedCookie = unescape(document.cookie);
+        var ca = decodedCookie.split(";");
+        var cookieValue = "";
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            cookieValue = c.substring(name.length, c.length);
+          }
+        }
+        return cookieValue;
+      }
+
+      if (!String.prototype.endsWith) {
+        String.prototype.endsWith = function (searchString, position) {
+          var subjectString = this.toString();
+          if (
+            typeof position !== "number" ||
+            !isFinite(position) ||
+            Math.floor(position) !== position ||
+            position > subjectString.length
+          ) {
+            position = subjectString.length;
+          }
+          position -= searchString.length;
+          var lastIndex = subjectString.indexOf(searchString, position);
+          return lastIndex !== -1 && lastIndex === position;
+        };
+      }
+    </script>
+
+    <style media="screen">
+      .blsmflw1 {
+        animation: target_image 1.5s;
+        animation-iteration-count: 2;
+        transform-origin: 50% 50%;
+      }
+      @keyframes target_image {
+        0% {
+          transform: rotate(-2deg);
+        }
+        50% {
+          transform: rotate(9deg);
+        }
+        100% {
+          transform: rotate(-1deg);
+        }
+      }
+    </style>
+
+    <style type="text/css">
+    #customBtn {
+      display: inline-block;
+      background: white;
+      color: #444;
+      width: 190px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+    }
+    #customBtn:hover {
+      cursor: pointer;
+    }
+    span.label {
+      font-family: serif;
+      font-weight: normal;
+    }
+    span.icon {
+      background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width: 42px;
+      height: 42px;
+    }
+    span.buttonText {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 42px;
+      padding-right: 42px;
+      font-size: 14px;
+      font-weight: bold;
+      /* Use the Roboto font that is loaded in the <head> */
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+    
+    
+  <meta name="google-signin-client_id" content="964906558306-v55lc2uqvjt22f7kbnj26ljt15s0jll0.apps.googleusercontent.com">  
+    <link
+      href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist/_content.scss"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://www.thehandsome.com/_ui/handsomemobile/css/layout/container.scss"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+</html>

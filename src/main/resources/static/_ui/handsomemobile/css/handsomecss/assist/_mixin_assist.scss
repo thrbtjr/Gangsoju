@@ -1,0 +1,35 @@
+@charset "UTF-8";
+// ========================================================== */
+// version : layer_popup.scss v1 */
+// wirter : IDR Ryu */
+// date : 20180525 */
+// ========================================================== */
+
+@mixin t_idt() {
+  text-indent:-5000px;
+  font-size:0;
+}
+@mixin posft($t: 0, $l:0) {
+  position: fixed;
+  top: $t;
+  left: $l;
+}
+@mixin posfb($b: 0, $l:0) {
+  position: fixed;
+  bottom: $b;
+  left: $l;
+}
+@mixin background-position( $f1, $f2 ){
+  @include css3-prefix('background-position', $f1 $f2);
+}
+@mixin setDfPadding(){
+	padding-right:$con_pd;
+	padding-left:$con_pd;
+}
+@mixin setFullBox(){
+	margin-right:-$con_pd;
+	margin-left:-$con_pd;
+}
+@mixin linkCursor(){
+  cursor:pointer;
+}

@@ -1,0 +1,554 @@
+@charset "UTF-8";
+/*common*/
+body .hsome_main{font-size:19px;}
+body .hsome_main.update191029{font-size:19px;background:#efefef;position:relative;}
+body .hsome_main.update191029:before{content:"";display:block;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/refresh_loading_191024.png');background-size:154px auto;width:38.5px;height:5.5px;overflow:hidden;position:absolute;top:61.5px;left:50%;transform:translate3d(-50%, 0, 0);animation: reloading1910 1s steps(4) infinite;}
+body .hsome_main.update191029:after{content:"손을 놓으면 업데이트가 됩니다.";display:block;font-size:13px;text-align:center;width:100%;color:#8a8a8a;position:absolute;top:75px;z-index:0;}
+@keyframes reloading1910 {
+  0% {background-position: 0 0; }
+  100% {background-position: -154px 0; }
+}
+img{width:100%;}
+h5.tit,
+h4.tit{font-size:1em;color:#0b0b0b;font-weight: bold;text-align:center;font-family:'Apple SD Gothic Neo',sans-serif;margin-bottom:18px;line-height:1;}
+#scrolling_mainTab .main_cont_tab1903 { margin-top: 0; padding-bottom:0;}
+.hsome_main{margin-bottom:0;}
+.hsome_allContents_wrapper{padding-bottom:48px;}/*수정 190827*/
+/*video horizontal 2001*/
+.video_main_wrap1909{background:#000;width:100%;height:100%;position:relative;}
+.video_main_wrap1909 .video_main_cover2001{position:absolute;top:50%;transform:translate3d(0,-50%,0);width:100%;}
+.video_main_wrap1909 .vod_wrap2001{position:absolute;top:50%;transform:translate3d(0,-50%,0);width:100%;height:auto;}
+.video_main_wrap1909 .vod_wrap2001 video{width:100%;height:auto;}
+/*video vertical 2001*/
+.video_main_wrap1909.ver2001 .video_main_cover2001{width:auto;height:100%;top:50%;left:50%;transform:translate3d(-50%,-50%,0);}
+.video_main_wrap1909.ver2001 .video_main_cover2001 img{width:auto;height:100%;}
+.video_main_wrap1909.ver2001 .vod_wrap2001{width:100%;height:100%;overflow:hidden;}
+.video_main_wrap1909.ver2001 .vod_wrap2001 video{position:absolute;top:50%;left:50%;transform:translate3d(-50%,-50%,0);width:auto;height:100%;}
+.vod_wrap2001{position:relative;}
+.ver2001 .vod_wrap2001{width:100%;height:100%;overflow:hidden;}
+/*video muted 2001*/
+.btn_mute2001{width:33px;height:33px;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_sound_200122.png') no-repeat;background-size:100% auto;background-position:top center;position:absolute;top:15px;right:15px;}
+.btn_mute2001.on{background-position:bottom center;background-size:100% auto;}
+/*guide arrow*/
+.guide_arr190906{display:block;position:fixed;top:50%;right:0;width:37px;height:48px;margin-top:-24px;z-index:3;}
+.noti_popup190906_dim{display:block;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:998}
+/* popup */
+.pop_wrap190906{display:none;position:fixed;width:100%;height:calc(100vh - 98px);background:rgba(0,0,0,0);top:50px;left:0;z-index:999;}
+.pop_wrap190906 .pop_wrap190906_inner{position:relative;width:100%;height:100%;}
+.new_items_pop1909{position:absolute;bottom:0;left:50%;width:60%;margin-left:-30%;}
+.new_items_pop1909 h4{font-size:1.053em;color:#111;font-family:'Apple SD Gothic Neo',sans-serif;font-weight:bold;text-align:center;padding-bottom:6px;border-bottom:1px solid #000;}
+.new_items_pop1909 ul{margin-top:25px}
+.new_items_pop1909 ul li{font-size:0.947em;color:#111;font-family:'Apple SD Gothic Neo',sans-serif;text-align:center;margin:0 auto;margin-bottom:20px}
+.new_items_pop1909 ul li.on{font-weight:bold;border-bottom:1px solid #111;width:fit-content}/*수정 190829*/
+.new_items_pop1909 ul li.style.on{width:fit-content}/*수정 190829*/
+.new_items_pop1909 ul li a{display:block;}
+.new_items_pop1909 .pop_cls{position:absolute;bottom:12px;left:50%;margin-left:-9px;margin-top:10px}
+.new_items_pop1909 .pop_cls a img{width:19px}
+.new_items_pop1909 .popwrap201909{position:relative;z-index:999;}
+.new_items_pop1909 .popwrap201909 .list_wrap{width:100%;background:#fff;padding:25px 35px 35px}
+.best_pop1909{position:absolute;bottom:0;left:50%;width:60%;margin-left:-30%;}
+.best_pop1909 h4{font-size:1.053em;color:#111;font-family:'Apple SD Gothic Neo',sans-serif;font-weight:bold;text-align:center;padding-bottom:6px;border-bottom:1px solid #000;}
+.best_pop1909 ul{margin-top:25px}
+.best_pop1909 ul li{font-size:0.947em;color:#111;font-family:'Apple SD Gothic Neo',sans-serif;text-align:center;margin:0 auto;margin-bottom:20px}
+.best_pop1909 ul li.on{font-weight:bold;border-bottom:1px solid #111;width:fit-content}/*수정 190829*/
+.best_pop1909 ul li.style.on{width:fit-content}/*수정 190829*/
+.best_pop1909 ul li a{display:block;}
+.best_pop1909 .pop_cls{position:absolute;bottom:12px;left:50%;margin-left:-9px;margin-top:10px}
+.best_pop1909 .pop_cls a img{width:19px}
+.best_pop1909 .popwrap201909{position:relative;z-index:999;}
+.best_pop1909 .popwrap201909 .list_wrap{width:100%;/*height:302px;*/background:#fff;padding:25px 35px 35px}
+/* header */
+.hsome_allContents_wrapper .hsome_allContents .hsome_contents{margin-top:50px;}
+header.main201909 {height: 50px;text-align: center;-webkit-transform: translate(0, 0); -khtml-transform: translate(0, 0); -moz-transform: translate(0, 0); -ms-transform: translate(0, 0); -o-transform: translate(0, 0); transform: translate(0, 0); -webkit-transition: transform 0.3s ease-in-out; -khtml-transition: transform 0.3s ease-in-out; -moz-transition: transform 0.3s ease-in-out; -ms-transition: transform 0.3s ease-in-out; -o-transition: transform 0.3s ease-in-out; transition: transform 0.3s ease-in-out; position: fixed; top: 0; left: 0; width: 100%; background-color: #fff; z-index: 999; opacity: 1;}
+header.main201909 h1.h_logo {display:inline-block; float:none; height: 50px; overflow: hidden; line-height: 500px; }
+header.main201909 h1.h_logo a { float: left; padding: 18.5px 15px; width: 234px; height: 50px; }
+header.main201909 h1.h_logo a:before { width: 204px; height: 13px; background: url("http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout1909_2.png") -6px -6px no-repeat; background-size: 250px auto; content: ''; display: block; overflow: hidden; }
+header.main201909 ul.h_gnbMenu { position: static; top: 0; right: 6px; }
+header.main201909 ul.h_gnbMenu li a span { width: 45px; height: 45px; display: block; overflow: hidden; line-height: 500px; padding: 12.5px 0 0 10px; }
+header.main201909 ul.h_gnbMenu li a span:before { width: 25px; height: 25px; background: url("http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout1909_2.png") 0 -25px no-repeat; background-size: 250px auto; content: ''; display: block; overflow: hidden; }
+header.main201909 ul.h_gnbMenu li a i { position: absolute; top: 16px; right: 13px; -webkit-border-radius: 50%; -khtml-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; min-width: 19px; height: 19px; background-color:inherit; overflow: hidden; text-align: center; color: #fff; font-size: 11px; line-height: 20px; padding: 0 2px; }
+header.main201909 ul.h_gnbMenu li.search {width:45px;height:50px;position:absolute;top:0;left:0; margin-right: 0; }
+header.main201909 ul.h_gnbMenu li.cart{width:45px;height:50px;position:absolute;top:0;right:0;}
+header.main201909 ul.h_gnbMenu li.cart a span:before { background: url("http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout1909_2.png") -25px -25px no-repeat; background-size: 250px auto; }
+/* top nav */
+.top_nav1909{height:48px; width:100%; padding:0 8px; text-align:center; overflow:hidden; position:absolute; z-index:2; background-color:rgba(255, 255, 255, 0.4); transition:transform .8s;}/*수정 190827*/
+.top_nav1909.hide{transform: translateY(-100%);}
+.top_nav1909 ul{display:flex;justify-content:space-between;position:relative;}
+.top_nav1909 ul li{flex-shrink:0;position:relative;display:inline-block;}
+.top_nav1909 ul li a{display:block;font-size:0.737em;color:#000;font-family:'Apple SD Gothic Neo',sans-serif;text-align:center;padding:0 9px;line-height:48px;}
+.top_nav1909 ul li.on a{font-weight:bold;}
+.top_nav1909 ul li.on:after{content:'';display:inline-block;background:#000;width:4px;height:4px;border-radius:4px;position:absolute;bottom:9px;left:50%;margin-left:-2px}
+.top_nav1909 ul li.events.on:after{right:50%;margin-right:-10px}
+/* common */
+.hsome_allContents{margin-bottom:0}
+.main_wrapper_swiper1909{height:calc(100vh - 98px);}
+.main1909_v .swiper-wrapper{width:auto;}
+.main1909_v > ul > li{overflow:hidden;position:relative;}
+.main1909_down_arr{display:block;overflow:hidden;width:40px;height:40px;position:absolute;top:auto;bottom:15px;left:50%;margin-left:-20px;transition-duration:1s;background:none; animation: downArrImg .6s; -moz-animation: downArrImg .6s; -webkit-animation: downArrImg .6s; animation-iteration-count:infinite; -moz-animation-iteration-count:infinite; -webkit-animation-iteration-count:infinite; transform-origin: 50%}
+.main1909_down_arr a{display:block;z-index:2;text-indent:-9999px; width:40px; height:40px;position:relative;}
+.main1909_down_arr a:before{content:"";display:block;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/down_arr_main1909.png')no-repeat; background-size:18px; background-position:0 0;width:18px;height:11px;position:absolute;top:50%;left:50%;margin-top:-5.5px;margin-left:-9px;}
+.main1909_up_arr{display:block;overflow:hidden;width:40px;height:40px;position:absolute;top:auto;bottom:15px;left:50%;margin-left:-20px;background:none;display:block; animation: downArrImg .6s; -moz-animation: downArrImg .6s; -webkit-animation: downArrImg .6s; animation-iteration-count:infinite; -moz-animation-iteration-count:infinite; -webkit-animation-iteration-count:infinite; transform-origin: 50%}
+.main1909_up_arr a{display:block;z-index:2;text-indent:-9999px; width:40px; height:40px;position:relative;}
+.main1909_up_arr a:before{content:"";display:block;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/down_arr_main1909.png')no-repeat; background-size:18px; background-position:0 0;width:18px;height:11px;position:absolute;top:50%;left:50%;margin-top:-5.5px;margin-left:-9px;transform:rotate(180deg);}
+.main1909_down_arr.swiper-button-disabled{display:none;}
+@keyframes downArrImg {
+  0% {transform:translate3d(0, 0, 0);}
+  50% {transform:translate3d(0, 7px, 0);}
+  100% {transform:translate3d(0, 0, 0);}
+}
+/* 오류 */
+.error_slide_pg{display:table;}
+.error_slide_pg .error_slide_img{position:absolute;top:26.55%;left:50%;margin-left:-38px}
+.error_slide_pg .error_slide_img span{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout_main201909.png')no-repeat; width:76px; height:76px; background-size:75px; background-position:0 -309px;text-indent:-9999px;font-size:0; display:block;}
+.error_slide_pg .error_slide_txt{font-size:0.842em;color:#111;text-align:center;display:table-cell;vertical-align:middle;}
+/* 메인 */
+.main1909_fix_b_btn_wrap{position:absolute;right:4%;bottom:15px;z-index:2}
+.main1909_fix_b_btn_wrap .fix_b_btn{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout_main201909.png')no-repeat;width:53px;height:53px;background-size:76px;background-position:0 -186px;transform:rotate(45deg);}
+.main1909_fix_b_btn_wrap .fix_b_btn.spin{transform:rotate(0deg);}
+.main1909_fix_b_btn_wrap .top_btn{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout_main201909.png')no-repeat;width:53px;height:53px;background-size:76px;background-position:0 -248px;text-indent:-9999px;margin-top:10px;display:none}
+.main1909_fix_b_btn_wrap .top_btn.active{display:block;}
+.main1909_fix_b_btn_wrap ul{display:none;margin-bottom:10px}
+.main1909_fix_b_btn_wrap ul.active{display:block}
+.main1909_fix_b_btn_wrap li{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/layout_main201909.png')no-repeat;width:53px;height:53px;background-size:76px;margin-bottom:8px}
+.main1909_fix_b_btn_wrap li:last-child{margin-bottom:0}
+.main1909_fix_b_btn_wrap li.youarehandsome{text-indent:-9999px;background-position:0 -61px}
+.main1909_fix_b_btn_wrap li.thehandsomecom{text-indent:-9999px;background-position:0 0}
+.main1909_fix_b_btn_wrap li.chatbot{text-indent:-9999px;background-position:0 -124px}
+.main1909_fix_b_btn_wrap li a{display:block;cursor:pointer;height:100%}
+.main1909_h .vertical_slide_wrap li .txt_area{font-weight:bold;position:absolute;width:88%;font-family:'Apple SD Gothic Neo', Arial, sans-serif;-webkit-transform: translate3d(0,0,0)}
+.main1909_h .vertical_slide_wrap li .txt_area.top{top:63px}/*수정 190827*/
+.main1909_h .vertical_slide_wrap li .txt_area.mid{display:table;width:88%;height:100%;top:0;left:6%;}
+.main1909_h .vertical_slide_wrap li .txt_area.mid .txt_area_inner190820{display:table-cell;vertical-align:middle;}
+.main1909_h .vertical_slide_wrap li .txt_area.btm{bottom:14.7%}
+.main1909_h .vertical_slide_wrap li .txt_area.left{left:6.8%}
+.main1909_h .vertical_slide_wrap li .txt_area.center{left:6%;width:88%;text-align:center;}
+.main1909_h .vertical_slide_wrap li .txt_area.right{right:6.8%;text-align:right;}
+.main1909_h .vertical_slide_wrap li .txt_area p{font-weight:bold;width:100%;font-family:Arial,'Apple SD Gothic Neo', sans-serif;letter-spacing:-.5px;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt{font-size:1.842em;line-height:1.1em;letter-spacing:-1px;opacity:0;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt font{font-weight:bold;}
+.main1909_h .vertical_slide_wrap li .txt_area .s_txt{font-size:1em;margin-top:13px;font-weight:normal;line-height:1.25em}/*수정 190827*/
+.main1909_h .vertical_slide_wrap li .txt_area .checkout_now_btn{color:#000;margin-top:15px;display:inline-block;font-family:Arial, 'Apple SD Gothic Neo', sans-serif;font-size:14px;border:1px solid #000;padding:10px 14px;line-height:1em;}/*수정 190829*/
+.main1909_h .vertical_slide_wrap li .txt_area.right .checkout_now_btn{float:right;}
+
+.txt_area_inner190820 i{ font-style:italic !important; }/* 200413 추가 */
+/* 신상품 */
+.newItems_main_slide1909 .main1909_view_all{font-size:0.842em;font-weight:bold;border-bottom:1px solid #000;display:inline-block}
+.newItems_main_slide1909 .main1909_item_info_wrap{position:absolute;bottom:15px;left:16px;z-index:2;font-size:0.842em;color:#111;width:80%}
+.newItems_main_slide1909 .main1909_item_info_wrap .brand{font-weight:bold;}
+.newItems_main_slide1909 .main1909_item_info_wrap .name{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li{width:100%;background:#f7d2c2;position:relative;display:table}
+.newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{width:100%;padding:0 10%;display:table-cell;vertical-align:middle;}
+.newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div a{display:block;position:relative;}
+.newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li img{width:100%;display:block;}
+.txt_on_newItems_best_wrap{position:absolute;top:67px;left:3%;z-index:2;width:max-content;overflow:hidden;-webkit-transform: translate3d(0,0,0)}
+.txt_newItemsbest_wrap_inner{position:relative;}
+.txt_on_newItems_best_wrap .main1909_count{font-weight:bold;text-align:center;display:inline-block;margin-bottom:8px;margin-left:3px;}
+.txt_on_newItems_best_wrap .main1909_count span{font-size:3.684em;color:#111;height:70px;line-height:1em;font-family:'BodoniFLF_Roman',sans-serif;}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn{width:93px;margin-left:10px}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn a{font-size:1.316em;color:#222;font-weight:bold;font-family:'Apple SD Gothic Neo',sans-serif;cursor:pointer;position:relative;display:block;line-height:1em;}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .agree_more_btn{}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .slide_border_box_icon{width:18px;height:18px;align-items:center;top:50%;margin-top:-9px}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .slide_border_box_icon .bar{position:absolute;top:50%;margin-top:-1px;width:100%;height:2px;background-color:#222}
+.txt_on_newItems_best_wrap .slide_border_box_icon.spin2019{transform:rotate(180deg);transition-duration:1s}
+.txt_on_newItems_best_wrap .slide_border_box_icon .bar.plus{-webkit-animation:plus 0.5s ease; -khtml-animation:plus 0.5s ease; -moz-animation:plus 0.5s ease; -ms-animation:plus 0.5s ease; -o-animation:plus 0.5s ease; animation:plus 0.5s ease; animation-fill-mode:forwards}
+.txt_on_newItems_best_wrap .slide_border_box_icon .bar.minus{-webkit-animation:minus 0.5s ease; -khtml-animation:minus 0.5s ease; -moz-animation:minus 0.5s ease; -ms-animation:minus 0.5s ease; -o-animation:minus 0.5s ease; animation:minus 0.5s ease; animation-fill-mode:forwards}
+.txt_on_newItems_best_wrap .slide_border_box_icon .bar.bar_horizontal{-webkit-animation:rotate(90deg); -khtml-animation:rotate(90deg); -moz-animation:rotate(90deg); -ms-animation:rotate(90deg); -o-animation:rotate(90deg); animation: spin2019 rotate(90deg); transform: spin2019 rotate(90deg)}
+.txt_on_newItems_best_wrap .gender{margin-left:12px;margin-top:10px;width:fit-content}
+.txt_on_newItems_best_wrap .gender li{font-size:0.842em;color:#222;font-family:'Apple SD Gothic Neo',sans-serif;background-color:transparent;margin-bottom:7px;width:fit-content}
+.txt_on_newItems_best_wrap .gender li.on{font-weight:bold;}
+.txt_on_newItems_best_wrap .gender li.on:after{content:"";display:block;border-bottom:1.5px solid #222}
+.txt_on_newItems_best_wrap .gender li a{display:block;}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .prd_link190923{float:left;}
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .plusminus_btn190923{display:inline-block;margin-left:5px;padding-top:5px;}
+/* 베스트 */
+.best_main_slide1909 .main1909_center_txt_wrap{position:absolute;top:241px;text-align:center;width:100%}
+.best_main_slide1909 .main1909_center_txt_wrap .tit{font-size:2.158em;color:#222;font-weight:bold;font-family:'Apple SD Gothic Neo',sans-serif}
+.best_main_slide1909 .main1909_item_info_wrap{position:absolute;bottom:15px;left:16px;z-index:2;font-size:0.842em;color:#111;width:80%}
+.best_main_slide1909 .main1909_item_info_wrap .brand{font-weight:bold;}
+.best_main_slide1909 .main1909_item_info_wrap .name{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li{width:100%;background:#edd9b8;position:relative;display:table}
+.best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{width:100%;padding:0 10%;display:table-cell;vertical-align:middle;}
+.best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div a{display:block;position:relative;}
+.best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li img{width:100%;display:block;}
+/*기획전*/
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area{font-weight:bold;position:absolute;width:77.33%;font-family:'Apple SD Gothic Neo', Arial, sans-serif;-webkit-transform: translate3d(0,0,0)}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.top{top:63px}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.mid{display:table;width:72%;height:100%;top:0;left:6%;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.mid .txt_area_inner190820{display:table-cell;vertical-align:middle;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.btm{bottom:14.7%}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.left{left:14.13%}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.center{left:14.13%;width:72%;text-align:center;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.right{right:14.13%;text-align:right;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area p{font-weight:bold;width:100%;font-family:Arial, 'Apple SD Gothic Neo', sans-serif;letter-spacing:-.5px;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt{font-size:1.316em;line-height:1.3em;letter-spacing:0;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt font{font-weight: bold;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .s_txt{font-size:0.789em;margin-top:10px;font-weight:normal;line-height:1.25em}
+/* 더매거진 */
+.theMagazine_main_slide1909 li.right .shortcut_box_wrap{right:0}
+.theMagazine_main_slide1909 li.left .shortcut_box_wrap{left:0}
+.theMagazine_main_slide1909 .shortcut_box_wrap{position:absolute;top:0;width:16%;height:100%;-webkit-transform: translate3d(0,0,0)}
+.theMagazine_main_slide1909 .shortcut_box{position:relative;height:100%;}
+.theMagazine_main_slide1909 .shortcut_box p{position:absolute;right:50%;bottom:15px;font-size:0.947em;margin-right:-0.4735em;font-family:'Apple SD Gothic Neo',sans-serif;line-height:1em;transform-origin:100% 0;transform:rotate(90deg); -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); -ms-transform: rotate(90deg); -o-transform: rotate(90deg);color:#fff;word-break:keep-all;;width:max-content;}
+.theMagazine_main_slide1909 .shortcut_box span{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/down_arr_main1909.png') no-repeat; width:19px; height:13px; position:absolute; bottom:15px; left:50%; z-index:6; background-size:18px; background-position:0 -31px;margin-left:-9.5px;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_01 .shortcut_box{background-color:#f69679;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_02 .shortcut_box{background-color:#538f9b;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_03 .shortcut_box{background-color:#a58059;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_04 .shortcut_box{background-color:#a3a55b;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_05 .shortcut_box{background-color:#e8c049;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_06 .shortcut_box{background-color:#204562;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li.theMagazine_slide_07 .shortcut_box{background-color:#5957a4;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li .txt_area{position:absolute;bottom:25px;display:inline-block;width:100%;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li .txt_area p{color:#fff;text-align:center;padding:0 15px;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li .txt_area p.txt{font-size:1.263em;font-family:'Apple SD Gothic Neo',Arial,sans-serif;font-weight:bold;line-height:1.2em;word-break:keep-all;opacity:1;}
+.theMagazine_main_slide1909 .vertical_slide_wrap li .txt_area p.s_txt{font-size:0.842em;font-family:'Apple SD Gothic Neo',Arial,sans-serif;}
+.themagazine_slide_inner_cnt190820 > a{display:block;width:84%;height:100%;position:absolute;top:0;}
+.theMagazine_main_slide1909 li.right .themagazine_slide_inner_cnt190820 > a{left:0}
+.theMagazine_main_slide1909 li.left .themagazine_slide_inner_cnt190820 > a{right:0}
+.two_show_main1909 .main_wrapper_swiper1909 > ul > li > div{height:100%;}
+.two_show_main1909 .main_wrapper_swiper1909 > ul > li > div > .themagazine_slide_inner_cnt190820{height:100%;}
+/* 이벤트 */
+.two_show_main1909 .main_wrapper_swiper1909{height:calc(100vh - 210px);}
+.two_show_main1909 .main_wrapper_swiper1909 > ul > li{height:calc(50vh - 105px);}
+.two_show_main1909 .main_wrapper_swiper1909 > ul.swiper-wrapper{width:100%;height:auto;overflow:hidden;}
+.promo_evt_wrap190901 .promo_evt_cnt{width:100%;overflow:hidden;}
+/*이벤트 텍스트노출 추가 191217*/
+.event_main_slide1909 .promo_evt_wrap190901 a{display:block;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912{width:100%;padding:0 30px;position:absolute;top:53px;text-align:center;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217{color:#222;font-size:25px;font-family:Arial,'Apple SD Gothic Neo',sans-serif;font-weight:700;line-height:30px;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 font{font-size:25px;font-family:Arial,'Apple SD Gothic Neo',sans-serif;font-weight:700;line-height:30px;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .s_txt191217{color:#222;font-size:15px;font-weight:400;margin-top:7px;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .s_txt191217 font{font-size:15px;font-weight:400;}
+@media (max-width: 350px){
+  .event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217{font-size:20px;line-height:25px;}
+  .event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 font{font-size:20px;line-height:25px;}
+  .event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .s_txt191217{font-size:12px;margin-top:5px;}
+  .event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .s_txt191217 font{font-size:12px;}
+}
+
+/* iPhone6, 6S ,7 */
+@media only screen and (max-device-width:375px) and (max-device-height:667px){
+   .newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{padding:0 15%}
+   .best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{padding:0 15%}
+}
+/*ipad mini*/
+@media only screen and (min-device-width:768px) and (min-device-height:1024px){
+  /*new item*/
+  .newItems_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{padding:0 15%;}
+  .best_main_slide1909 .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li .img_cover_div{padding:0 15%;}
+}
+/*************** 당신만의 한섬 ***************/
+/*common*/
+body .youarehandsome1909_h{font-size:16px;}
+/* 당신만의 한섬  - 브랜드 & 카테고리*/
+.youarehandsome1909_h .yourhs_main_myfav .bgimg_slide{background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common/m_main_yourhs_01.jpg')no-repeat; background-size:100% auto;}
+.youarehandsome1909_h .vertical_slide_wrap li .yours_cnt.yshome .txt_title_area{margin-top:3.750em;margin-left:6.8%;width:86.4%;}
+.youarehandsome1909_h .vertical_slide_wrap li .yours_cnt.yshome .txt_title_area p.txt{font-weight:bold;font-size:1.875em;font-family:'Apple SD Gothic Neo', Arial, sans-serif;line-height:1.033em;letter-spacing:-1px;}
+.youarehandsome1909_h .vertical_slide_wrap li .yours_cnt.yshome .txt_title_area p.txt font{font-weight:bold;}
+.youarehandsome1909_h .vertical_slide_wrap li .yours_cnt .s_txt{font-size:1.188em;margin-top:0.813em;font-weight:normal;line-height:1.25em}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap{position:relative;padding-top:1.563em;margin-left:6.8%;width:86.4%}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap p{font-size:1em;color:#222;font-weight:400;line-height:1.2em;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap h4{display:inline-block;font-size:1.563em;color:#222;font-weight:700;margin-bottom:0.625em;position:relative;line-height:1.120em;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap h4:after{content:"";display:block;width:100%;height:1.5px;background:#222;position:absolute;bottom:-1px;left:0;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924{width:100%;overflow:hidden;margin-bottom:1.125em}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 .container_wrap190925{position:relative;height:4.063em;overflow:hidden;transition-duration:.2s;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924.on .container_wrap190925{height:5.938em;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 .cont_wrap_inner{height:5.938em;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 .cont_wrap_inner .list1910{width:100%;height:auto;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 li{float:left;margin-right:6.4%;line-height:2em;font-size:1em;color:#222;font-family:Arial, 'Apple SD Gothic Neo', sans-serif;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 li.man a{color:#4d569d;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 li.woman a{color:#cb5372;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .cont_wrap190924 li.life a{color:#349475;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .more_btn{display:none; overflow:hidden; width:40px; height:40px; position:absolute; top:auto; bottom:0; right:0; background:none;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .more_btn a{display:block;z-index:2;text-indent:-9999px; width:40px; height:40px;position:relative;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .more_btn a:before{content:"";display:block;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/down_arr_main1909.png')no-repeat; background-size:18px; background-position:0 0;width:18px;height:11px;position:absolute;top:50%;left:50%;margin-top:-5.5px;margin-left:-9px;}
+.youarehandsome1909_h .yourhs_main_myfav_txt_wrap .more_btn a.up_arr:before{content:"";display:block;transform:rotate(180deg)}
+/* 당신만의 한섬 - 주문내역*/
+.youarehandsome1909_h .swiper-slide .stage .s-btn a{display:block;padding:0 15px;height:2.500em;line-height:2.500em;overflow:hidden;font-size:0.875em;background-color:#222;color:#fff;text-align:center;}
+.youarehandsome1909_h .txt_title_area_m{position:absolute;top:3.750em;left:20px;z-index:2;-webkit-transform: translate3d(0,0,0);}
+.youarehandsome1909_h .txt_title_area_m .txt_m{font-size:1.563em;font-weight:700;line-height:27px;margin-bottom:13px;}
+.youarehandsome1909_h .bgimg_slide_inner1910{width:100%;height:100%;}
+.youarehandsome1909_h .bgimg_slide_inner1910 .bgimg_inner_inner{padding:3.5em 30px 3.125em 30px;height:100%;}
+.youarehandsome1909_h .bgimg_slide_inner1910 .bgimg_inner_inner .bg_box1909{background-color:#fff;overflow:hidden;width:100%;position:relative;min-height:25.000em;height:100%;}
+.youarehandsome1909_h .card_type_inner1903{width:calc(100% - 40px);margin:0 auto;height:auto;padding-top:1.188em;}
+.youarehandsome1909_h .card_type_inner1903 .stage{border-top:1px solid #f1f1f1;}
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit{overflow:hidden;position:relative;padding-top:15px;}
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit b{font-size:1.125em;font-weight:bold;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage{border-top:0;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .s_tit{overflow:hidden;position:relative;margin-bottom:0.5em;padding-top:0;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap{overflow:hidden;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap .order_number{display:inline-block;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap .order_number .tit{color:#888;font-size:0.813em;font-weight:400;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap .order_number .number{font-size:0.813em;font-weight:700;text-decoration:underline;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap a.more{color:#888;font-size:0.813em;float:right;position:relative;padding-right:13px;top:5px;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap a.more:before,
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap a.more:after{ position: absolute; top: 0.846em; right: 0; content: ''; display: block; width: 8px; height: 0.154em; background-color: #ccc; overflow: hidden; }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap a.more:before{ -webkit-transform: rotate(-45deg); -khtml-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_number_wrap a.more:after{ top: auto; bottom: 0.731em; -webkit-transform: rotate(45deg); -khtml-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product{margin-top:0.625em;overflow:hidden;padding-bottom:0.688em;border-bottom:1px solid #f1f1f1}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .cont{width:calc(100% - 68px);float:right;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product.egift .cont{width:calc(100% - 110px);}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .cont .name{font-size:0.813em;font-weight:700;line-height:1.3em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .cont .brand{font-size:1em;font-weight:700;line-height:1em;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .cont .option{color:#666;font-size:0.813em;margin-top:0.2em;}
+/* .youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .price_wrap{margin-top:0.125em;} */
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .price_wrap span{color:#222;font-weight:400;font-size:0.813em;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product .img{width:68px;padding-right:9px;float:left;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_product.egift .img{width:110px;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .address_cont{margin-top:0.500em;padding-bottom:0.625em;border-bottom:1px solid #f1f1f1;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .address_cont .tit{font-size:0.813em;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .address_cont .info{color:#666;font-size:0.813em;margin-top:0.250em;line-height:1.538em;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .address_cont .address{color:#666;font-size:0.813em;line-height:1.538em;height:1.385em;overflow:hidden;position:relative;text-overflow:ellipsis;white-space:nowrap;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn{overflow:hidden;padding:1em 0 1em 0;overflow:hidden;background:#fff;position:absolute;width:calc(100% - 40px);bottom:0;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn a{float:left;width:calc(50% - 3px);}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn a:first-child{margin-right:3px;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn a:last-child{margin-left:3px;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn a:only-child{width:100%;margin:0 auto;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .btm_btn a.dis_a1812{background:#fcfcfc;border:1px solid #f0f0f0;color:#c7c7c7;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_list { margin-top: 0.313em; }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_list{line-height:1.5em;}
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_list li .tit { display: inline-block; margin-right: 6px; font-size: 0.813em; line-height: 1.385em; color: #888; vertical-align: top; }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_list li .txt { display: inline-block; font-size: 0.813em; line-height: 1.385em; color: #222; vertical-align: top; }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .order_list li .txt + .tit { margin-left: 6px; }
+.youarehandsome1909_h .card_type_inner1903 .order_stage .pre_order_txt1903_s{color:#888;padding-top:0.625em;line-height:1.462em;font-size:0.813em;}
+/* 당신만의 한섬 - 마일리지,포인트*/
+.youarehandsome1909_h .card_type_inner1903 .stage:first-child{border-top:0;}
+.youarehandsome1909_h .card_type_inner1903 .stage .box_mileage1910 .b_t{font-size:25px;}
+.youarehandsome1909_h .card_type_inner1903 .mileage_stage .box_mileage1910 .b_t{color:#e46764;}
+.youarehandsome1909_h .card_type_inner1903 .hpoint_stage .box_mileage1910 .b_t{color:#0a9882;}
+.youarehandsome1909_h .card_type_inner1903 .hs_vvip_stage .box_mileage1910 .b_t{color:#736866;}
+.youarehandsome1909_h .card_type_inner1903 .emoney_stage .box_mileage1910 .b_t{color:#6c6ca6;}
+.youarehandsome1909_h .card_type_inner1903 .stage .box_mileage1910 .b_t b{font-size:35px;}
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit a.more{color:#888;font-size:0.813em;float:right;position:relative;padding-right:13px;top:5px;}
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit a.more:before,
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit a.more:after{ position: absolute; top: 0.846em; right: 0; content: ''; display: block; width: 8px; height:0.154em; background-color: #ccc; overflow: hidden; }
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit a.more:before{ -webkit-transform: rotate(-45deg); -khtml-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); }
+.youarehandsome1909_h .card_type_inner1903 .stage .s_tit a.more:after{ top: auto; bottom:0.731em; -webkit-transform: rotate(45deg); -khtml-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon { height: 95px; border: 1px solid #e3e3e3; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; position: relative;margin-top:10px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon:after, ..youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner:before { top: -1px; right: 30px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon:after { border-color: rgba(255, 255, 255, 0); border-top-color: #ffffff; border-width: 6px; margin-right: -6px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon:before { border-color: rgba(227, 227, 227, 0); border-top-color: #e3e3e3; border-width: 7px; margin-right: -7px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner { padding: 0 40px 0 10px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner:before, ..youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner:after { bottom: -1px; right: 30px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner:before { border-color: rgba(227, 227, 227, 0); border-bottom-color: #e3e3e3; border-width: 7px; margin-right: -7px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 6px; margin-right: -6px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner em {position:absolute;top:50%;right:0;-webkit-transform:rotate(90deg);-khtml-transform:rotate(90deg);-moz-transform:rotate(90deg);-ms-transform:rotate(90deg);-o-transform:rotate(90deg);transform:rotate(90deg);white-space:nowrap;width:76px;margin-right:-38px;margin-right:-23px;margin-top:-15px;text-align:center;line-height:30px;font-size:9px;color:#e7e6e7;height:30px;overflow:hidden;border-bottom:1px dashed #e3e3e3;}
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner b, .youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner span { display: block; text-align: center; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner b { font-size: 20px; color: #222; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-top: 32px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner span { font-size: 13px; color: #888; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner i { position: absolute; top: -8px; left: -8px; width: 40px; height: 40px; padding-top: 8px; background-color: #e46764; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; color: #fff; text-align: center; font-size: 11px; line-height: 13px; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon-inner strong {font-size:14px; font-weight: normal; display: block; text-align: center; margin: 0 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; position: absolute; top: 0; left: 0; width: calc(100% - 90px); padding: 14px 0 0; }
+.youarehandsome1909_h .card_type_inner1903 .coupon_stage .s-coupon + .s-coupon { margin-top: 15px; }
+.youarehandsome1909_h .card_type_inner1903 .stage .mypage_card_nodata{color:#888;font-size:14px;padding:15px 0;}
+/* 최근에 본 상품*/
+.youarehandsome1909_h .main_wrapper_swiper1909 > ul.inner_vertical_slide_wrap > li{background:#e1e1e1}
+.youarehandsome1909_h .img_cover_div{font-size:19px;}
+.youarehandsome1909_h .img_cover_div_inner{position:relative;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .img_cover_div .like{position:absolute;top:5px;right:5px;width:39px;height:38px;text-indent:-9999em;z-index:1;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .img_cover_div .like:before{position:absolute;top:10px;right:10px;content:'';display:block;width:23px;height:20px;background: url("http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_like_love191024.png") no-repeat 50% 0;background-size: 30px auto; z-index: 2; }
+.youarehandsome1909_h .main_wrapper_swiper1909 .img_cover_div .like.on:before { background-position: 50% -22px; }
+.youarehandsome1909_h .main_wrapper_swiper1909 .img_cover_div .like.on { -webkit-animation: elPopping 0.8s ease-in-out; -khtml-animation: elPopping 0.8s ease-in-out; -moz-animation: elPopping 0.8s ease-in-out; -ms-animation: elPopping 0.8s ease-in-out; -o-animation: elPopping 0.8s ease-in-out; animation: elPopping 0.8s ease-in-out; }
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item{background:#fff;height:auto;text-align:center;display:block;position:absolute;top:50%;width:100%;transform:translate3d(0, -50%, 0);}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item p{font-size:1em;margin-bottom:1.875em;line-height:1.500em;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul{border-top:1px solid #1d1d1d;width:49.4%;margin:0 auto;padding-top:1.688em;overflow:hidden;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li{color:#111;font-family:'Apple SD Gothic Neo',sans-serif;text-align:center;margin:0 auto;margin-bottom:1.250em}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li a{display:block;font-size:1.125em;}
+/* 쇼핑백에 담은 상품 , 위시리스트에 담은 상품*/
+.youarehandsome1909_h .txt_title_area_m .view_all{font-size:16px;font-weight:700;}
+.youarehandsome1909_h .txt_title_area_m .view_all a{display:inline-block;border-bottom:1px solid #222;line-height:18px;}
+/*당신만의 추천*/
+.youarehandsome1909_h .txt_title_area_m .left_mini_list li{margin-bottom:10px;}
+.youarehandsome1909_h .txt_title_area_m .left_mini_list li a{font-size:16px;}
+.youarehandsome1909_h .txt_title_area_m .left_mini_list li a.on{font-weight:700;border-bottom:1px solid #222;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li a.on{font-weight:700;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li > ul{display:none;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li > ul > li{margin-top:0.938em;}
+.youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item > ul > li > ul > li a{color:#565656;font-size:0.938em;}
+.youarehandsome1909_h .main_wrapper_swiper1909.verticalSlide4 .nothing_item .nothing_item_list{height:16.125em;}
+/* iPhone6, 6S ,7 */
+@media only screen and (max-device-width:375px) and (max-device-height:667px){
+   /*당신만의 한섬*/
+   body .youarehandsome1909_h{font-size:15px;}
+   .youarehandsome1909_h .bgimg_slide_inner1910 .bgimg_inner_inner{padding: 2.5em 30px 3.125em 30px;}
+   .youarehandsome1909_h .txt_title_area_m{top:2em;}
+   .youarehandsome1909_h .txt_title_area_m.sliding191023{top:3.75em;}
+   .youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item{font-size:14px;}
+}
+/* iPhone5, SE */
+@media only screen and (max-device-width:320px) and (max-device-height:568px){
+   /*당신만의 한섬*/
+   body .youarehandsome1909_h{font-size:14px;}
+   .youarehandsome1909_h .bgimg_slide_inner1910 .bgimg_inner_inner{padding: 2.5em 20px 3.125em 20px;}
+   .youarehandsome1909_h .txt_title_area_m{top:2em;}
+   .youarehandsome1909_h .txt_title_area_m.sliding191023{top:3.75em;}
+   .youarehandsome1909_h .main_wrapper_swiper1909 .nothing_item{font-size:14px;}
+}
+/*THE매거진 메인 리스트 개편 2003*/
+.main_list_200331{height:0;overflow:hidden;padding-top:calc(101% + 205px);}
+.main_list_200331 .bottom_wrap{height:255px;background:#fff;width:calc(100% - 30px);position:absolute;bottom:0;left:50%;transform:translate3d(-50%,0,0);padding:25px 25px 50px;z-index:1;word-break:keep-all;}
+.main_list_200331 .bottom_wrap:before{content:"";background:#fff;display:block;width:15px;height:205px;position:absolute;bottom:0;left:-15px;}
+.main_list_200331 .bottom_wrap:after{content:"";background:#fff;display:block;width:15px;height:205px;position:absolute;bottom:0;right:-15px;}
+.main_list_200331 .bottom_wrap .cate_n{padding-bottom:15px;color:#666;font-size:14px;}
+.main_list_200331 .bottom_wrap .cate_n a{color:#666;font-size:14px;}
+.main_list_200331 .bottom_wrap .con_title{color:#222;font-size:21px;font-weight:700;line-height:27px;font-family:'Chapaza','AppleSDGothicNeoB';font-weight:normal;max-height:54px;overflow:hidden;}
+.main_list_200331 .bottom_wrap .sub_txt{color:#666;font-size:15px;margin:10px 27px 12px 0;line-height:21px;word-break:keep-all;max-height:42px;overflow:hidden;}
+.main_list_200331 .inner_wrap{background:#fff;width:100%;height:100%;position:absolute;top:0;left:0;}
+.main_list_200331 .inner_wrap .img_w{overflow:hidden;}
+.main_list_200331 .inner_wrap .img_w img,
+.main_list_200331 .inner_wrap .img_w video{display:block;}
+.main_list_200331 .bottom_wrap .more_view_wrap2004{position:absolute;bottom:50px;left:25px;}
+.main_list_200331 .bottom_wrap .more_view_wrap2004 .more_view{display:inline-block;color:#888;font-size:13px;height:18px;border-bottom:1px solid #a2a2a2;position:relative;padding-right:10px;padding-bottom:3px;}
+.main_list_200331 .bottom_wrap .more_view_wrap2004 .more_view:before,
+.main_list_200331 .bottom_wrap .more_view_wrap2004 .more_view:after{content:'';position:absolute;top:11.5px;right:0;display:block;width:6px;height:1px;background-color:#888;overflow:hidden;transform:rotate(-45deg);}
+.main_list_200331 .bottom_wrap .more_view_wrap2004 .more_view:after{top:auto;bottom:8.5px;transform:rotate(45deg);}
+.main_list_200331 .bottom_wrap .magazine_more2004{width:100%;text-align:center; position:absolute;bottom:0;left:0;}
+.main_list_200331 .bottom_wrap .magazine_more2004 a{color:#222;display:inline-block;height:44px;/*border-top:2px solid #222;*/font-size:15px;line-height:44px;transition-duration:.2s; font-weight:600;}
+.main_list_200331 .bottom_wrap .magazine_more2004 a:after{content:"";display:inline-block;width:6px;height:10.5px;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/arr_right_5_black.png') no-repeat;background-size:100% auto;margin-left:9px;position:relative;top:-1px;}
+.cont_info_wrap2005{width:100%;height:calc(100% - 50px);}
+.cont_info_wrap2005 > a{display:block;width:100%;height:100%;}
+/* iPhone5, SE */
+@media only screen and (max-device-width:320px) and (max-device-height:568px){
+  .main_list_200331 .bottom_wrap .cate_n{font-size:12px;}
+  .main_list_200331 .bottom_wrap .cate_n a{font-size:12px;}
+  .main_list_200331 .bottom_wrap .con_title{font-size:19px;line-height:25px;max-height:50px;}
+  .main_list_200331 .bottom_wrap .sub_txt{font-size:13px;line-height:19px;max-height:38px;}
+  .main_list_200331 .bottom_wrap .more_view_wrap2004{bottom:60px;}
+}
+
+/* 20200909_BI개선 */
+body .hsome_main.update191029{background:#000;}
+body .hsome_main.update191029:before{width:18.5px; height:13px;     background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/refresh_loading_bar_20200909.png); background-size:auto 13px; animation: reloading2009 .5s steps(3) infinite;}
+body .hsome_main.update191029:after{content: "LOADING"; font-size:8px; color:#fff; margin-top:7px;}
+@keyframes reloading2009 {
+  0% {background-position: 0 0; }
+  100% {background-position: -55.5px 0; }
+}
+
+header.main201909 ul.h_gnbMenu li a span:before{background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/content/mobile-header-sprites-row-new-icon.png) 0 0 no-repeat; background-size:102px auto; width:25px; height:27px; background-position: -51px 0;}
+header.main201909 ul.h_gnbMenu li.search{left:6px;}
+header.main201909 ul.h_gnbMenu li.cart{right:6px;}
+header.main201909 ul.h_gnbMenu li.cart a span:before{background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/content/mobile-header-sprites-row-new-icon.png) 0 0 no-repeat; background-size:102px auto; width:25px; height:27px; background-position: -76px 0;}
+header.main201909 ul.h_gnbMenu li a i{position: absolute; top: 5px; right: 3px; -webkit-border-radius: 50%; -khtml-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; min-width: 19px; height: 19px; background-color: #e46764; overflow: hidden; text-align: center; color: #fff; font-size: 11px; line-height: 20px; padding: 0 2px;}
+
+header.main201909 h1.h_logo a{padding:15px 33px;}
+header.main201909 h1.h_logo a:before{width: 168px; height: 20px; background: url("http://cdn.thehandsome.com/_ui/handsomemobile/images/common/handsome-header-logo-202009.png") 0 0 no-repeat; background-size: 168px auto;}
+
+.hsome_quickMenu.hsome_quickMenu1909 ul li{background-position:center 0; background-size:48px auto;}
+/*.hsome_quickMenu.hsome_quickMenu1909 ul li.shop a{background-color:#fff;}*/
+.hsome_quickMenu.hsome_quickMenu1909 ul li a::before{    background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/handsome-footer-btn-icon-colornone-new-202009.png) 0 0 no-repeat; background-size: auto 48px; width:50px; height:48px; top:50%; left:50%; transform:translate(-50%, -50%); margin-left:0;}
+.hsome_quickMenu.hsome_quickMenu1909 ul li.shop a::before{width:50px; background-position: 0px 0;}
+.hsome_quickMenu.hsome_quickMenu1909 ul li.sns a::before{background-position: -50px 0;}
+.hsome_quickMenu.hsome_quickMenu1909 ul li.home a::before{background-position: -100px 0;}
+.hsome_quickMenu.hsome_quickMenu1909 ul li.myheart a::before{background-position: -150px 0;}
+.hsome_quickMenu.hsome_quickMenu1909 ul li.mypage a::before{background-position: -200px 0;}
+
+header.main201909 ul.h_gnbMenu li a i{background-color:#000; top:8px;}
+.guide_arr190906{top:120px; margin-top:0; box-sizing:content-box; padding-right:5px;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt .bar-in{position: relative; display:inline-block; padding:0 15px;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt .bar-in .ab-bar{position:absolute; top:50%; transform:translate(0, -50%); width:5px; height:102.8%;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt .bar-in .ab-bar.left{left:0;}
+.main1909_h .vertical_slide_wrap li .txt_area .txt .bar-in .ab-bar.right{right:0;}
+
+.main1909_fix_b_btn_wrap{right:3%;}
+.main1909_fix_b_btn_wrap .top_btn{background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/main-quick-top-icon.png) 0 0 no-repeat; width:42px; height:42px; background-size:42px;}
+.main1909_fix_b_btn_wrap .chatbot-btn{background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/main-quick-chatbot-icon.png) 0 0 no-repeat; width:42px; height:42px; background-size:42px;}
+.main1909_fix_b_btn_wrap .chatbot-btn span{overflow:hidden; width:1px; height:1px; text-indent:-99999999999px; position:absolute; top:-99999999999px; left:-99999999999px; color:transparent;}
+
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217{}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 .bar-in{display:inline-block; position:relative; line-height:1.5em; font-weight:700;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 .bar-in .ab-bar{display: inline-block; position:absolute; top:50%; transform:translate(0, -50%); width:3.5px; height:85%;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 .bar-in .ab-bar.left{left:-16px;}
+.event_main_slide1909 .promo_evt_wrap190901 .txt_wrap1912 .txt191217 .bar-in .ab-bar.right{right:-16px;}
+
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area{left:8.53%; width:82.8%;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.center{left:8.53%; right:8.53%; width:82.8%;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt_area_inner190820{position: relative; min-height:120px; display: flex; flex-direction: column; justify-content: center;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt_area_inner190820 .bar-line{width:100%; position:absolute; left:0;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt_area_inner190820 .bar-line.top{top:0; height:1px;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt_area_inner190820 .bar-line.bottom{bottom:0; height:5px;}
+
+.main_list_200331 .bottom_wrap{width:100%; height:auto; padding:25px 15px 50px;}
+.main_list_200331 .bottom_wrap .cate_n{position:absolute; top:39px; right:30px; padding:0;}
+.main_list_200331 .bottom_wrap .cate_n a{font-size:10px; color:#000;}
+.main_list_200331 .bottom_wrap .con_title{border-top:1px solid #000; padding:14px 5px; max-height:none; font-size:22px; min-height: 3.1em;}
+.main_list_200331 .bottom_wrap .sub_txt{border-top:3px solid #000; border-bottom:5px solid #000; margin:0; max-height:none; height:108px; box-sizing: border-box; padding:18px 5px; font-size:14px; line-height:20px; color:#000;}
+.main_list_200331 .bottom_wrap .more_view_wrap2004{left:20px; bottom:65px;}
+.main_list_200331 .bottom_wrap .more_view_wrap2004 .more_view{font-size:12px;}
+
+.txt_on_newItems_best_wrap .new_best_item_plus_btn .slide_border_box_icon{width:20px; height:20px;}
+.txt_on_newItems_best_wrap .slide_border_box_icon img{width:100%; height:100%; vertical-align:top;}
+
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.top{top:90px;}
+
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .inner-rela{position:relative; height:120px;display: flex; justify-content: center; align-items: center; flex-direction: column;}
+
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.left{left:8.53%; right:8.53%; width: 82.8%;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.btm{bottom:18.7%;}
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area.right{right:8.53%; left:8.53%; right:8.53%; width:82.8%;}
+
+/* main paging */
+.main-swiper-bullets.swiper-pagination-bullets-dynamic{top:50%; transform:translateY(-50%); right:13px; left:auto; background:transparent; bottom:auto; width:auto; width:13px;}
+
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet{width:100%; height:7px; background-color:rgba(255, 255, 255, 0.6); margin:0 auto; transform: scale(1, 0.2) translate(0, 1px); display:block; border-radius:0; opacity:1; transition:height .2s, top .2s, transform .2s; border-width: 2px; border-style: solid; box-sizing: content-box; border-color: transparent; border-left: 0; border-right: 0;}
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet:last-child{display:none;}
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.swiper-pagination-bullet-active{background-color:rgba(255, 255, 255, 1); transform: scale(1, 0.6);}
+
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.swiper-pagination-bullet-active-prev{transform: scale(0.8, 0.2);}
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.swiper-pagination-bullet-active-prev-prev{transform: scale(0.6, 0.2);}
+
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.swiper-pagination-bullet-active-next{transform: scale(0.8, 0.2);}
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.swiper-pagination-bullet-active-next-next{transform: scale(0.6, 0.2);}
+
+.main-swiper-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet.on{transform: scale(1, 0.6); background-color:rgba(255, 255, 255, 1);}
+/* //main paging */
+
+/* BI개선 _ header icon */
+header.main201909 ul.h_gnbMenu li a span:before{background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/content/handsome-mobile-header-icon.png) 0 0 no-repeat; background-position: -5px -4px; background-size: 250px auto;}
+header.main201909 ul.h_gnbMenu li.cart a span:before{background-image: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/content/handsome-mobile-header-icon.png); background-repeat:no-repeat; background-position:-135px -4px; background-size:250px auto;}
+
+/* BI개선(20201005) _ 모바일 메인 기획전 text 여백 추가 */
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .inner-rela{padding:1% 6% 2%; height:auto; min-height:120px;}
+
+/* BI개선(20201006) _ 모바일 메인 기획전 글씨 넘침 수정 */
+.main1909_h .exhibitions_main_slide1909 .vertical_slide_wrap li .txt_area .txt{word-break: break-word;}
+
+/* BI개선(20201008) _ 모바일 메인 글씨 벌어짐 수정 */
+.main1909_h .vertical_slide_wrap li .txt_area .txt font{word-break: break-all;}
+
+/* 5주년 셀렉트샵(20201005) */
+.main1909_fix_b_btn_wrap .selectshop-btn{background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/m_quick_icon.gif) center center no-repeat; width:42px; height:42px; background-size:29px; background-color:#000; margin-bottom:10px; border-radius:100%;}
+.main1909_fix_b_btn_wrap .selectshop-btn span{overflow: hidden; width: 1px; height: 1px; text-indent: -99999999999px; position: absolute; top: -99999999999px; left: -99999999999px; color: transparent;}
+
+/* 모바일 메뉴 추가(핸썸TV 20201029) */
+.top_nav1909{overflow:visible;}
+.top_nav1909 ul li a{padding:0 8px;}
+.top_nav1909 ul li.handsometv a{background-image:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/header-menu-handsometv-icon.png); background-repeat:no-repeat; background-size:25px auto; background-position:center 8px; width:45px; /*height:44px;*/ text-indent:-9999999px; overflow:hidden; color:transparent;}
+.top_nav1909 ul li.handsometv.on-air a:before{content:""; display:block; position: absolute; top:27px; left:50%; width:40px; height:25px; background-image:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/header-onair-handsometv-icon.png); background-repeat:no-repeat; background-size:38px auto; background-position:center 7px; z-index:1; transform:translate(-50%, 0);}
+
+.hsome_main .main-handsometv-int-box{position:relative; height:100%;}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area{position:absolute; bottom:0; left:0; width:100%;}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area a{position:relative; text-align:center; font-size:17px; font-weight:bold; color:#fff; background-color:#ee7756; height:48px; display:flex; align-items:center; justify-content:center;}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area a:after{display:none;}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area a span{display:inline-block; position:relative; padding-right:18.5px; line-height:1; font-weight:700; margin-top: -2px;}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area a span:after{content:""; display:block; width:11px; height:18px; position:absolute; top:50%; right:0; background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/handsometv-btn-arrow-icon.png) 0 0 no-repeat; background-size:11px auto; transform: translate(0, -46%);}
+.hsome_main .main-handsometv-int-box .handsometv-btn-area.on-air a:after{content:""; display:block; position:absolute; top:-63px; left:0; right:0; margin:0 auto; width:119px; height:57px; background:url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/handsometv-onair-btn.png) 0 0 no-repeat; background-size:119px auto;}
+
+@media (min-width:0) and (max-width:375px){
+  .top_nav1909{height:40px; padding:0 3px;}
+  .top_nav1909 ul li.on:after{bottom: 7px;}
+  .top_nav1909 ul li a{padding:0 7px; font-size:12px; line-height: 40px;}
+
+  .top_nav1909 ul li.handsometv a{width:35px; background-size: 21px auto;}
+  .top_nav1909 ul li.handsometv.on-air a:before{width:32px; background-size:32px auto; height:19px; background-position: center bottom;}
+  .top_nav1909 ul li.handsometv.on-air.on:after{display:none;}
+}
+
+/* 핸썸TV 링크 추가(20201130) */
+.hsome_main .main-handsometv-int-box .in-img-box{position: relative;}
+.hsome_main .main-handsometv-int-box .now-on-air{position:absolute; top:75.8%; left:22.4%; width:55.2%; height:5.4%;}
+.hsome_main .main-handsometv-int-box .now-on-air span{font-size:0; color:transparent; overflow:hidden; display:block; text-indent:-999999px; width:0; height:0;}
+
+/* 앱 유도 팝업 딤드 클래스추가(20210607) */
+.noti_popup190906_dim.appdown{background:rgba(0,0,0,0.75);}
+
+/* 210819 하단메뉴 아이콘 임시 */
+.hsome_quickMenu.hsome_quickMenu210820 ul li a::before{ background: url(http://cdn.thehandsome.com/_ui/handsomemobile/images/common/handsome-footer-btn-icon-colornone-new-210819.png) 0 0 no-repeat; background-size: auto 48px; width:50px; height:48px; top:50%; left:50%; transform:translate(-50%, -50%); margin-left:0;}

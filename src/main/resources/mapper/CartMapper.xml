@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 소규석 -->
+<mapper namespace="com.hd03.gangsoju.mapper.CartMapper">
+
+   <!-- <select id="cartList" resultType="com.hd03.gangsoju.domain.cart.CartProductVO"> 
+      select * from cart c join product_stock ps on c.psid=ps.psid join product_color 
+      pc on ps.pcid= pc.pcid join product_common p on pc.pid =p.pid where c.mid= 
+      {#mid} </select> -->
+
+   <resultMap id="cartMap"
+      type="com.hd03.gangsoju.domain.cart.CartProductVO">
+      <result property="bname" column="bname" />
+      <result property="pname" column="pname" />
+      <result property="dprice" column="dprice" />
+      <result property="pcprice" column="pcprice" />
+      <result property="psstock" column="psstock" />
+      <result property="pccolorcode" column="pccolorcode" />
+      <result property="color" column="color" />
+      <result property="psize" column="psize" />
+      <result property="pquantity" column="pquantity" />
+      <result property="pcimg2" column="pcimg2" />
+      <result property="psid" column="psid" />
+      <result property="pcid" column="pcid" />
+      <collection property="options"
+         resultMap="cartDetailColorMap" />
+   </resultMap>
+
+
+   <resultMap id="cartDetailColorMap"
+      type="com.hd03.gangsoju.domain.cart.CartDetailColorPerSize">
+      <result property="ocolor" column="ocolor" />
+      <result property="opccolorcode" column="opccolorcode" />
+      <result property="opcchipimg" column="opcchipimg" />
+
+      <result property="opcid" column="opcid" />
+   <collection property="sizes"
+         resultMap="cartDetailSizeMap" />
+   </resultMap>
+
+   <resultMap id="cartDetailSizeMap"
+      type="com.hd03.gangsoju.domain.cart.CartDetailSizeVO">
+      <result property="opsize" column="opsize" />
+      <result property="opsstock" column="opsstock" />
+      <result property="opsid" column="opsid" />
+
+   </resultMap>
+
+   <select id="cartList" resultMap="cartMap">
+      select 
+         b.bname, 
+         p.pname,
+         trunc(pc.pcprice*(100-nvl(dd.drate,0))/100,-2) AS dprice, 
+         pc.pcprice,
+         ps.psstock, 
+         pc.pccolorcode,substr(pc.pcid,-2) AS color, 
+         ps.psize, 
+         ps.pcid,
+         c.pquantity, 
+         pc.pcimg2,
+         ps.psid, 
+         REGEXP_SUBSTR(qq.psid,'[^_]+',1,2) AS ocolor, 
+           qq.pcid opcid, 
+           qq.psid opsid, 
+           qq.pccolorcode AS opccolorcode, 
+           qq.pcchipimg AS opcchipimg, 
+           qq.psize AS opsize, 
+           qq.psstock AS opsstock
+         from cart c
+         join product_stock ps on c.psid = ps.psid 
+         join product_color pc on ps.pcid = pc.pcid 
+         join product_common p on pc.pid = p.pid 
+         join brand b on b.bno = p.bno left
+         join (
+               select * from product_discount pd 
+               join discount d on pd.did = d.did
+              )dd on dd.psid = ps.psid 
+         join
+             (  select p.pid, 
+                     pname, 
+                     pnote, 
+                     bno, 
+                     pstatus, 
+                     pc.pcid, 
+                     pcimg1, 
+                     pcimg2, 
+                     pcimg3, 
+                     PCCHIPIMG,
+                     pccolorcode, 
+                     pcprice, 
+                     ps.psize, 
+                     ps.psid, 
+                     ps.psstock
+                     from product_common p 
+                     join product_color pc on p.pid = pc.pid 
+                     join product_stock ps on pc.pcid = ps.pcid
+                     where p.pid in (
+                                    select REGEXP_SUBSTR(psid,'[^_]+',1,1
+                                    ) from cart where mid = #{mid})
+            ) qq on REGEXP_SUBSTR(c.psid,'[^_]+',1,1) = qq.pid
+         where c.mid = #{mid}
+         order by ps.psid, qq.psid
+           
+   </select>
+
+   <update id="cartUpdate">
+
+          update cart set psid  = REGEXP_SUBSTR(#{psid},'[^_]+',1,1)||'_'||#{pccolorcode}||'_'||#{psize} , pquantity = #{pquantity}
+      where psid=#{psid} and
+      mid =#{mid}
+   </update>
+
+   <delete id="cartDelete">
+      delete from cart where mid = #{mid} and psid =
+      #{psid}
+   </delete>
+   
+      <delete id="cartDeleteAll" parameterType="java.util.List">
+      DELETE FROM cart
+      <where>
+         <foreach collection="list" item="item" open="" close=""
+            separator="OR">
+            (psid = #{item.psid} AND mid = #{mid})
+         </foreach>
+      </where>
+   </delete>
+   
+   <select id ="cartRecommand" resultType = "String">
+              <![CDATA[select pcimg2 from  (select * from product_color
+                              order by dbms_random.value)
+          where rownum <= 20]]>
+   </select>
+   
+    <insert id= "cartInsert">
+       insert into cart values (#{mid},#{psid},#{qty})
+     
+     </insert>
+     
+     <select id="cartCheck" resultType="boolean">
+         select nvl(min('true'),'false') from cart where psid=#{psid} and mid=#{mid}
+     </select>
+
+
+</mapper>

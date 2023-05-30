@@ -1,0 +1,726 @@
+@charset "utf-8";
+// ========================================================== */
+// version : pg.scss v1 */
+// wirter : IDR Ryu */
+// date : 20180612 */
+// ========================================================== */
+/* ---------------------------------------------------------- */
+/* pg_common s ============================================== */
+.lp_simple_pay_wrap,
+.lp_oneclick_order_wrap,
+.lp_setup_pw_change_wrap {
+	overflow-y:auto;
+	.lyrpp_mid {
+		height:auto;
+		overflow:hidden;
+	}
+	.hidden {
+		display:none;
+	}
+}
+
+.lp_error_wrap,
+.lp_loading_wrap {
+	.lyrpp_mid {
+		padding:0;
+		height: calc(100%);
+	}
+}
+
+.vkeypad_box {
+	position:absolute;
+	bottom:0;
+	margin-top:30px;
+	width:100%;
+	background:#666;
+	.vkeypad_top {
+		position:relative;
+		width:100%;
+		padding:9px $con_pd;
+		.vk_icon {
+			float:left;
+			display:inline-block;
+			width:12px;
+			height:20px;
+			background:url("#{$img_url}#{$img_pg_url}vk_bg_v2.png") no-repeat;
+			@include css3-prefix(background-size, 687px auto);
+			@include background-position(-15px, -9px)
+		}
+		.vk_tit {
+			display:inline-block;
+			padding-left:10px;
+			color:$white;
+			font-weight:$s;
+		}
+		.vk_close {
+			@include clearfix();
+			@include posa_tr(50%,$con_pd);
+			display:inline-block;
+			margin-top:-6px;
+			width:12px;
+			height:12px;
+			overflow:hidden;
+			background:url("#{$img_url}#{$img_pg_url}vk_bg_v2.png") no-repeat;
+			@include css3-prefix(background-size, 687px auto);
+			@include background-position(-348px, -12px);
+			span {
+				@include t_idt();
+				font-size:0;
+			}
+		}
+	}
+	.vkeypad_con {
+		float:left;
+		width:100%;
+		.vk_btn {
+			float:left;
+			width:25%;
+			div {
+				float:left;
+				width:100%;
+				height:57px;
+				border-top:1px solid #7a7a7a;
+				border-right:1px solid #7a7a7a;
+				border-bottom:1px solid #666;
+				border-left:1px solid #666;
+				overflow:hidden;
+				&.selected {
+					border:1px solid $point_clr;
+				}
+				span {
+					@include clearfix();
+					margin:0 auto;
+					// width:80px;
+					width:80px;
+					height:56px;
+				}
+			}
+			&.vk_bs,
+			&.vk_ad, {
+				width:50%;
+				div {
+					span {
+						width:160px;
+					}
+				}
+			}
+			&.vk_bs,
+			&.vk_ad {
+				div span {
+					background:url("#{$img_url}#{$img_pg_url}vk_bg_v1.png") no-repeat;
+					@include css3-prefix(background-size, 1034px auto);
+				}
+			}
+			&.vk_bs {
+				div span {
+					@include background-position(-((93.75px * 0) + 15), -285px);
+				}
+			}
+			&.vk_ad {
+				div span {
+					@include background-position(-((93.75px * 0) + 15), -344px);
+				}
+			}
+			@for $i from 0 through 9{
+				&.vk_#{$i} {
+					div span {
+						background:url("#{$img_url}#{$img_pg_url}vk_bg_v1.png") no-repeat;
+						@include css3-prefix(background-size, 1034px auto);
+						@include background-position(-((93.75px * $i) + 8), -229px);
+					}
+				}
+			}
+			
+		}
+	}
+	&.vkeypad_box_v2 {
+		.vkeypad_con {
+			.vk_btn {
+				width:16.66%;
+				div {
+					span {
+						width:53px;
+						height:56px;
+					}
+				}
+				&.vk_bs,
+				&.vk_ad,
+				&.vk_rf {
+					width:16.66%;
+				}
+				&.vk_ed {
+					width:49.98%;
+					div {
+						span {
+							width:159px;
+						}
+					}
+				}
+				@for $i from 0 through 9{
+					&.vk_#{$i} {
+						div span {
+							background:url("#{$img_url}#{$img_pg_url}vk_bg_v2.png") no-repeat;
+							@include css3-prefix(background-size, 687.5px auto);
+							@include background-position(-(((125px / 2) * $i) + 5), -206px);
+						}
+					}
+				}
+				&.vk_bs,
+				&.vk_ad,
+				&.vk_rf,
+				&.vk_ed {
+					div span {
+						background:url("#{$img_url}#{$img_pg_url}vk_bg_v2.png") no-repeat;
+						@include css3-prefix(background-size, 687.5px auto);
+					}
+				}
+				&.vk_bs {
+					div span {
+						@include background-position(-(((125px / 2) * 0) + 6), -262px);
+					}
+				}
+				&.vk_ad {
+					div span {
+						@include background-position(-(((125px / 2) * 1) + 6), -262px);
+					}
+				}
+				&.vk_rf {
+					div span {
+						@include background-position(-(((125px / 2) * 2) + 6), -262px);
+					}
+				}
+				&.vk_ed {
+					div span {
+						@include background-position(-15px, -319px);
+					}
+				}
+			}
+		}
+	}
+}
+
+.lp_simple_pay_wrap,
+.lp_setup_pw_change_wrap {
+	.mbr_signup_wrap {
+		margin-top:-$con_pd;
+		margin-right:-$con_pd;
+		margin-left:-$con_pd;
+		.mem_ct_wrap_bg {
+			padding-top:18px;
+			padding-bottom:18px;
+			p {
+				font-size:14px;
+				color:$default_fc;
+			}
+		}
+		.mem_ct_wrap {
+			padding-bottom:$con_pd2;
+			border-bottom:8px solid $border_clr;
+		}
+		.chk_agree_wrap {
+			li {
+				position:relative;
+			}
+		}
+		.chk_agree_sub_wrap_2 {
+			margin-top:45px;
+			hr {
+				&:first-child {
+					border-top:0;
+				}
+			}
+		}
+		hr {
+			margin:20px 0;
+			&:last-child {
+				margin-bottom:0;
+			}
+		}
+		.btn_wrap {
+			margin-top:20px;
+		}
+	}
+	.check_stl input[type="checkbox"].chk_all_agree + label {font-size:16px;}
+	.view_policy_btn {
+		@include posa_tr(-8px,0);
+		width:80px;
+		a {
+			width:100%;
+		}
+	}
+}
+/* pg_common e ============================================== */
+/* ---------------------------------------------------------- */
+/* simple_pay s ============================================= */
+.certify_wrap {
+	padding:$con_pd;
+}
+.certify_chk_wrap {
+	padding:$con_pd2 $con_pd;
+	width:100%;
+	border-bottom:8px solid $border_clr;
+	&.on {
+		// padding-bottom:0;
+	}
+	.certify_policy_wrap {
+		margin-bottom:-$con_pd2;
+	}
+	hr {
+		&:last-child {
+			border-top:0;
+		}
+	}
+}
+
+.certify_policy_wrap {
+	display:none;
+	padding-bottom:$con_pd2;
+	width:100%;
+	&.on {
+		display:block;
+	}
+}
+
+.certify_desc {
+	// padding-top:$con_pd2;
+	padding-bottom:$con_pd2;
+}
+
+.certify_input_wrap {
+	> li {
+		float:left;
+		width:100%;
+		margin-top:$con_mg;
+		&:first-child {
+			margin-top:0;
+		}
+	}
+}
+
+.crtf_name {}
+
+.crtf_reg_num {
+	> li {
+		float:left;
+		line-height:40px;
+		&.crtf_reg_num_input1 {
+			width:50%;
+		}
+		&.blt_hyphen {
+			width:5%;
+			text-align:center;
+		}
+		&.crtf_reg_num_input2 {
+			width:15%;
+			input {
+				text-align:center;
+			}
+		}
+		&.crtf_reg_num_etc {padding-left:5px;}
+	}
+}
+
+.crtf_phone {
+	> li {
+		float:left;
+		&.crtf_select {
+			width:30%;
+			.sod_select {
+	      padding:12px 15px;
+	    }
+		}
+		&.crtf_input {
+			padding-left:5px;
+			width:70%;
+		}
+	}
+}
+
+.crtf_num {
+	position:relative;
+	padding-right:110px;
+	input {}
+	.left_time {
+		@include posa_tr(11px,125px);
+		color:$light_gray_fc;
+	}
+	.crtf_num_apply_btn {
+		@include posa_tr(0,0);
+		width:105px;
+	}
+	&.crtf_num_active {
+		.left_time {
+			color:$point_clr;
+		}
+	}
+}
+
+.pay_password_box {
+	padding:30px $con_pd 30px;
+	width:100%;
+	.guide_box {
+		width:100%;
+		text-align:center;
+		font: {
+			size:16px;
+		}
+	}
+	.pay_pw_input_wrap {
+		position:relative;
+		> input[type="password"] {
+			@include posa_tr(10px,0);
+			@include t_idt();
+			border:0;
+			background:transparent;
+		}
+	}
+	.pay_pw_input {
+		margin:13px 0 30px 0;
+		width:100%;
+		text-align:center;
+		span {
+			display:inline-block;
+			width:30px;
+			height:30px;
+			@include t_idt();
+			background:url("#{$img_url}#{$img_pg_url}blt_pw_dot.png") no-repeat 50%;
+			@include css3-prefix(background-size, 15px auto);
+			&.active {
+				background:url("#{$img_url}#{$img_pg_url}blt_pw_dot_on.png") no-repeat 50%;
+				@include css3-prefix(background-size, 15px auto);
+			}
+		}
+	}
+}
+
+.pay_card_reg_box {
+	margin-top:$con_mg;
+	margin-left:-5px;
+	li {
+		float:left;
+		padding:5px;
+		width:33.33%;
+		.card_select_item {
+			
+			a {
+				display:table;
+				width:100%;
+				height:80px;
+				border:1px solid $border_clr;
+				span {
+					display:table-cell;
+					padding-top:40px;
+					width:100%;
+					height:100%;
+					text-align:center;
+					vertical-align:middle;
+					border:1px solid $white;
+				}
+			}
+			&.card_item_bc a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_bc.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 26px);
+			}
+			&.card_item_hana a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_hana.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 30px);
+			}
+			&.card_item_hyundai a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_hyundai.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, 60px auto);
+			}
+			&.card_item_kb a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_kb.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 30px);
+			}
+			&.card_item_lotte a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_lotte.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, 70px auto);
+			}
+			&.card_item_nh a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_nh.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 26px);
+			}
+			&.card_item_samsung a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_samsung.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, 62px auto);
+			}
+			&.card_item_shinhan a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_shinhan.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 25px);
+			}
+			&.card_item_woori a span {
+				background:url("#{$img_url}#{$img_pg_url}card_logo_select_woori.png") no-repeat 50% 30%;
+				@include css3-prefix(background-size, auto 27px);
+			}
+		}
+		&.selected {
+			.card_select_item {
+				a {
+					border:1px solid $black;
+					span {
+						border:1px solid $black;
+					}
+				}
+			}
+		}
+	}
+}
+
+.pay_card_info_input_subject {
+	margin-top:$con_pd;
+	width:100%;
+	padding:10px;
+	font: {
+		size:16px;
+		weight:$b;
+	}
+	color:$white;
+	text-align:center;
+	background:#aaa;
+}
+.pay_card_info_input_table {
+	border:1px solid #aaa;
+	th,
+	td {
+		padding:2px;
+		text-align:left;
+		border-top:1px solid #f3f3f3;
+	}
+	th {
+		padding-left:$con_pd;
+	}
+	td {
+		
+	}
+	tr:first-child {
+		th,
+		td {
+			border-top:0;
+		}
+	}
+}
+
+.card_reg_policy_wrap {
+	display:block;
+	margin-top:$con_pd2;
+	.agree_more_btn {
+		display: inline-block;
+		position: absolute;
+		width: 21px;
+		height: 21px;
+		right: 15px;
+		top: -1px;
+		background-size: 50%;				
+		&.active {
+		}
+		span {
+			@include t_idt();
+		}
+		.slide_border_box_icon {
+			@include posa_tl(50%,50%);
+			margin-top:-5px;
+			margin-left:-5px;
+		}
+	}
+	.txt_box_wrap {
+		margin-top:$con_pd2;
+		margin-bottom:0;
+		height:137px;
+	}
+}
+
+.card_number_input {
+	li {
+		display:inline-block;
+		width:18%;
+		&.blt_hyphen {
+			width:10px;
+			text-align:center;
+		}
+	}
+	input {
+		padding-right:0;
+		padding-left:0;
+		text-align:left;
+		border:0;
+		&::-ms-input-placeholder {font-size:12px;}
+		&::-moz-placeholder {font-size:12px;}
+		&::-webkit-input-placeholder {font-size:12px;}
+	}
+}
+.card_number_input input::-webkit-input-placeholder {font-size:12px;}
+.card_expiry_input {
+	li {
+		display:inline-block;
+		width:26px;
+		&.blt_hyphen {
+			width:3%;
+		}
+		&:last-child {
+			input {
+				text-align:center;
+			}
+		}
+	}
+	input {
+		padding-right:0;
+		padding-left:0;
+		text-align:left;
+		border:0;
+	}
+}
+
+.card_cvc_input {
+	input {
+		padding-right:0;
+		padding-left:0;
+		text-align:left;
+		border:0;
+	}
+}
+
+.card_pw_input {
+	input {
+		padding-right:0;
+		padding-left:0;
+		text-align:left;
+		border:0;
+	}
+}
+
+.card_birth_input {
+	li {
+		display:inline-block;
+		width:80px;
+		&.blt_hyphen {
+			width:3%;
+		}
+	}
+	input {
+		padding-right:0;
+		padding-left:0;
+		text-align:left;
+		border:0;
+	}
+}
+
+.card_preview_wrap {
+	.card_item {
+		.card_name {
+			display:block;
+			@include posa_bl($con_pd + 30,$con_pd2);
+			font: {
+				size:16px;
+				weight:$b;
+			}
+		}
+		.card_num {
+			@include posa_bl($con_pd,$con_pd2);
+			margin-top:0;
+			font: {
+				size:19px;
+				weight:$b;
+			}
+		}
+	}
+	.msg_box {
+		display:inline-block;
+		width:100%;
+		margin-top:$con_mg;
+		text-align:center;
+	}
+}
+
+.bio_certify_btns {
+	.blt_finger,
+	.blt_eyes {
+		float:left;
+		margin-right:5px;
+		height:19px;
+	}
+	.bio_btn {
+		float:left;
+		display:inline-block;
+		width:auto !important;
+	}
+}
+/* simple_pay e ============================================= */
+/* ---------------------------------------------------------- */
+/* oneclick_order s ========================================= */
+.lp_oneclick_order_wrap {}
+
+.pw_reset_btn_wrap {
+	width:100%;
+	text-align:center;
+	.desc_box {
+		margin-top:$con_mg;
+	}
+}
+/* oneclick_order e ========================================= */
+/* ---------------------------------------------------------- */
+/* setup s ================================================== */
+.setup_certify_wrap {}
+.lp_setup_pw_change_wrap {
+	.agree_more_btn {
+		right: 0 !important;
+	}
+}
+.setup_policy_wrap {
+	padding:$con_pd2 $con_pd;
+	.chk_agree_wrap .check_stl input[type="checkbox"] + label {
+		padding-left:0;
+		&:before {
+			display:none;
+		}
+	}
+}
+/* setup e ================================================== */
+/* ---------------------------------------------------------- */
+/* loading s ================================================ */
+.lp_loading_wrap {
+	.loading_box {
+		position:absolute;
+		top:50%;
+		margin-top:-62px;
+		width:100%;
+		.guide_box {
+			padding-bottom:97px;
+			font-size:21px;
+			text-align:center;
+			background:url("#{$img_url}#{$img_pg_url}loading_pg.gif") no-repeat 50% 100%;
+			@include css3-prefix(background-size, 62px auto);
+		}
+	}
+}
+/* loading e ================================================ */
+/* ---------------------------------------------------------- */
+/* error s ================================================== */
+.lp_error_wrap {
+	.error_box {
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin:-109px 0 0 -117.5px;
+		width:235px;
+		text-align:center;
+		.logo_box {
+			margin:0 auto 80px;
+			width:202.5px;
+			height:22.5px;
+			@include t_idt();
+			background:url("#{$img_url}#{$img_pg_url}logo_pg.png") no-repeat 50% 0;
+			@include css3-prefix(background-size, 202px auto);
+		}
+		.guide_box {
+			font-size:16px;
+			line-height:23px;
+		}
+	}
+	.btn_close_error {
+		float:none;
+		padding-bottom:0;
+	}
+}
+/* error e ================================================== */
+/* ---------------------------------------------------------- */

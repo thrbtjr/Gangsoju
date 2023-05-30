@@ -1,0 +1,81 @@
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+<!-- @@여기까지 haed 끝 -->
+
+<body>
+  <!-- Loading -->
+  <div style="display:none;">
+  <div id="loadingBarDiv" style="display:none;">
+  </div>
+  </div>
+  <!-- //Loading -->
+
+  <form id="CSRFForm" action="/ko/member/joincomplete" method="post"><div>
+<input type="hidden" name="CSRFToken" value="692b5e07-aaa2-41fc-89c0-ecbd6ce20411">
+</div></form>
+  
+<div class="hsome_allContents_wrapper">
+
+<div class="hsome_allContents">
+
+
+  <header class="hsome_header">
+    <h1 class="h_ttl ellipsis" id="headerTitle">
+        간편회원가입 가입완료</h1>
+    <a href="/main" class="h_top_home"><span>홈</span></a>
+      
+      <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+    <ul class="h_gnbMenu">
+        <li class="search">
+              <a onclick="goSearchPage();"><span>search</span></a>
+            </li>
+<li class="cart">
+              <a
+                href="/cart"
+                ><span>cart</span></a
+              >
+            </li>
+      </ul></header>
+
+<!-- contents s -->
+<div class="hsome_contents mbr_signup_wrap">
+  <div class="txt_wrap new_cmt">
+    <h5>한섬의 회원이 되신 것을 축하드립니다.</h5>
+    <p>입력하신 개인 정보는 <a href="/ko/mypage/personInfomationChange">마이페이지 &gt; 나의정보관리 &gt; 개인정보변경</a>에서 바로 수정가능합니다.</p>
+  </div>
+<div class="mem_ct_wrap">
+  
+  <div class="btn_wrap">
+    <button class="btn btn_bg_b btn_login" id="loginBtn">로그인</button>
+    <button class="btn btn_bd_g btn_login mt20" id="mainBtn">메인으로 이동</button>
+  </div>
+</div>
+<div th:replace="~{product/search :: searchForm}"></div>
+</div>
+
+</div>
+
+</div>
+
+
+<script type="text/javascript" src="/_ui/handsomemobile/js/clipboard.min.js"></script> 
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("#loginBtn").click(function(){
+	  location.href="/mypage";
+	});
+		
+		
+	$("#mainBtn").click(function(){
+	  location.href="/main";
+	});
+	
+});
+
+</script>
+
+
+
+</body>
+</html>

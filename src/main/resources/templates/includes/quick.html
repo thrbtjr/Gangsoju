@@ -1,0 +1,39 @@
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <!--
+  작성자: 김주현
+-->
+
+  <aside class="hsome_quickMenu hsome_quickMenu1909 active" th:fragment="quick">
+    <ul>
+      <li class="shop active">
+        <a href="/main/navShop"><i>메뉴</i></a>
+      </li>
+      <li class="home">
+        <a href="javascript:noLink();" onclick="goMainpage();"><i>홈</i></a>
+      </li>
+      <li class="mypage" id="gnbMyPageBtn">
+        <a href="javascript:noLink();" onclick="goMypage();"
+          ><i>마이페이지</i></a
+        >
+      </li>
+    </ul>
+  </aside>
+  <script th:fragment="quick_script" type="text/javascript">
+    function goMypage() {
+      $.cookie("handsomeappreturnurl", "/", { path: "/" });
+      location.href = "/mypage";
+    }
+
+    $(window).load(function () {
+      //모든 리소스 로드 후에 처리
+      $(".hsome_quickMenu").addClass("active");
+    });
+
+    function goMainpage() {
+      window.sessionStorage.removeItem("moveYn");
+      window.sessionStorage.removeItem("width");
+      window.sessionStorage.removeItem("height");
+      location.href = "/";
+    }
+  </script>
+</html>

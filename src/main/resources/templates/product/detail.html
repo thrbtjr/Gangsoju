@@ -1,0 +1,3568 @@
+<!DOCTYPE html>
+
+<!--
+  작성자: 김주현
+-->
+
+<html lang="ko" class="" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{includes/head :: head}"></head>
+
+  <body class="">
+    <!-- Loading -->
+    <div style="display: none">
+      <div id="loadingBarDiv" style="display: none"></div>
+    </div>
+    <!-- //Loading -->
+
+    <!-- ################## hsome_allContents_wrapper START­ ################## -->
+    <div class="hsome_allContents_wrapper" th:with="idx=${detail.idx}">
+      <div class="hsome_allContents">
+        <!-- ################## header START ################## -->
+        <header
+          class="hsome_header header_noline product_header add_bg add_ttl"
+        >
+          <h1 class="" id="headerTitle">
+            <div id="header_prodNm" class="name" th:text="${detail.info.pname}">
+              상품명
+            </div>
+            <div
+              id="header_prodPrice"
+              class="price"
+              th:text="|₩${#numbers.formatInteger(detail.info.colors[idx].pcprice, 3, 'COMMA')}|"
+            >
+              가격
+            </div>
+          </h1>
+          <div class="h_leftMenu">
+            <a href="javascript:noLink();" onclick="goBack();" class="h_prev"
+              >이전 페이지로 가기</a
+            >
+            <a href="/" class="h_home" style="display: block">Home</a>
+          </div>
+
+          <ul class="h_gnbMenu">
+            <li class="share" style="display: list-item">
+              <a
+                href=".hs_share_pop"
+                class="btn_popup_btot"
+                onclick="javascript:GA_Event('상품_상세','헤더','공유');initShareData('/ko/p/','SY2D1WCT506W_DK?uiel=Mobile', 'http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_C01.jpg','[SYSTEM] [23SS] 디테쳐블 후드 벨티드 트렌치 코트', '[23SS] 디테쳐블 후드 벨티드 트렌치 코트')"
+                ><span>공유하기</span></a
+              >
+            </li>
+            <!-- 찜 선택시 class.on 추가 -->
+          </ul>
+        </header>
+        <!-- //################## header END ################## -->
+        <!-- ################## contents START ################## -->
+        <div class="hsome_contents">
+          <div class="product_view_wrap">
+            <!-- 제품 이미지 슬라이드 -->
+            <div class="vw_slide_wrap pv-element">
+              <div
+                class="swiper-container vw_swiper swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal"
+              >
+                <ul
+                  class="swiper-wrapper"
+                  id="prodImages"
+                  style="transform: translate3d(0px, 0px, 0px)"
+                >
+                  <!-- 2021.08.18 상품에 imageDivisionCode가 VOD가 있는 경우 동영상 url 세팅-->
+                  <script>
+                    function fnProductNoImage(obj, divisionCode) {
+                      $("#slider-" + divisionCode).css(
+                        "background-image",
+                        "url('/_ui/handsomemobile/images/common/no_img.jpg')"
+                      );
+                    }
+                  </script>
+
+                  <li
+                    class="swiper-slide swiper-slide-active"
+                    style="width: 360px"
+                  >
+                    <div
+                      class="slide-inner"
+                      th:style="'background-image:url('+ ${detail.info.colors[idx].pcimg2} +');transform: translate3d(0px, 0px, 0px);'"
+                      id="slider-W01"
+                    ></div>
+                    <div style="display: none">
+                      <img
+                        th:src="${detail.info.colors[idx].pcimg2}"
+                        onerror="fnProductNoImage(this, 'W01')"
+                      />
+                    </div>
+                    <a href="#">
+                      <img
+                        th:src="|${detail.info.colors[idx].pcimg2}/dims/resize/750x1131|"
+                        onerror="this.src='/_ui/handsomemobile/images/common/no_img.jpg'"
+                        th:alt="${detail.info.pname}"
+                      />
+                    </a>
+                  </li>
+                  <li
+                    class="swiper-slide swiper-slide-next"
+                    style="width: 360px"
+                  >
+                    <div
+                      class="slide-inner"
+                      th:style="'background-image:url('+ ${detail.info.colors[idx].pcimg1} +');transform: translate3d(0px, 0px, 0px);'"
+                      id="slider-W02"
+                    ></div>
+                    <div style="display: none">
+                      <img
+                        th:src="${detail.info.colors[idx].pcimg1}"
+                        onerror="fnProductNoImage(this, 'W02')"
+                      />
+                    </div>
+                    <a href="#">
+                      <img
+                        th:src="|${detail.info.colors[idx].pcimg1}/dims/resize/750x1131|"
+                        onerror="this.src='/_ui/handsomemobile/images/common/no_img.jpg'"
+                        th:alt="${detail.info.pname}"
+                      />
+                    </a>
+                  </li>
+                </ul>
+                <div style="display:none"
+                  class="swiper-pagination swiper-pagination-progressbar swiper-pagination-clickable swiper-pagination-bullets"
+                >
+                  <span
+                    class="swiper-pagination-bullet swiper-pagination-bullet-active"
+                  ></span
+                  ><span class="swiper-pagination-bullet"></span>
+                </div>
+              </div>
+            </div>
+            <!-- 2021.08.18 동영상 버튼 클릭시 팝업창에서 재생-->
+            <script type="text/javascript">
+              $(document).ready(function () {
+                /* 위시리스트 여부 확인 */
+                var wishlistYn = "";
+                if (wishlistYn === "on") {
+                  $(".like:not(.product-style-pop .like)").addClass("on");
+                }
+                /* 위시리스트 여부 확인 */
+                /* 위시리스트 버튼 클릭 */
+                $(document).on("click", ".h_gnbMenu li.like", function () {
+                  addWishListClick(".h_gnbMenu li.like");
+                  return false;
+                });
+
+                $(window).scroll(function () {
+                  if ($(".swiper-slide .video-beauty").length > 0) {
+                    // video가 있을때만,
+                    var appChk = "N";
+
+                    if ($(".swiper-slide-active").find("video").length > 0) {
+                      if ($(window).scrollTop() == 0) {
+                        $(".h_gnbMenu .like").hide();
+                        if (appChk == "Y") {
+                          $(".h_gnbMenu .edit").hide();
+                        }
+                      } else {
+                        $(".h_gnbMenu .like").show();
+                        if (appChk == "Y") {
+                          $(".h_gnbMenu .edit").show();
+                        }
+                      }
+                    } else {
+                      $(".h_gnbMenu .like").show();
+                      if (appChk == "Y") {
+                        $(".h_gnbMenu .edit").show();
+                      }
+                    }
+                  }
+
+                  $(".hs_like_info_txt").remove();
+                });
+                /* 위시리스트 버튼 클릭 */
+
+                /* 상품 이미지 슬라이드 클릭 시 상품 상세보기 팝업 호출 */
+                var $zoom_pop_cnt = 0;
+                $(document).on(
+                  "click",
+                  ".vw_slide_wrap .swiper-slide a",
+                  function () {
+                    if ($zoom_pop_cnt != 0) {
+                      $(".product_zoom_pop .pop-zoom-guide").hide();
+                    } else {
+                      setTimeout(function () {
+                        $(".product_zoom_pop .pop-zoom-guide")
+                          .stop()
+                          .fadeOut("fast");
+                      }, 800);
+                      $zoom_pop_cnt = 1;
+                    }
+                    $(".product_zoom_pop").stop().fadeIn("fast");
+                    $("#domElementToZoom")
+                      .attr("src", $(this).find("img").attr("src"))
+                      .smartZoom();
+                    return false;
+                  }
+                );
+                /* 상품 이미지 슬라이드 클릭 시 상품 상세보기 팝업 호출 */
+                /* 상품 상세보기 팝업 닫기 */
+                $(document).on(
+                  "click",
+                  ".product_zoom_pop a.pop-zoom-cls",
+                  function () {
+                    $(".product_zoom_pop")
+                      .stop()
+                      .fadeOut("fast", function () {
+                        $("#domElementToZoom").smartZoom("destroy");
+                      });
+                    return false;
+                  }
+                );
+                /* 상품 상세보기 팝업 닫기 */
+              });
+
+              $(window).load(function () {
+                //상품 슬라이드 스크롤 효과
+                var $scrl_ratio = 0,
+                  $scrl_point = 0;
+                $(window).scroll(function () {
+                  $scrl_point = $(".vw_slide_wrap").outerHeight() / 2;
+                  $scrl_ratio = (($scrl_point - $(this).scrollTop()) * -1) / 4;
+                  if ($(this).scrollTop() >= $scrl_point) {
+                    $(".vw_slide_wrap").addClass("disabled");
+
+                    if (
+                      $(this).scrollTop() >=
+                      $(".vw_slide_wrap").outerHeight() - $scrl_ratio
+                    ) {
+                    } else {
+                      $(".vw_slide_etc").css({
+                        transform: "translateY(" + $scrl_ratio * -1 + "px)",
+                        marginBottom: $scrl_ratio * -1,
+                      });
+                    }
+                  } else {
+                    $(".vw_slide_wrap").removeClass("disabled");
+                    $(".vw_slide_etc").css({
+                      transform: "translateY(0)",
+                      marginBottom: 0,
+                    });
+                  }
+                });
+              }); // $(window).load
+
+              /*
+               * TODO
+               * 위시리스트 함수로 공통으로 이전 필요 : START
+               */
+              function addWishListClick(clssNm) {
+                location.href = "/login";
+
+                return false;
+
+                if ("anonymous" != "anonymous") {
+                  addWishList(clssNm);
+                }
+              }
+              function addWishList(clssNm) {
+                var productCode = "SY2D1WCT506W_DK";
+
+                $.ajax({
+                  url: "/ko/wishlist/add-product-action",
+                  type: "GET",
+                  data: { productCode: productCode, type: "toggle" },
+                  success: function (msg) {
+                    var wishMessageTimer = false;
+                    if (msg != null && msg != "") {
+                      if (msg == "erroor1") {
+                        var la = new layerAlert("로그인을 해야 합니다.");
+                      } else {
+                        $(clssNm).toggleClass("on");
+                        $("." + productCode + "LIKE").toggleClass("on");
+
+                        if ($(clssNm).hasClass("on")) {
+                          heart_add_init($(clssNm));
+
+                          $(
+                            "<p class='hs_like_info_txt'>하트에 담았습니다.</p>"
+                          ).appendTo($(".product_view_wrap"));
+                          setTimeout(function () {
+                            $(this).next(".hs_like_info_txt").remove();
+                          }, 1500);
+                        } else {
+                          heart_remove_init($(clssNm)); //180719 추가(content.js에 있음)
+                          $(".product_view_wrap .hs_like_info_txt").remove();
+                        }
+
+                        return false;
+                      }
+                    } else {
+                      $(clssNm).toggleClass("on");
+                      $("." + productCode + "LIKE").toggleClass("on");
+                      if ($(clssNm).hasClass("on")) {
+                        heart_add_init($(clssNm));
+
+                        $(
+                          "<p class='hs_like_info_txt'>위시리스트에 담았습니다.</p>"
+                        ).appendTo($(".product_view_wrap"));
+                        setTimeout(function () {
+                          $(this).next(".hs_like_info_txt").remove();
+                        }, 1500);
+                      } else {
+                        heart_remove_init($(clssNm)); //180719 추가(content.js에 있음)
+                        $(".product_view_wrap .hs_like_info_txt").remove();
+                      }
+                    }
+                  },
+                  error: function (xhr, Status, error) {
+                    //alert(error);
+                  },
+                });
+              }
+              /*
+               * TODO
+               * 위시리스트 함수로 공통으로 이전 필요 : END
+               */
+            </script>
+            <!--// 제품 이미지 슬라이드 -->
+
+            <div
+              class="vw_slide_etc"
+              style="transform: translateY(-38.125px); margin-bottom: -38.125px"
+            >
+              <!-- 제품 정보 -->
+              <style>
+                .vw_prd_pInfo .selling_point {
+                  margin-top: 10px;
+                  font-size: 13px;
+                  font-weight: bold;
+                  position: relative;
+                  top: 10px;
+                }
+                .product-detail-info-mo img {
+                  height: auto;
+                }
+              </style>
+
+              <!-- //추가(redmine:914)품번복사 20180910 -->
+              <script
+                type="text/javascript"
+                src="/_ui/handsomemobile/js/clipboard.min.js"
+              ></script>
+
+              <script th:inline="javascript">
+                  $(document).ready(function () {
+                    $(
+                      ".hs_prd_info_wrap .hs_btn_color_chip.infoColor button.chip"
+                    ).on("click", function () {
+                      console.log("메인에서 색상 변경");
+                      if (
+                        $(
+                          ".hs_prd_info_wrap .hs_btn_color_chip button.chip"
+                        ).hasClass("on") == true
+                      ) {
+                        $(
+                          ".hs_prd_info_wrap .hs_btn_color_chip button.chip"
+                        ).removeClass("on");
+                        $(this).addClass("on");
+
+                        var prodcode = $(this).attr("id").replace("info_", "");
+                        let now_idx = $(this).index();
+                        let prod = [[${detail.info.colors}]];
+                        reloadDetailPage(prodcode, prod[now_idx]);
+                        $(".hs_prd_info_wrap .parentTxt").hide();
+                        $(".add_mileage_info_wrap").hide();
+                        changeOfflineQtyColor();
+
+                        $("#popularProudct").hide();
+                      }
+                    });
+
+                    //추가(redmine:914)품번복사 20180910
+                    var clpbrd = new ClipboardJS(".btn_clipboard");
+                    clpbrd.on("success", function (e) {
+                      var la = new layerAlert("품번이 복사되었습니다.");
+                      e.clearSelection();
+                    });
+                    clpbrd.on("error", function (e) {
+                      console.log(e);
+                      var la = new layerAlert("품번이 복사되지 않았습니다.");
+                    });
+                    /* 상품품번을 클립보드로 복사 */
+
+                    //iPhone css(코리아사이즈 안내) 수정
+                    if (navigator.userAgent.indexOf("iPhone") > -1) {
+                      $("#koreaSizeGuide").addClass("ios");
+                    } else {
+                      $("#koreaSizeGuide").removeClass("ios");
+                    }
+                  });
+
+                  function sizeBtnClick(elem) {
+                    $(".pre_order_txt191007").hide();
+
+                    $(".hs_btn_size_wrap .size_area .size").removeClass("on");
+                    $(elem).parent().addClass("on");
+
+                    var colorcode = $(
+                      ".hs_prd_info_wrap .hs_btn_color_chip button.chip.on"
+                    )
+                      .attr("id")
+                      .replace("info_", "");
+                    var sizecode = $(elem).attr("data-value");
+
+                    $(".hs_prd_info_wrap.pv-element .copy").text(
+                      colorcode + "_" + sizecode
+                    );
+                    $(".hs_prd_info_wrap.pv-element .copy").attr(
+                      "data-clipboard-text",
+                      colorcode + "_" + sizecode
+                    ); //추가(redmine:914)품번복사 20180910
+                    $("#clipboard").val(colorcode + "_" + sizecode);
+
+                    getReserveProductInfo(
+                      colorcode + "_" + sizecode,
+                      "hs_prd_info_wrap",
+                      "",
+                      ""
+                    );
+                    changeOfflineQtySize();
+                  }
+
+                  function getReserveProductInfo(
+                    prodcode,
+                    area,
+                    btnMsg1,
+                    btnMsg2
+                  ) {
+                    console.log(prodcode, area, btnMsg1, btnMsg2);
+                    $.ajax({
+                      url: "/ko/product/reserveSaleProductInfo",
+                      type: "GET",
+                      datatype: "json",
+                      data: {
+                        productcode: prodcode,
+                      },
+                      success: function (data) {
+                        console.log(data);
+                        if (
+                          typeof data.reserveSaleProducts != "undefined" &&
+                          data.reserveSaleProducts != null &&
+                          data.reserveSaleProducts.length > 0
+                        ) {
+                          $("." + area + " #popularProudct").hide();
+                          $("#reOrderTxt").show();
+                          $("#erpWorkOrderNumber").val(
+                            data.reserveSaleProducts[0].erpWorkOrderNumber
+                          );
+                          $("#reserveSalesStockpile").val(
+                            data.reserveSaleProducts[0].reserveSalesStockpile
+                          );
+
+                          var ymd = "";
+
+                          $("#deliveryPlanMounth").val(
+                            data.reserveSaleProducts[0].deliveryPlanMounth
+                          );
+                          $("#deliveryPlanYear").val(
+                            data.reserveSaleProducts[0].deliveryPlanYear
+                          );
+                          $("#deliveryPlanDay").val(
+                            data.reserveSaleProducts[0].deliveryPlanDay
+                          );
+
+                          var reserveHtml = "";
+                          for (i = 0; i < data.reserveSaleProducts.length; i++) {
+                            reserveHtml +=
+                              '<input type="hidden" id="erpWorkOrderNumber_' +
+                              i +
+                              '"	 value="' +
+                              data.reserveSaleProducts[i].erpWorkOrderNumber +
+                              '" />';
+                            reserveHtml +=
+                              '<input type="hidden" id="reserveSalesStockpile_' +
+                              i +
+                              '" value="' +
+                              data.reserveSaleProducts[i].reserveSalesStockpile +
+                              '" />';
+                            reserveHtml +=
+                              '<input type="hidden" id="deliveryPlanYear_' +
+                              i +
+                              '"		 value="' +
+                              data.reserveSaleProducts[i].deliveryPlanYear +
+                              '" />';
+                            reserveHtml +=
+                              '<input type="hidden" id="deliveryPlanMounth_' +
+                              i +
+                              '"	 value="' +
+                              data.reserveSaleProducts[i].deliveryPlanMounth +
+                              '" />';
+                            reserveHtml +=
+                              '<input type="hidden" id="deliveryPlanDay_' +
+                              i +
+                              '"		 value="' +
+                              data.reserveSaleProducts[i].deliveryPlanDay +
+                              '" />';
+                          }
+
+                          ymd +=
+                            data.reserveSaleProducts[0].deliveryPlanYear + "년 ";
+                          ymd +=
+                            data.reserveSaleProducts[0].deliveryPlanMounth +
+                            "월 ";
+                          ymd +=
+                            data.reserveSaleProducts[0].deliveryPlanDay + "일";
+                          $(
+                            "." + area + " .pre_order_txt1903 .point_fc:eq(0)"
+                          ).html(ymd);
+                          $("." + area + " .pre_order_txt1903").hide();
+
+                          //사이즈 단위 상품 코드로 상품 상세 페이지 진입 시 문구
+                          var numItems = $(
+                            "." + area + " .deliveryPlanDate"
+                          ).length;
+                          if (numItems > 1) {
+                            $("." + area + " .deliveryPlanDate:eq(0)").remove();
+                          }
+
+                          $("." + area + " .deliveryPlanDate").show();
+                          $(".add_mileage_info_wrap").show();
+
+                          if (btnMsg1 != "") {
+                            $("#addToCart").text(btnMsg1);
+                          }
+
+                          $(".hs_btm_btnwrap .hs_btm_btn.direct").html(
+                            "예약주문"
+                          );
+
+                          var accumulationPoint =
+                            data.addMileageInfo.accumulationPoint;
+                          var accumulationRate =
+                            data.addMileageInfo.accumulationRate;
+                          var ouletCheck = $("#ouletCheck").val();
+                          var onePoint = Number(
+                            accumulationPoint / accumulationRate
+                          );
+                          var rate1 = 0;
+
+                          if (ouletCheck != "OU") {
+                            var point1 = Number(
+                              onePoint * (accumulationRate - 3)
+                            );
+                            var point2 = Number(onePoint * 3);
+                            rate1 = Number(accumulationRate - 3);
+                          } else {
+                            //seonghun.kim 2020-10-22 예약판매시 마일리지 적립률 수정
+                            var point1 = Number(
+                              onePoint * (accumulationRate - 3)
+                            );
+                            var point2 = Number(onePoint * 3);
+
+                            if (Number(accumulationRate - 3) > 0) {
+                              rate1 = Number(accumulationRate - 3);
+                            }
+
+                            accumulationPoint = Number(point1 + point2);
+                            accumulationRate = Number(rate1 + 3);
+                          }
+
+                          //마일리지
+                          var html =
+                            '<p class="txt"><strong>예약판매 진행 중인 옵션 구매 시 한섬마일리지를 3% 추가 적립해드립니다.</strong><br/>';
+                          html +=
+                            addComma(point1) +
+                            "M (" +
+                            rate1 +
+                            "%) + " +
+                            addComma(point2) +
+                            "M (3%) = " +
+                            addComma(accumulationPoint) +
+                            "M(" +
+                            accumulationRate +
+                            "%)<br/></p>";
+                          html +=
+                            '<a href="#" class="close" id="addMileageInfoClose">닫기</a>';
+
+                          $(".add_mileage_info1905>.tooltip_cont").html(html);
+
+                          $("#point").text(
+                            addComma(accumulationPoint) +
+                              " P (" +
+                              accumulationRate +
+                              "%)"
+                          );
+                        } else {
+                          $("#erpWorkOrderNumber").val("0");
+                          $("#reserveSalesStockpile").val("0");
+                          $("#reOrderTxt").hide();
+                          $("." + area + " .deliveryPlanDate").hide();
+
+                          $("." + area + " .parentTxt").hide();
+                          $(".add_mileage_info_wrap").hide();
+                          if (btnMsg2 != "") {
+                            $("#addToCart").text(btnMsg2);
+                          }
+                          $(".hs_btm_btnwrap .hs_btm_btn.direct").html(
+                            "바로주문"
+                          );
+
+                          var accumulationPoint =
+                            data.addMileageInfo.accumulationPoint;
+                          var accumulationRate =
+                            data.addMileageInfo.accumulationRate;
+
+                          $("#point").text(
+                            addComma(accumulationPoint) +
+                              " P (" +
+                              accumulationRate +
+                              "%)"
+                          );
+
+                          //#3280 인기상품 문구 추가(재고 - 선택된수량 = 0 일경우 문구 노출)
+                          var stockCnt = data.addMileageInfo.stock.stockLevel;
+                          if (stockCnt == 1) {
+                            $("." + area + " #popularProudct").show();
+                          } else {
+                            $("." + area + " #popularProudct").hide();
+                          }
+                        }
+                      },
+                    });
+                  }
+
+                  /* 색상 버튼 클릭 */
+                  // Ajax 처리가 필요한지 점검 필요 => 현업 요청
+                  function reloadDetailPage(prodcode, prodInfo){
+                    console.log(prodcode, prodInfo);
+                    $("#reOrderTxt").hide();
+
+                    //상단 스와이퍼 이미지 start
+                    var txtImages = "";
+
+                    txtImages += "<li class='swiper-slide' style='width: 360px'>";
+                    txtImages += "  <div class='slide-inner' style='background-image: url(" +
+                                  prodInfo.pcimg2 +
+                                  ");translate3d(0px, 0px, 0px);'></div>";
+                    txtImages += '  <a href="#">';
+                    txtImages += '    <img src="' +
+                                  prodInfo.pcimg2 +
+                                    '/dims/resize/750x1131" onError="this.src=\'/_ui/handsomemobile/images/common/no_img.jpg\'"/>';
+                    txtImages += "  </a>";
+                    txtImages += "</li>";
+                    txtImages += "\n<li class='swiper-slide' style='width: 360px'>";
+                    txtImages += "  <div class='slide-inner' style='background-image: url(" +
+                                  prodInfo.pcimg1 +
+                                  ");translate3d(0px, 0px, 0px);'></div>";
+                    txtImages += '  <a href="#">';
+                    txtImages += '    <img src="' +
+                                  prodInfo.pcimg1 +
+                                    '/dims/resize/750x1131" onError="this.src=\'/_ui/handsomemobile/images/common/no_img.jpg\'"/>';
+                    txtImages += "  </a>";
+                    txtImages += "</li>";
+
+                    $("#prodImages").append(txtImages);
+                    console.log("색상변경 끝");
+
+                    //스와이퍼 end
+
+                    var src = $("#prodImages > li:eq("+2+") div:first").css('background-image');
+                var url = src.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
+
+                    console.log(src, url, '???');
+
+                    let img = new Image();
+                    img.onload = function() {
+                      resetVwSwiper("reload", 2);
+
+                      //품번
+                      $(".hs_prd_info_wrap.pv-element .copy").text(prodcode);
+                      $(".hs_prd_info_wrap.pv-element .copy").attr(
+                            "data-clipboard-text",
+                            prodcode
+                          );
+                      $("#clipboard").val(prodcode);
+
+                      //사이즈 start
+                      let txtSize = "";
+                      for(let j = 0; j < prodInfo.sizes.length; j++){
+
+                          txtSize += "<span class='size'>";
+                          if(prodInfo.sizes[j].psstock == 0){ //품절 o
+                            txtSize += "\n\t<button type='button' class='btn' data-value='0' disabled>" + prodInfo.sizes[j].psize;
+                            txtSize += "</button>";
+                            txtSize += '<span class="soldout">품절</span>';
+                          }else{ //품절 x
+                            txtSize += "<button type='button' class='btn' onclick='sizeBtnClick(this)' data-value='" + prodInfo.sizes[j].psize + "'>"+ prodInfo.sizes[j].psize +"</button>";
+                          }
+                          txtSize += "</span>\n";
+                      }
+                      // console.log($("#size_btn_area"));
+                      $("#size_btn_area").html(txtSize);
+                      console.log("사이즈", txtSize);
+
+                      //사이즈 end
+                    }
+
+                    //img.src = url;
+                    if (img.complete) img.onload();
+                    console.log('end');
+
+                  }
+                  /* 색상 버튼 클릭 */
+
+                  function ReqRewarehousingDetail(productcode, layer) {
+                    reloadDetailPage(productcode);
+                  }
+
+                  function numberWithCommas(x) {
+                    // 세자리마다 콤마(,) 추가
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }
+
+                  function equalTextReturnBold(sText, tText) {
+                    var rValue = "";
+                    if (sText == tText) {
+                      rValue = 'class="bold"';
+                    }
+                    return rValue;
+                  }
+
+                  function additionalInfoInit() {
+                    if (
+                      $(".product_info_pop div.hs_float_list").hasClass(
+                        "hs_top_border_cont"
+                      )
+                    ) {
+                      $(".product_info_pop div.hs_float_list").removeClass(
+                        "hs_top_border_cont"
+                      );
+                    }
+                    $(".product-info-211027").remove();
+                  }
+              </script>
+
+              <!-- 제품 정보 -->
+              <div class="hs_prd_info_wrap pv-element">
+                <!-- 색상 버튼 -->
+                <div
+                  class="hs_btn_color_chip infoColor"
+                  id="hs_btn_color_chip_area"
+                >
+                  <button
+                    th:each="color, colorStat : ${detail.info.colors}"
+                    type="button"
+                    th:id="|info_${color.pcid}|"
+                    th:data-value="${#strings.substring(color.pcid, #strings.length(color.pcid)-2, #strings.length(color.pcid))}"
+                    class="chip"
+                    th:classappend="${colorStat.index} == ${idx} ? 'on'"
+                    th:style="'background-image:url('+ ${color.pcchipimg} +'/resize/48x48); background:'+${color.pccolorcode}"
+                  ></button>
+                </div>
+                <!--// 색상 버튼 -->
+
+                <!-- 상품 정보 -->
+                <div class="info_wrap">
+                  <div class="logo">
+                    <a th:href="|/b/${detail.info.bno}|"
+                      ><span th:text="${detail.info.bname}">브랜드명</span></a
+                    >
+                  </div>
+
+                  <div class="name" th:text="${detail.info.pname}">상품명</div>
+
+                  <div class="price">
+                    <span
+                      th:text="|₩${#numbers.formatInteger(detail.info.colors[idx].pcprice, 3, 'COMMA')}|"
+                      >가격</span
+                    >
+                  </div>
+
+                  <div class="number">
+                    품번<!-- 수정(redmine:914) : 20180910 s -->
+                    <button
+                      type="button"
+                      class="copy btn_clipboard"
+                      data-clipboard-action="copy"
+                      th:attr="data-clipboard-text=${detail.info.colors[idx].pcid}"
+                      th:text="${detail.info.colors[idx].pcid}"
+                    >
+                      pcid
+                    </button>
+                    <!-- 수정(redmine:914) : 20180910 e -->
+                  </div>
+
+                  <div class="pos_btn">
+                    <a
+                      href=".product-style-pop"
+                      id="style_aLink"
+                      class="style btn_popup_trigger"
+                      >스타일</a
+                    >
+                    <a
+                      href=".hs_share_pop"
+                      th:onclick="javascript:initShareData('/p/detail/','SY2D1WCT506W_DK?uiel=Mobile', 'http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_C01.jpg','[SYSTEM] [23SS] 디테쳐블 후드 벨티드 트렌치 코트', '[23SS] 디테쳐블 후드 벨티드 트렌치 코트')"
+                      class="share btn_popup_btot"
+                      >공유</a
+                    >
+                  </div>
+                </div>
+                <!--// 상품 정보 -->
+
+                <!-- 사이즈 -->
+                <div class="hs_btn_size_wrap">
+                  <p class="tit">사이즈</p>
+                  <div class="size_area" id="size_btn_area">
+                    <span
+                      class="size"
+                      th:each="size : ${detail.info.colors[idx].sizes}"
+                    >
+                      <button
+                        type="button"
+                        class="btn"
+                        onclick="sizeBtnClick(this)"
+                        th:attr="data-value=${size.psize}"
+                        th:text="${size.psize}"
+                      >
+                        사이즈_숫자
+                      </button>
+                      <span th:if="${size.psstock == 0}" class="soldout"
+                        >품절</span
+                      >
+                    </span>
+                  </div>
+
+                  <!-- 재입고알림 툴팁 -->
+                  <div id="rewareToolTip"></div>
+                  <!-- //재입고알림 툴팁 -->
+                </div>
+                <!--// 사이즈 -->
+
+                <!-- 상품의 컬러중 예약상품이 아닌 컬러로 진입 시 필요 -->
+
+                <!-- #3280 인기상품 노출 문구 -->
+                <div
+                  class="pre_order_txt1903"
+                  id="popularProudct"
+                  style="display: none"
+                >
+                  <p>
+                    해당 상품은 전국 매장을 통해 수급하여 배송 될 예정입니다.
+                    <br />
+                    불량 등의 이유로 수급이 어려울 경우, 취소될 수 있습니다.
+                    <br />(평일 기준 5일 이상 소요 예정)
+                  </p>
+                </div>
+              </div>
+              <!--// 제품 정보 -->
+
+              <!-- text_topbanner_listbox 200406 추가 -->
+              <div class="text_topbanner_listbox" style="display: none">
+                <a class="closed" href="#a" onclick="popClose004(this)"
+                  ><img
+                    src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/m_gnb_txtrolling_btn.png"
+                    alt=""
+                /></a>
+                <ul>
+                  <li>
+                    <a href="#"> </a>
+                  </li>
+                  <li>
+                    <a href="#"> </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- //text_topbanner_listbox 200406 추가 -->
+
+              <!-- 20200904 제품상세내용 -->
+              <div
+                class="vw_prd_pInfo pv-element"
+                id="newDescriptionArea1"
+                style="display: block"
+              >
+                <div class="prod-detail-con-box">
+                  <div class="round-style">
+                    <p th:text="${detail.info.pnote}">설명</p>
+                  </div>
+                </div>
+              </div>
+              <!-- //20200904 제품상세내용 -->
+
+              <!-- 제품 소개글 (구) -->
+
+              <script type="text/javascript">
+                var $pl_play,
+                  $pl_pause,
+                  $pl_video,
+                  $pl_pause_clickCnt = 0,
+                  $pl_pause_bul = false;
+
+                movie_func();
+                function movie_func() {
+                  ($pl_play = document.getElementById("video_button")),
+                    ($pl_pause = document.getElementById("video_pause_button")),
+                    ($pl_video = document.getElementById("video"));
+
+                  if ($pl_video == null) {
+                    return;
+                  }
+
+                  $pl_play.addEventListener("click", function () {
+                    // Event listener for the play/pause button
+                    if ($pl_video.paused == true) {
+                      // Play the video
+                      movie_play_func($(this));
+                    }
+                  });
+
+                  var $pl_pause_timer = "";
+                  $pl_pause.addEventListener("click", function () {
+                    // Event listener for the play/pause button
+                    $pl_pause_bul = true;
+                    var $this = $(this);
+                    $pl_pause_clickCnt++;
+                    $this.addClass("back");
+
+                    clearTimeout($pl_pause_timer);
+                    $pl_pause_timer = setTimeout(function () {
+                      $this.removeClass("back");
+                      $pl_pause_clickCnt = 0;
+                    }, 2000);
+
+                    if ($pl_pause_clickCnt > 1) {
+                      $this.hide();
+                      $pl_video.pause();
+
+                      $this.parent().find(".youtube_play").show();
+                      $(".vw_swiper .swiper-pagination").removeClass("hidden");
+
+                      $this.removeClass("back");
+                      $pl_pause_clickCnt = 0;
+                    }
+                  });
+
+                  $pl_video.addEventListener("ended", function () {
+                    $pl_pause_bul = false;
+                    $(".vw_slide_wrap .youtube_play").fadeIn("fast");
+                    $(".vw_slide_wrap .youtube_pause").hide();
+                    $(".vw_slide_wrap .youtube").removeClass("active");
+                    movie_margin_down();
+                    $(".vw_swiper .swiper-pagination").removeClass("hidden");
+                  });
+                }
+
+                function movie_play_func($play) {
+                  $play.fadeOut("fast");
+                  $play.parent().find(".youtube").addClass("active");
+                  movie_margin_up();
+
+                  if ($pl_video != null) $pl_video.play();
+
+                  $play.parent().find(".youtube_pause").show();
+                  $play.parent().find(".youtube_pause").removeClass("back");
+                  $pl_pause_clickCnt = 0;
+                  $(".vw_swiper .swiper-pagination").addClass("hidden");
+                }
+
+                var $pl_curr_space;
+                function movie_margin_up() {
+                  var $pl_video_etc = $(".product_view_wrap .vw_slide_etc"),
+                    $pl_video_el = $(
+                      ".product_view_wrap .vw_slide_wrap .vw_swiper li .youtube video"
+                    ),
+                    $pl_video_bot = $(
+                      ".product_view_wrap .pv-element.hs_prd_info_wrap"
+                    );
+                  $pl_curr_space =
+                    $pl_video_etc.offset().top - $pl_video_el.height();
+
+                  if ($pl_curr_space != 0 && !$pl_pause_bul) {
+                    $pl_video_etc.css({
+                      marginTop: $pl_curr_space * -1,
+                    });
+                  }
+                  if (
+                    $pl_video_etc.offset().top < $(window).height() - 50 &&
+                    !$pl_video_bot.hasClass("is-active")
+                  ) {
+                    $pl_video_bot.addClass("is-active");
+                  }
+                }
+                function movie_margin_down() {
+                  $(".product_view_wrap .vw_slide_etc").css({
+                    marginTop: 0,
+                  });
+                }
+
+                /////////////////180920 수정 시작
+                var vwSwiper;
+                $(window).load(function () {
+                  vwSwiper = new Swiper(
+                    ".vw_swiper.swiper-container",
+                    swiperOptions
+                  );
+
+                  if ($pl_video != null) {
+                    vwSwiper.on("slideChange", function () {
+                      if (vwSwiper.activeIndex == vwSwiper.slides.length - 1) {
+                        $(".vw_slide_wrap .video_btn").fadeOut("fast");
+                      } else {
+                        $(".vw_slide_wrap .video_btn").fadeIn("fast");
+                        $pl_video.pause();
+
+                        $(".vw_slide_wrap .youtube_pause").hide(); //180817 추가
+                        $(".vw_slide_wrap .youtube_play").fadeIn("fast");
+                        $(".vw_slide_wrap .youtube").removeClass("active");
+                        movie_margin_down();
+                        $(".vw_swiper .swiper-pagination").removeClass(
+                          "hidden"
+                        ); //180817 추가
+
+                        $pl_pause_bul = false;
+                      }
+                    });
+                  }
+                });
+                /////////////////180920 수정 끝
+
+                $(".vw_slide_wrap").on("click", ".video_btn .btn", function () {
+                  $(window).scrollTop(0);
+                  vwSwiper.slideTo(vwSwiper.slides.length - 1, 600);
+
+                  setTimeout(function () {
+                    $(".vw_slide_wrap .youtube_play").fadeOut("fast");
+                    $(".vw_slide_wrap .youtube_play")
+                      .parent()
+                      .find(".youtube")
+                      .addClass("active");
+
+                    if ($pl_play === null)
+                      $pl_play = document.getElementById("video_button");
+                    if ($pl_video === null)
+                      $pl_video = document.getElementById("video");
+
+                    if ($pl_video == null) {
+                      return;
+                    }
+
+                    movie_func();
+                    movie_play_func($(".vw_slide_wrap .youtube_play"));
+                  }, 200);
+                  return false;
+                });
+                ////////////////////////180824 수정 끝
+                //180727 수정 끝
+
+                function resetVwSwiper(reload, liLength) {
+                  if (reload === "reload") {
+                    setTimeout(function () {
+                      if ($("#prodImages > li").length > liLength) {
+                        for (var i = 0; i < liLength; i++) {
+                          $("#prodImages > li:first").remove();
+                        }
+                      }
+
+                      //180910 추가 시작
+                      if (vwSwiper === null)
+                        vwSwiper = new Swiper(
+                          ".vw_swiper.swiper-container",
+                          swiperOptions
+                        );
+
+                      vwSwiper.update(); //스와이퍼 재실행
+                      vwSwiper.slideTo(0, 0); //첫 번째 슬라이드로 이동
+
+                      $pl_pause_bul = false;
+                      $(".vw_slide_wrap .youtube_play").fadeIn("fast");
+                      $(".vw_slide_wrap .youtube_pause").hide();
+                      $(".vw_slide_wrap .youtube").removeClass("active");
+                      movie_margin_down();
+                      $(".vw_swiper .swiper-pagination").removeClass("hidden");
+                      //180910 추가 끝
+
+                      movie_func();
+                    }, 200);
+                  }
+                }
+
+                /* slide */
+                //180727 수정 시작
+                var interleaveOffset = 0.5;
+
+                var swiperOptions = {
+                  speed: 500,
+                  pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                    /* type		: 'progressbar' */
+                  },
+                  parallax: true,
+                  grabCursor: true,
+                  watchSlidesProgress: true,
+                  mousewheelControl: true,
+                  keyboardControl: true,
+                  on: {
+                    progress: function () {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        var slideProgress = swiper.slides[i].progress;
+                        var innerOffset = swiper.width * interleaveOffset;
+                        var innerTranslate = slideProgress * innerOffset;
+                        swiper.slides[i].querySelector(
+                          ".slide-inner"
+                        ).style.transform =
+                          "translate3d(" + innerTranslate + "px, 0, 0)";
+                      }
+                    },
+                    touchStart: function () {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        swiper.slides[i].style.transition = "";
+                      }
+                    },
+                    setTransition: function (speed) {
+                      var swiper = this;
+                      for (var i = 0; i < swiper.slides.length; i++) {
+                        swiper.slides[i].style.transition = speed + "ms";
+                        swiper.slides[i].querySelector(
+                          ".slide-inner"
+                        ).style.transition = speed + "ms";
+                      }
+                    },
+                    // 210728 oera 신규 추가 S
+                    //오에라 슬라이드 비디오
+                    slideChangeTransitionStart: function () {
+                      if ($(".swiper-slide .video-beauty").length > 0) {
+                        var appChk = "N";
+                        if (vwSwiper.isEnd) {
+                          //마지막 슬라이드이면,
+                          $(".h_gnbMenu .like").hide();
+                          if (appChk == "Y") {
+                            $(".h_gnbMenu .edit").hide();
+                          }
+                        } else {
+                          $(".h_gnbMenu .like").show();
+                          if (appChk == "Y") {
+                            $(".h_gnbMenu .edit").show();
+                          }
+                        }
+                      }
+
+                      if ($(".swiper-slide-active .video-beauty").length) {
+                        $(".swiper-slide-active .video-beauty").get(0).play();
+                        $(".vw_slide_wrap .btn-video-play").hide();
+                        $(".video-beauty")
+                          .parents(".swiper-slide")
+                          .css("z-index", 9999);
+                      }
+                      if ($(".swiper-slide-active video").length == 0) {
+                        if ($(".swiper-slide .video-beauty").length > 0) {
+                          $(".swiper-slide .video-beauty").get(0).pause();
+                          $(".vw_slide_wrap .btn-video-play").show();
+                        }
+                      }
+                    },
+                    // 210728 oera 신규 추가 E
+                  },
+                };
+              </script>
+              <!--// 제품 소개글 -->
+              <!--// 제품 정보 -->
+
+              <!-- 결제 관련안내 -->
+              <ul class="vw_prd_liInfo pv-element">
+                <li>
+                  <i class="tit">한섬마일리지</i>
+                  <span class="txt" id="point">
+                    <span
+                      class="txt"
+                      th:text="|${#numbers.formatInteger(detail.mileage, 3, 'COMMA')}&nbsp;M&nbsp;(5%)|"
+                      >마일리지</span
+                    >
+                  </span>
+                </li>
+                <li>
+                  <i class="tit">배송비</i>
+                  <span class="txt"> 30,000원 이상 무료배송 (실결제 기준)</span>
+                </li>
+              </ul>
+              <!--// 결제 관련안내 -->
+
+              <!-- 상세 이미지 -->
+              <!--// 상세 이미지 -->
+
+              <!-- 210728 oera 신규 추가  -->
+              <!-- 2021.08.12 오에라상품 상세이미지 영역 -->
+              <div id="D_MO_area"></div>
+              <!-- //2021.08.12 오에라상품 상세이미지 영역 -->
+              <!-- // 210728 oera 신규 추가  -->
+
+              <div class="vw_prd_tgMore pv-element">
+                <a
+                  href=".product_shipping_pop"
+                  class="pop_link btn_popup_trigger"
+                  onclick="GA_Event('상품_상세', '배송 및 교환/반품', '클릭');"
+                  >배송 및 교환/반품<i class="arr wid8 right"></i
+                ></a>
+              </div>
+              <!--// 팝업 링크 -->
+
+              <!--  oera 특정상품만 노출 //101110026 -->
+              <!-- 추천상품 -->
+              <!-- 추천상품 -->
+              <div class="vw_product_slide pv-element">
+                <div class="hs_tooltip_tit">
+                  <h2 class="hs_top_bold_tit01">추천상품</h2>
+                  <div class="hs_tooltip_wrap">
+                    <a href="#" class="ico_btn">추천상품이란?</a>
+                    <div class="tooltip_cont">
+                      <p class="txt">
+                        이 상품을 본 고객들이 많이 본 상품입니다.
+                      </p>
+                      <a href="#" class="close">닫기</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="hs_product_list01 swiper-container product_slide01 swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal"
+                  style="padding-left: 15px"
+                >
+                  <ul
+                    class="swiper-wrapper"
+                    style="transform: translate3d(0px, 0px, 0px)"
+                  >
+                    <li
+                      th:each="reco : ${detail.recommendList}"
+                      class="swiper-slide"
+                      style="margin-right: 5px"
+                    >
+                      <a th:href="|/p/detail/${reco.pcid}|">
+                        <div class="img">
+                          <img
+                            th:src="|${reco.pcimg1}/dims/resize/260x392|"
+                            onerror="this.src='/_ui/handsomemobile/images/common/no_img.jpg'"
+                            style="width: 130px; height: 130px"
+                            alt=""
+                          />
+                        </div>
+                        <div class="txt">
+                          <p class="name" th:text="${reco.bname}">브랜드</p>
+                          <p
+                            class="price"
+                            th:text="|₩${#numbers.formatInteger(reco.pcprice, 3, 'COMMA')}|"
+                          >
+                            가격
+                          </p>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!--// 추천상품 end-->
+
+              <!-- 최근 본 상품 -->
+              <!--// 최근 본 상품 -->
+
+              <!-- 룩북 -->
+              <!-- //룩북 -->
+            </div>
+
+            <!-- 하단 플로팅 -->
+            <script type="text/javascript">
+              function doLogin() {
+                  var lc = new layerConfirm(
+                    "로그인이 필요합니다",
+                    "확인",
+                    "취소"
+                  );
+
+                  lc.confirmAction = function () {
+                    //확인 호출 펑션
+                    location.href = "/customLogin";
+                  };
+                }
+
+                $(document).ready(function () {
+                  var cur_scrl_pos = 0;
+                  var $buying_type = 0;
+
+                  /* 쇼핑백담기 vs 바로구매 버튼 클릭 */
+
+                  var hst_btm_btnwrap = false;
+                  $(".hs_btm_btnwrap .trigger").on("click", function () {
+                    console.log("쇼핑백 담기 클릭");
+
+                    if(![[${#authorization.expression('isAuthenticated()')}]]){
+                      doLogin();
+                    }else{
+                  	  console.log("로그인 o");
+                        if (hst_btm_btnwrap) return;
+
+                        hst_btm_btnwrap = true;
+
+                        if ($(this).attr("class").indexOf("cart") != -1) {
+                          //쇼핑백 담기
+                          $buying_type = 0;
+                        } else if ($(this).attr("class").indexOf("direct") != -1) {
+                          //바로구매
+                          $buying_type = 1;
+                        }
+
+                        //장바구니 팝업 띄우기
+                        let cart = $(".hs_pro_view_floating").addClass("active");
+                        cart.addClass("active");
+                        cart.children("div:eq(0)").addClass("active");
+
+                        // <div hs_pro_view_layer> 뿌옇게
+                        $(".hs_pro_view_layer").fadeIn("fast");
+                        holdBodyShow(); //body 잠그기
+                        hst_btm_btnwrap = false;
+                    }
+
+
+
+                    return false;
+                    //}
+                  });
+                  /* 쇼핑백담기 vs 바로구매 버튼 클릭 */
+
+                  /* 쇼핑백담기 vs 바로구매 팝업 닫기 */
+                  $(document).on(
+                    "click",
+                    ".hs_pro_view_floating .floating_close",
+                    function () {
+                      console.log("장바구니 닫기");
+                      $(this).parent().parent().removeClass("active");
+                      console.log($(this).parent().parent());
+                      //$(this).parent().parent().addClass("disabled");
+                      $(".hs_pro_view_layer").fadeOut("fast");
+                      holdBodyHide(); //body 잠그기 해제
+
+                      setTimeout(function () {
+                        $(this).parent().parent().removeClass("disabled");
+                        //$(".hs_pro_view_floating").remove();
+                      }, 400);
+
+                      $delivery_progress = false;
+
+                      return false;
+                    }
+                  );
+                  /* 쇼핑백담기 vs 바로구매 팝업 닫기 */
+
+                  function view_floating_slide(num) {
+                    $(".hs_pro_view_floating .floating_box").removeClass(
+                      "active"
+                    );
+                    $(".hs_pro_view_floating .floating_box")
+                      .eq(num)
+                      .addClass("active");
+                  }
+
+                  /* 배송 옵션(다른 배송 방식) 선택 */
+                  var $delivery_type = 0; // 매장수령/4PM/앳홈
+                  var $deliChangeYn = false;
+                  /* $(document).on(
+                    "change",
+                    ".hs_pro_view_floating .delivery2 input",
+                    function () {
+                      if ($(this).prop("checked")) {
+                        $deliChangeYn = true;
+                        if ($(this).attr("id") === "delivery2_01") {
+                          $delivery_type = 0;
+                        } else if ($(this).attr("id") === "delivery2_02") {
+                          $delivery_type = 1;
+                        } else if ($(this).attr("id") === "delivery2_03") {
+                          $delivery_type = 2;
+                        } else if ($(this).attr("id") === "delivery2_04") {
+                          $delivery_type = 3;
+                        }
+                      }
+
+                      if ($buying_type != 2) {
+                        $(this)
+                          .closest(".floating_box")
+                          .find(".hs_btm_btnwrap a")
+                          .hide();
+                        if ($delivery_type == 0) {
+                          // 매장수령 선택
+                          $(this)
+                            .closest(".floating_box")
+                            .find(".hs_btm_btnwrap a")
+                            .eq(0)
+                            .show();
+                        } else {
+                          // 4PM / 앳홈 선택
+                          $(this)
+                            .closest(".floating_box")
+                            .find(".hs_btm_btnwrap a")
+                            .eq(1)
+                            .show();
+                        }
+                      }
+                    }
+                  );*/
+                  /* 배송 옵션(다른 배송 방식) 선택 */
+
+                  /* 상품옵션 선택 완료 -> 배송 옵션 선택 화면으로 이동 */
+                  $(document).on(
+                    "click",
+                    ".hs_pro_view_floating .hs_btm_btnwrap a",
+                    function () {
+                      if ($deliChangeYn == false && $("#delivery02").length > 0) {
+                        var firstDeliveryId = $(
+                          ".hs_pro_view_floating .delivery2 input"
+                        )
+                          .eq(0)
+                          .attr("id");
+                        if (firstDeliveryId === "delivery2_01") {
+                          $delivery_type = 0;
+                        } else if (firstDeliveryId === "delivery2_02") {
+                          $delivery_type = 1;
+                        } else if (firstDeliveryId === "delivery2_03") {
+                          $delivery_type = 2;
+                        } else if (firstDeliveryId === "delivery2_04") {
+                          $delivery_type = 3;
+                        }
+
+                        if ($buying_type != 2) {
+                          $("#" + firstDeliveryId)
+                            .closest(".floating_box")
+                            .find(".hs_btm_btnwrap a")
+                            .hide();
+                          if ($delivery_type == 0) {
+                            // 매장수령 선택
+                            $("#" + firstDeliveryId)
+                              .closest(".floating_box")
+                              .find(".hs_btm_btnwrap a")
+                              .eq(0)
+                              .show();
+                          } else {
+                            // 4PM / 앳홈 선택
+                            $("#" + firstDeliveryId)
+                              .closest(".floating_box")
+                              .find(".hs_btm_btnwrap a")
+                              .eq(1)
+                              .show();
+                          }
+                        }
+                      }
+
+                      var $this = $(this);
+                      var $this_slide = $this.closest(".floating_box");
+                      var $next_slide_idx = $this_slide.index() + 1;
+
+                      if (
+                        $this_slide.index() == 0 &&
+                        $this_slide.find(".size_area .size.on").length < 1
+                      ) {
+                        //180904 첫 번째 floating_box 영역의 size 선택 여부 체크
+                        $this_slide.find(".size_area").addClass("warning-comm");
+
+                        //181002 플루팅 화면의 사이즈 미선택시 배경 붉게 처리 추가 시작
+                        $this_slide.find(".hs_btn_size_wrap").addClass("warning");
+
+                        setTimeout(function () {
+                          $this_slide
+                            .find(".hs_btn_size_wrap")
+                            .removeClass("warning");
+                        }, 500);
+                        //181002 추가 끝
+
+                        setTimeout(function () {
+                          $this_slide
+                            .find(".size_area")
+                            .removeClass("warning-comm");
+                        }, 820);
+                        return false;
+                      }
+
+                      //다음 슬라이드로 가는 부분
+                      if ($next_slide_idx == 1) {
+                        // 상품 옵션 선택
+                        var checkedColor = $(
+                          ".hs_pro_view_floating .floating_box .hs_btn_color_chip button.chip.on"
+                        ).attr("id");
+                        var checkedSize = $(
+                          ".hs_pro_view_floating .floating_box .hs_btn_size_wrap .size_area span.size.on"
+                        ).attr("id");
+
+                        if (
+                          checkedColor === null ||
+                          checkedColor === undefined ||
+                          checkedColor === "undefined" ||
+                          checkedColor === ""
+                        ) {
+                          var la = new layerAlert(
+                            "주문하실 상품을 선택해주세요."
+                          );
+                          return false;
+                        } else if (
+                          checkedSize === null ||
+                          checkedSize === undefined ||
+                          checkedSize === "undefined" ||
+                          checkedSize === ""
+                        ) {
+                          var la = new layerAlert("사이즈를 선택해 주세요.");
+                          return false;
+                        } else {
+                          $("#productcode").val(checkedColor + "_" + checkedSize);
+                          $("#size").val(checkedSize);
+
+                          var colorClass = "";
+                          if (
+                            $(".txt_color_chip").text() === "WHITE" ||
+                            $(".txt_color_chip").text() === "white"
+                          ) {
+                            colorClass = " white";
+                          } else {
+                            colorClass = "";
+                          }
+
+                          if ($("#imageYn").val() == "Y") {
+                            var txtColor =
+                              '<span class="color_chip' +
+                              colorClass +
+                              '" style="background:' +
+                              $("#rgbcode").val() +
+                              " url('" +
+                              $("#imageUrl").val() +
+                              "/dims/resize/60x60');\"></span>";
+                          } else {
+                            var txtColor =
+                              '<span class="color_chip' +
+                              colorClass +
+                              '" style="background:' +
+                              $("#rgbcode").val() +
+                              ';"></span>';
+                          }
+                          $("#prodcolorChip").html(txtColor);
+                          var txtSize =
+                            $("#rgbname").val() +
+                            " / 사이즈 " +
+                            (checkedSize === "FR" || checkedSize === "F"
+                              ? "FREE"
+                              : $("#size").val()) +
+                            " / " +
+                            $("#ordQty").val() +
+                            "개";
+                          $("#prodoptions").html(txtSize);
+                          var txtPrice =
+                            "₩" +
+                            numberWithCommas(
+                              parseInt($("#price").val()) *
+                                parseInt($("#ordQty").val())
+                            );
+                          $("#prodprice").html(txtPrice);
+
+                          //showExchangeRate2($("#price").val(), $next_slide_idx); ///0922
+
+                          var stockLevel = $(
+                            ".hs_pro_view_floating .floating_box .hs_btn_size_wrap .size_area span.size.on"
+                          ).attr("data-value");
+                          if (stockLevel < 2) {
+                            $(".line_box.delivery li").eq(1).hide();
+                          } else {
+                            $(".line_box.delivery li").eq(1).show();
+                          }
+
+                          if ($buying_type == 0) {
+                            // Added by Yun
+                            // 쇼핑백담기 시에도 배송옵션 선택
+                            $this_slide.removeClass("active");
+                            view_floating_slide($next_slide_idx);
+                          } else if ($buying_type == 1) {
+                            $this_slide.removeClass("active");
+                            view_floating_slide($next_slide_idx);
+                          }
+                        }
+                      } else if ($next_slide_idx == 2) {
+                        if (
+                          $(".hs_pro_view_floating .delivery li")
+                            .eq(1)
+                            .find("input")
+                            .prop("checked")
+                        ) {
+                          // 다른 배송 방식 선택
+                          $this_slide.removeClass("active");
+                          view_floating_slide($next_slide_idx);
+
+                          return false;
+                        } else {
+                          // 택배 배송 방식 선택
+                        }
+                      } else if ($next_slide_idx == 3) {
+                        if ($delivery_type == 0) {
+                          //매장 수령
+                          $delivery_progress = true;
+
+                          layerPopupOpen(
+                            "/ko/store-finder/pickupStorePopup?brandCode=BR03_BR03&layer=lp_depth2",
+                            ".hsome_layerpop_contents.lp_depth2",
+                            ".hsome_layer_popup.product_store_pop"
+                          );
+                        } else {
+                          $delivery_progress = true;
+                        }
+                      }
+
+                      if (
+                        $(".cont .pre_order_txt1903").css("display") == "block"
+                      ) {
+                        $(".hs_check_list .hs_check01:eq(1)").hide();
+                      } else {
+                        $(".hs_check_list .hs_check01:eq(1)").show();
+                      }
+                    }
+                  );
+                  /* 상품옵션 선택 완료 -> 배송 옵션 선택 화면으로 이동 */
+
+                  /* 수령 매장 선택 팝업 호출 */
+                  /* 수령 매장 선택 팝업 호출 */
+
+                  /* 이전 옵션 선택 화면으로 이동 */
+                  /* 이전 옵션 선택 화면으로 이동 */
+
+                  /* 수령매장 변경 클릭 */
+                  /* 수령매장 변경 클릭 */
+
+                  if ("false" == "true") {
+                    toastPopupPreOrder();
+                  }
+                });
+
+                //180716 추가 시작
+                $(document).ready(function () {
+                  $(".line_box.hs_btn_size_wrap .size_area .size button").on(
+                    "click",
+                    function () {
+                      //180904 추가(구매 플로팅 화면의 사이즈 버튼 클래스 토글링)
+                      if (!$(this).prop("disabled")) {
+                        $(".hs_btn_size_wrap .size_area .size").removeClass("on");
+                        $(this).parent().addClass("on");
+                      }
+                    }
+                  );
+
+                  $(document).on(
+                    "click",
+                    ".hs_number_box .number_change .plus",
+                    function () {
+                      var $this = $(this);
+                      $this.addClass("active");
+                      setTimeout(function () {
+                        $this.removeClass("active");
+                      }, 400);
+                    }
+                  );
+                });
+
+                //180716 추가 끝
+
+                $.extend($.easing, {
+                  //180727 추가
+                  easeInOutCirc: function (x, t, b, c, d) {
+                    if ((t /= d / 2) < 1)
+                      return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b;
+                    return (c / 2) * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+                  },
+                });
+            </script>
+
+            <div class="hs_btm_btnwrap two pre_order1905">
+              <button type="button" class="hs_btm_btn black trigger cart">
+                쇼핑백 담기
+              </button>
+            </div>
+            <!--// 하단 플로팅 -->
+
+            <form id="addToCartForm" name="addToCartForm" action="">
+              <input type="hidden" id="qty" name="qty" value="" />
+              <input type="hidden" id="psid" name="psid" value="" />
+            </form>
+            <!--// 하단 플로팅 -->
+          </div>
+          <div class="hs_pro_view_layer"></div>
+          <!-- 팝업 배경 레이어 -->
+        </div>
+
+        <!-- //################## contents END ################## -->
+
+        <!-- 팝업 START-->
+        <!-- 상품 zoom// -->
+        <div class="product_zoom_pop">
+          <img
+            src="/_ui/handsomemobile/images/common/no_img.jpg"
+            alt=""
+            id="domElementToZoom"
+          />
+          <div class="pop-zoom-guide">
+            <i>ZOOM</i>
+            이미지를 확대해서 볼 수 있습니다.
+          </div>
+          <a href="#" class="pop-zoom-cls">닫기</a>
+        </div>
+        <!-- //상품 zoom -->
+
+        <!-- 코디 상품 START -->
+        <div class="hsome_layer_popup product_codi_pop product-style-pop">
+          <h2 class="pop-comm-ttl">함께 코디한 상품</h2>
+          <ul
+            class="ui_tab hs_red_border_tab style_codi size02"
+            style="display: none"
+          >
+            <li class="on">
+              <a href="#style_tab01">함께 코디한 상품</a>
+            </li>
+            <li class="fcs"></li>
+          </ul>
+          <div class="pop-comm-cnts mt35 ml0 mr0">
+            <div class="tab_cont">
+              <div class="cont on" id="style_tab01">
+                <div
+                  th:each="cody : ${detail.withCodyList}"
+                  class="codi_wrap detail-pg-allcodi-aside-box style_wrap"
+                  th:id="|prod_${cody.pcid}|"
+                >
+                  <div
+                    class="swiper-container codi_slide swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal"
+                  >
+                    <ul
+                      class="swiper-wrapper"
+                      style="transform: translate3d(0px, 0px, 0px)"
+                    >
+                      <li class="swiper-slide" style="width: 225px">
+                        <a href="javascript:noLink();" class="img_link">
+                          <img
+                            th:src="${cody.pcimg2}"
+                            onerror="this.src='/_ui/handsomemobile/images/common/no_img.jpg'"
+                            alt=""
+                          />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="hs_prd_info_wrap">
+                    <!-- 색상 버튼 원래 -> 다른 색-->
+                    <div class="hs_btn_color_chip">
+                      <button
+                        th:each="cc : ${cody.colors}"
+                        type="button"
+                        th:id="|chipbtn_${cc.pcid}|"
+                        th:onclick="chngColorChip(this, [[${cody.pcid}]], [[${cc.pcid}]]);"
+                        class="chip"
+                        th:classappend="${cc.pcid} == ${cody.pcid} ?  'on'"
+                        th:style="'background-image:url('+ ${cc.pcchipimg} +'/dims/resize/24x24); background:'+${cc.pccolorcode}"
+                      ></button>
+                    </div>
+                    <!--// 색상 버튼 -->
+
+                    <!--상품 정보 -->
+                    <div class="info_wrap">
+                      <a th:href="|/p/detail/${cody.pcid}|">
+                        <div class="logo" th:text="${cody.bname}">브랜드</div>
+                        <div class="name" th:text="${cody.pname}">상품명</div>
+                        <p
+                          class="price"
+                          th:text="|₩${#numbers.formatInteger(cody.pcprice, 3, 'COMMA')}"
+                        >
+                          가격
+                        </p>
+                      </a>
+
+                      <div class="number">
+                        품번<button
+                          type="button"
+                          class="copy btn_clipboard"
+                          data-clipboard-action="copy"
+                          th:attr="data-clipboard-text=${cody.pcid}"
+                          th:text="${cody.pcid}"
+                        >
+                          pcid
+                        </button>
+                      </div>
+                    </div>
+                    <!-- // 상품 정보  -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="pop-comm-cls">닫기</a>
+        </div>
+
+        <script type="text/javascript">
+          $(document).ready(function () {
+            $(".product_codi_pop .copy").on("click", function () {});
+
+            $(".product_codi_pop .style_wrap a").on("click", function () {
+              var targetProd = $(this)
+                .closest(".style_wrap")
+                .find(".hs_prd_info_wrap .copy")
+                .text();
+              location.href = "/p/detail/" + targetProd;
+            });
+
+            // 탭 활성화
+
+            window.sessionStorage.setItem("defaultActiveTabIdx", 0);
+
+            //룩북 탭 클릭 시
+
+            // 스타일 아이콘 클릭시
+            $("#style_aLink").on("click", function () {
+              $(".product-style-pop .style_codi li").removeClass("on");
+              $("[id^='style_tab']").removeClass("on");
+
+              if (window.sessionStorage.getItem("defaultActiveTabIdx") == 0) {
+                $(".product-style-pop .style_codi li:nth-child(1) a").click();
+              } else {
+                $(".product-style-pop .style_codi li:nth-child(2) a").click();
+              }
+
+              // 탭 하단 style
+              if ($(".product-style-pop ul.style_codi li").hasClass("on")) {
+                $this = $(".product-style-pop ul.style_codi li.on a");
+                $this_parent = $(".product-style-pop ul.style_codi");
+                $this_parent.find(".fcs").css({
+                  transform: "translateX(" + $this.position().left + "px)",
+                });
+
+                $(window).resize(function () {
+                  $this_parent.find(".fcs").css({
+                    transform: "translateX(" + $this.position().left + "px)",
+                  });
+                });
+              }
+            });
+
+            $(window).resize(function () {
+              if (
+                $(".title-slide-zone .swiper-wrapper").find(".swiper-slide")
+                  .length > 1
+              ) {
+                if (
+                  $(".title-slide-zone .swiper-container").hasClass(
+                    "swiper-container-horizontal"
+                  )
+                ) {
+                  var alr = document.querySelector(
+                    ".title-slide-zone .swiper-container"
+                  ).swiper;
+                  alr.destroy();
+                  cdNlbTitleSwiper();
+                } else {
+                  cdNlbTitleSwiper();
+                }
+              } else {
+                var $subSlide = $(
+                  ".detail-pg-lookbook-aside-box .sub-slide-zone .slide-box"
+                );
+                $($subSlide[0]).show();
+              }
+            });
+          });
+
+          function cdNlbTitleSwiper() {
+            var cdNlb_tt_swiper1 = new Swiper(
+              ".title-slide-zone .swiper-container",
+              {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                autoHeight: true,
+                loop: true,
+                navigation: {
+                  nextEl: ".swiper-button-next.tt-nav-right",
+                  prevEl: ".swiper-button-prev.tt-nav-left",
+                },
+                pagination: {
+                  el: ".swiper-pagination.tt-nav-page",
+                  type: "bullets",
+                },
+                on: {
+                  slideChange: function () {
+                    var $subSlide = $(
+                      ".detail-pg-lookbook-aside-box .sub-slide-zone .slide-box"
+                    );
+                    var slideIndex = this.realIndex;
+
+                    $subSlide.hide();
+                    $($subSlide[slideIndex]).show();
+                  },
+                },
+              }
+            );
+          }
+          function cdNlbSubSwiper(i) {
+            var $sub_slide = $(".sub-slide-zone .swiper-container");
+
+            var sub_swiper_arr = document.querySelectorAll(
+              ".sub-slide-zone .swiper-container"
+            );
+
+            for (var j = 0; j < sub_swiper_arr.length; j++) {
+              var sub_swiper = sub_swiper_arr[i].swiper;
+
+              if (typeof sub_swiper != "undefined" && sub_swiper != null) {
+                sub_swiper.destroy();
+              }
+            }
+
+            var cdNlb_sub_swiper = new Swiper($sub_slide[i], {
+              slidesPerView: 2.4,
+              spaceBetween: 5,
+              loop: false,
+              observer: true,
+              observeParents: true,
+              freeMode: false,
+            });
+          }
+
+          function addWishListProdClick(productBaseCode) {
+            var lc = new layerConfirm("로그인이 필요합니다", "확인", "취소");
+            lc.cancleAction = function () {
+              //취소 호출 펑션
+              $("." + productBaseCode + "Like").each(function (index, ele) {
+                $(ele).removeClass("on");
+              });
+            };
+
+            lc.confirmAction = function () {
+              //확인 호출 펑션
+              location.href = "/login";
+            };
+
+            addWishListProd(productBaseCode);
+          }
+
+          function addWishListProd(productBaseCode) {
+            $.ajax({
+              url: "/ko/wishlist/add-product-action",
+              type: "GET",
+              data: { productCode: productBaseCode, type: "toggle" },
+              success: function (msg) {
+                if (msg !== "erroor1") {
+                  if (productBaseCode === "SY2D1WCT506W_DK") {
+                    $(".h_gnbMenu .like").toggleClass("on");
+                  }
+                  $("." + productBaseCode + "LIKE").each(function (index, ele) {
+                    $(ele).toggleClass("on");
+                  });
+                }
+              },
+              error: function (xhr, Status, error) {},
+            });
+          }
+
+          function chngColorChip(ele, sourceProd, targetProd) {
+            var $this = $("#chipbtn_" + targetProd);
+            var $thisChips = $(ele).closest(".hs_btn_color_chip");
+            $thisChips.find(".chip").removeClass("on");
+
+            $(ele).addClass("on");
+
+            $("#prod_" + sourceProd + " .copy").text(targetProd);
+            $("#prod_" + sourceProd + " .copy").attr(
+              "data-clipboard-text",
+              targetProd
+            );
+
+            $.ajax({
+              url: "/p/api/detail/reloadCoordiSize/" + targetProd,
+              type: "GET",
+              success: function (data) {
+                console.log("리로드, ", data);
+                var product = data.product;
+                var images;
+
+                var txtHtml = "";
+                /* 가격변경 */
+                var priceHtml = "";
+                priceHtml = data.pcprice;
+
+                if (priceHtml != "") {
+                  priceHtml = "₩" + addComma(data.pcprice);
+
+                  $(
+                    "#" + sourceProd + " .hs_prd_info_wrap .info_wrap .price"
+                  ).html(priceHtml);
+                }
+
+                if (data.pcimg2 != null) {
+                  txtHtml = data.pcimg2;
+                }
+
+                $(ele)
+                  .closest("#prod_" + sourceProd)
+                  .find(".codi_slide .swiper-wrapper img")
+                  .attr("src", txtHtml);
+                $(ele)
+                  .closest("#prod_" + sourceProd)
+                  .find(".prd-img img")
+                  .attr("src", txtHtml);
+              },
+            });
+          }
+        </script>
+        <!--// 코디 상품 END-->
+
+        <!-- 매장 재고 확인 START-->
+        <script type="text/javascript">
+          var lat = 0;
+          var lng = 0;
+          var appYn = "N";
+          var appOs = "";
+          var loading = false;
+          var gpsAlertYn = "N";
+          $(document).ready(function () {
+            $(
+              ".product_stock_pop .select_options_wrap .hs_btn_color_chip.infoColor button.chip"
+            ).on("click", function () {
+              if (
+                $(
+                  ".product_stock_pop .select_options_wrap .hs_btn_color_chip button.chip"
+                ).hasClass("on") == true
+              ) {
+                $(
+                  ".product_stock_pop .select_options_wrap .hs_btn_color_chip button.chip"
+                ).removeClass("on");
+                $(this).addClass("on");
+                $("#offlieQtyColorName").html($(this).attr("data-value"));
+              }
+            });
+
+            $(
+              ".product_stock_pop .select_options_wrap .option_size .size_area .size button.btn"
+            ).on("click", function () {
+              $(
+                ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+              ).removeClass("on");
+              $(this).parent().addClass("on");
+            });
+
+            $(".hs_prd_info_wrap .hs_btn_color_chip.infoColor").each(
+              function () {
+                if ($(this).find("button").hasClass("on")) {
+                  var colorData = $(this).find("button.on").attr("data-value");
+                  $(
+                    ".product_stock_pop .select_options_wrap .hs_btn_color_chip.infoColor button"
+                  ).each(function () {
+                    if (colorData == $(this).attr("data-value")) {
+                      $(this).addClass("on");
+                      $("#offlieQtyColorName").html($(this).attr("data-value"));
+                    }
+                  });
+                }
+              }
+            );
+
+            $(".lp_find_stock_store .btn_wrap .hs_black_comm_btn").on(
+              "click",
+              function () {
+                $("#closeOfflineQty").trigger("click");
+              }
+            );
+
+            $("#closeOfflineQty").on("click", function () {
+              $(
+                ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+              ).removeClass("on");
+              $("#soldOutYn").prop("checked", false);
+              $(".product_stock_pop .pop-comm-cnts").show();
+              $(".product_stock_pop .stockbox").hide();
+              $(".lp_find_stock_store").hide();
+              $(".non_product_txt").hide();
+              $("#searchStore").empty();
+            });
+
+            if (getCookie("app") == null || getCookie("app") == "") {
+              $(".sort_tab").remove();
+            } else {
+              appYn = "Y";
+            }
+
+            $("#soldOutYn").change(function () {
+              searchStore(1);
+            });
+
+            $(".select_info2004 .btn_opt_reselect").on("click", function () {
+              $(
+                ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+              ).removeClass("on");
+              $("#soldOutYn").prop("checked", false);
+              $(".product_stock_pop .pop-comm-cnts").show();
+              $(".product_stock_pop .stockbox").hide();
+              $(".lp_find_stock_store").hide();
+              $(".non_product_txt").hide();
+              $("#searchStore").empty();
+            });
+
+            $(".sort_tab li").on("click", function () {
+              $(".sort_tab li").removeClass("on");
+              if ($(this).find("a").attr("id") === "distance") {
+                gpsAlertYn = "Y";
+                if (appYn === "Y") {
+                  if (appOs === "ios") {
+                    webkit.messageHandlers.getLocation.postMessage("");
+                  } else {
+                    Android.getLocation();
+                  }
+                }
+
+                setTimeout(function () {
+                  if (gpsAlertYn == "N") {
+                    searchStore(1);
+                  }
+                }, 500);
+              } else {
+                $(".sort_tab li").eq(1).addClass("on");
+                setTimeout(function () {}, 500);
+              }
+            });
+          });
+
+          function changeOfflineQtyColor() {
+            $(
+              ".product_stock_pop .select_options_wrap .hs_btn_color_chip button.chip"
+            ).removeClass("on");
+            $(
+              ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+            ).removeClass("on");
+            $(".hs_prd_info_wrap .hs_btn_color_chip.infoColor").each(
+              function () {
+                if ($(this).find("button").hasClass("on")) {
+                  var colorData = $(this).find("button.on").attr("data-value");
+                  $(
+                    ".product_stock_pop .select_options_wrap .hs_btn_color_chip.infoColor button"
+                  ).each(function () {
+                    if (colorData == $(this).attr("data-value")) {
+                      $(this).addClass("on");
+                      $("#offlieQtyColorName").html($(this).attr("data-value"));
+                    }
+                  });
+                }
+              }
+            );
+          }
+
+          function changeOfflineQtySize() {
+            $(
+              ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+            ).removeClass("on");
+            $(".hs_prd_info_wrap .hs_btn_size_wrap .size_area .size").each(
+              function () {
+                if ($(this).hasClass("on")) {
+                  var sizeData = $(this).find("button").attr("data-value");
+                  $(
+                    ".product_stock_pop .select_options_wrap .option_size .size_area .size"
+                  ).each(function () {
+                    if (sizeData == $(this).find("button").attr("data-value")) {
+                      $(this).addClass("on");
+                    }
+                  });
+                }
+              }
+            );
+          }
+
+          function goOfflineQtyInfo() {
+            if (
+              $(
+                ".product_stock_pop .select_options_wrap .hs_btn_color_chip.infoColor button.on"
+              ).length == 0
+            ) {
+              var la = new layerAlert("색상을 선택해 주세요.");
+              return;
+            }
+            if (
+              $(
+                ".product_stock_pop .select_options_wrap .option_size .size_area .size.on"
+              ).length == 0
+            ) {
+              var la = new layerAlert("사이즈를 선택해 주세요.");
+              return;
+            }
+
+            $(".product_stock_pop .pop-comm-cnts").hide();
+            $(".product_stock_pop .stockbox").show();
+          }
+
+          function goOfflineQty() {
+            if (appYn === "Y") {
+              if (appOs === "ios") {
+                webkit.messageHandlers.getLocation.postMessage("");
+              } else {
+                Android.getLocation();
+              }
+            }
+
+            $(".stockbox").hide();
+            $(".lp_find_stock_store").show();
+
+            setTimeout(function () {
+              searchStore(1);
+            }, 500);
+
+            $.getScript(
+              "http://dapi.kakao.com/v2/maps/sdk.js?appkey=e6fc45b5bc283b8da3567c25fee32805&libraries=services&autoload=false",
+              function () {
+                daum.maps.load(function () {});
+              }
+            );
+          }
+        </script>
+
+        <div class="hsome_layer_popup product_stock_pop" style="z-index: 1000">
+          <h2 class="pop-comm-ttl">매장 재고 확인</h2>
+          <div class="pop-comm-cnts">
+            <div class="hs_product_selected_item" id="offlineQtyList">
+              <div class="img">
+                <img
+                  src="http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_S01.jpg"
+                  alt="S01Image"
+                />
+              </div>
+              <div class="cont">
+                <p class="brand">SYSTEM</p>
+                <p class="name">[23SS] 디테쳐블 후드 벨티드 트렌치 코트</p>
+                <p class="price">₩799,000</p>
+              </div>
+            </div>
+            <div class="select_options_wrap">
+              <div class="option_color">
+                <p class="opt_name">컬러</p>
+                <div class="hs_btn_color_chip infoColor">
+                  <button
+                    type="button"
+                    id="info_SY2D1WCT506W_DK"
+                    data-value="DARK KHAKI"
+                    data-color-code="DK"
+                    data-rgb-code="#3d3f34 url('http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_C01.jpg/dims/resize/48x48');"
+                    class="chip on"
+                    style="
+                      background: #3d3f34
+                        url('http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_C01.jpg/dims/resize/48x48');
+                    "
+                  ></button>
+                  <button
+                    type="button"
+                    id="info_SY2D1WCT506W_LE"
+                    data-value="LIGHT BEIGE"
+                    data-color-code="LE"
+                    data-rgb-code="#e6d4c4 url('http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_LE_C01.jpg/dims/resize/48x48');"
+                    class="chip"
+                    style="
+                      background: #e6d4c4
+                        url('http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_LE_C01.jpg/dims/resize/48x48');
+                    "
+                  ></button>
+                  <span class="cl_name" id="offlieQtyColorName"
+                    >DARK KHAKI</span
+                  >
+                </div>
+              </div>
+              <div class="option_size">
+                <p class="opt_name">사이즈</p>
+                <div class="hs_btn_size_wrap">
+                  <div class="size_area">
+                    <span class="size">
+                      <button
+                        type="button"
+                        class="btn"
+                        data-value="82"
+                        data-kr-size="(55)"
+                        data-erp-size="2"
+                      >
+                        82<span class="ko_size1901">&nbsp;(55)</span>
+                      </button>
+                    </span>
+                    <span class="size">
+                      <button
+                        type="button"
+                        class="btn"
+                        data-value="88"
+                        data-kr-size="(66)"
+                        data-erp-size="3"
+                      >
+                        88<span class="ko_size1901">&nbsp;(66)</span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hs_pop_btn_wrap mt25">
+              <a
+                href="javascript:goOfflineQtyInfo();"
+                onclick="javascript:GA_Event('매장_재고_확인', '매장 재고 확인하기', 'SYSTEM_[23SS] 디테쳐블 후드 벨티드 트렌치 코트');"
+                class="hs_black_comm_btn full"
+                >매장 재고 확인하기</a
+              >
+            </div>
+          </div>
+          <div class="stockbox" style="display: none">
+            <strong>매장 재고 안내</strong>
+            <span>현 시점 재고 수량을 조회합니다.</span>
+            <p>
+              재고 확인 시 동일 시점에 해당 상품이 판매될 경우<br />
+              수량의 차이가 있을 수 있으니,
+              <em
+                >정확한 수량 및 구매 가능 여부는<br />
+                매장으로 직접 문의해주시기 바랍니다.</em
+              >
+            </p>
+            <a
+              href="javascript:goOfflineQty();"
+              onclick="javascript:GA_Event('매장_재고_확인', '안내사항 확인 완료', '클릭');"
+              id="findOfflineStore"
+              class="stock_btn"
+              data-layerpop-depth="depth2"
+              >안내사항 확인 완료</a
+            >
+          </div>
+          <div class="layerpop_wrap lp_find_stock_store" style="display: none">
+            <div class="select_info2004">
+              <span class="slt_color_chip">컬러</span>
+              <p class="opt_detail"></p>
+              <a
+                class="btn_opt_reselect"
+                onclick="javascript:GA_Event('매장_재고_확인', '다시 선택', '클릭');"
+                >다시 선택</a
+              >
+            </div>
+            <div class="select_info_txt2004">
+              <p class="info_txt">
+                선택하신 옵션(컬러/사이즈)의 오프라인 매장 재고 정보입니다.<br /><span
+                  class="point_fc"
+                  >매장 재고 현황은 대략적이며, 자세한 정보는 매장에
+                  문의해주세요.</span
+                >
+              </p>
+              <div class="sort_box">
+                <div class="check_stl">
+                  <input
+                    type="checkbox"
+                    id="soldOutYn"
+                    class="chk_all_agree"
+                    onclick="javascript:GA_Event('매장_재고_확인', '필터', '품절 매장 제외');"
+                  />
+                  <label for="soldOutYn">품절 매장 제외</label>
+                </div>
+              </div>
+            </div>
+            <div class="store_search_wrap pt0 pb0">
+              <ul class="hs_store_list" id="searchStore"></ul>
+              <div class="hs_paging" id="listPagingDiv"></div>
+            </div>
+            <p class="non_product_txt" style="display: none">
+              매장 재고를 찾을 수 없습니다.
+            </p>
+            <div class="btn_wrap pl15 pr15 mt0 pt20">
+              <a
+                onclick="javascript:GA_Event('매장_재고_확인', '확인', '클릭');"
+                class="hs_black_comm_btn full"
+                >확인</a
+              >
+            </div>
+          </div>
+          <a
+            href="#;"
+            class="pop-comm-cls"
+            id="closeOfflineQty"
+            onclick="javascript:GA_Event('매장_재고_확인', '닫기', '클릭');"
+            >닫기<!-- 닫기 --></a
+          >
+        </div>
+        <!-- //매장 재고 확인 END-->
+
+        <!-- 배송 및 반품 안내 START-->
+        <div class="hsome_layer_popup product_shipping_pop">
+          <h2 class="pop-comm-ttl">배송 및 교환/반품</h2>
+          <div class="pop-comm-cnts">
+            <div class="hs_float_list">
+              <h3 class="hs_tit16">배송안내</h3>
+              <ul>
+                <li>
+                  <span class="tit">배송방식</span>
+                  <span class="txt">우체국택배, CJ대한통운, 로젠택배</span>
+                </li>
+                <li>
+                  <span class="tit">배송지역</span>
+                  <span class="txt">전국 (일부 지역 제외)</span>
+                </li>
+                <li>
+                  <span class="tit">배송정보</span>
+                  <span class="txt"
+                    >평균 입금완료일 기준 2 ~ 4일 소요됩니다.<br />(토/일/공휴일
+                    제외)</span
+                  >
+                </li>
+                <li>
+                  <span class="tit">배송비</span>
+                  <span class="txt">
+                    실결제금액 기준 30,000원 이상 결제 시 무료배송<br />
+                    30,000원 미만 결제 시 2,500원(기본 배송비)<br />*실결제금액이란,
+                    쿠폰/바우처 할인액 및 <br />
+                    한섬마일리지/H.Point 사용 금액을 제외한 금액입니다. <br />
+                    (e-money 사용은 실결제금액에 포함) <br />* 도서산간 지역은
+                    3,000원의 별도 배송비가 부과됩니다.<br />* 일부 도서지역은
+                    도선료가 부가될 수 있습니다.<br
+                  /></span>
+                </li>
+              </ul>
+            </div>
+            <div class="hs_top_border_cont hs_float_list">
+              <h3 class="hs_tit16">교환 및 반품안내</h3>
+              <ul>
+                <li>
+                  <span class="tit">교환/반품<br />기간</span>
+                  <span class="txt">상품 수령 후, 7일 이내</span>
+                </li>
+                <li>
+                  <span class="tit">교환절차</span>
+                  <span class="txt"
+                    >사이즈 및 상품불량 교환만 가능(색상교환 불가)하며 교환을
+                    원하실 경우 고객센터로 문의해주시기 바랍니다. (교환 재고가
+                    없을 경우, 환불로 안내예정) <br />화장품은 상품 불량만 교환
+                    가능하며(상품 개봉 후 교환 불가), 고객센터로 문의해주시기
+                    바랍니다</span
+                  >
+                </li>
+                <li>
+                  <span class="tit">반품절차</span>
+                  <span class="txt"
+                    >[배송완료] 7일 이내에 마이페이지 주문/배송/취소/반품
+                    메뉴에서 [반품신청] 버튼을 클릭 시 가능합니다.</span
+                  >
+                </li>
+                <li>
+                  <span class="tit">교환/반품<br />배송비</span>
+                  <span class="txt"
+                    >배송비는 5,000원 이며(반품비는 주문시 배송비 결제 유무에
+                    따라 변동) 상품 불량 등의 이유로 교환/반품하실 경우,
+                    배송비는 무료입니다.</span
+                  >
+                </li>
+                <li>
+                  <span class="tit">교환/반품<br />불가사유</span>
+                  <div class="txt">
+                    <p>다음의 경우에는 교환/반품이 불가합니다.</p>
+                    <ul>
+                      <li>
+                        - 교환/반품 기간(상품 수령 후 7일 이내)을 초과하였을
+                        경우
+                      </li>
+                      <li>
+                        - 고객님의 요청에 의해 제품 사양이 변경(이니셜 제품,
+                        사이즈 맞춤 제품 등)된 경우
+                      </li>
+                      <li>
+                        - 제품을 이미 사용하였거나, 제품 일부를 소비하였을 경우
+                      </li>
+                      <li>
+                        - 화장품 : 상품 개봉 후 교환/반품 불가. 단 상품
+                        불량(내용물 불량) 혹은 피부 트러블로 인한 반품은
+                        가능(용량 1/3 미만 사용 및 의사소견서 1:1문의 첨부 필수)
+                      </li>
+                      <li>- 식기류 : 제품 수령 후, 비닐포장을 개봉한 경우</li>
+                      <li>- 고객님의 귀책사유로 인해 회수가 지연될 경우</li>
+                      <li>
+                        - 국내외 환율 변동 등에 의해 가격이 변동되는 제품의 경우
+                      </li>
+                      <li>
+                        - 문제소지가 있는 제품을 본사가 아닌, 타 업체(일반
+                        수선실 등)에서 선처리가 된 경우
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <span class="tit">교환/반품 건 배송</span>
+                  <span class="txt"
+                    >교환/반품 시 배송 받으신 박스로 반송하셔야 합니다.
+                    (한섬/오에라/리퀴드퍼퓸바 상품 함께 주문 후 교환/반품 시
+                    각각의 박스에 나눠서 반송해주세요. 한 박스에 함께 동봉하여
+                    반송 시 교환/반품 처리가 불가할 수 있습니다)</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="hs_top_border_cont hs_tit_list">
+              <div class="lists">
+                <h3 class="hs_tit16">환불안내</h3>
+                <p class="list_txt">환불은 반송제품 확인 후 진행됩니다.</p>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="pop-comm-cls">닫기</a>
+        </div>
+        <!--// 배송 및 반품 안내 END -->
+
+        <script type="text/javascript">
+          var baseCode;
+          if ("SY2D1WCT506W_DK".indexOf("_") > -1) {
+            baseCode = "SY2D1WCT506W_DK".split("_")[0];
+          }
+          $.extend($.easing, {
+            //180727 추가
+            easeInOutCirc: function (x, t, b, c, d) {
+              if ((t /= d / 2) < 1)
+                return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b;
+              return (c / 2) * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+              //			},
+            },
+          });
+
+          $(document).ready(function () {
+            var productSwiper01 = new Swiper(
+              ".product_slide01.swiper-container",
+              {
+                slidesPerView: "auto",
+                freeMode: true,
+                spaceBetween: 5,
+              }
+            );
+
+            var productSwiper02 = new Swiper(
+              ".product_slide02.swiper-container",
+              {
+                slidesPerView: "auto",
+                freeMode: true,
+                spaceBetween: 5,
+              }
+            );
+
+            /*popup 180910 수정 시작 */
+            var codiSwiper = new Swiper(".codi_slide.swiper-container", {
+              pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                type: "progressbar",
+              },
+            });
+            $(".codi_slide.swiper-container").each(function () {
+              //코디 상품 슬라이드 갯수가 1개일 경우 페이징 비노출 추가
+              if ($(this).find(".swiper-wrapper li").length == 1) {
+                $(this).find(".swiper-pagination").hide();
+              }
+            });
+            /*popup 180910 수정 끝 */
+
+            /*// 180716_수정 */
+
+            var relationItemSwiper = new Swiper(
+              ".relation_item_slide.swiper-container",
+              {
+                slidesPerView: "auto",
+                freeMode: true,
+                spaceBetween: 5,
+              }
+            );
+            /* //180627_추가 */
+
+            $(document).on(
+              "click",
+              ".hs_number_box.global .price .tooltip_btn",
+              function () {
+                $(this)
+                  .parents(".hs_number_box")
+                  .children(".tooltip_cont")
+                  .toggleClass("on");
+                return false;
+              }
+            );
+
+            $(document).on(
+              "click",
+              ".hs_number_box.global .tooltip_cont .close",
+              function () {
+                $(this).parent(".tooltip_cont").removeClass("on");
+                return false;
+              }
+            );
+
+            $("body").on("click", function () {
+              if ($(".add_mileage_info1905>.tooltip_cont").hasClass("on")) {
+                $(".add_mileage_info1905>.tooltip_cont").removeClass("on");
+              }
+            });
+          });
+
+          //180918 수정 시작
+          function PHS() {
+            var $header = $("header.hsome_header.product_header"),
+              $win = $(window),
+              $win_pos = 0,
+              $win_p_pos = 0,
+              $inactive_cls = "inactive",
+              $add_bg_cls = "add_bg",
+              $add_ttl_cls = "add_ttl";
+
+            $win
+              .on("scroll", function () {
+                ($win_h = $win.height()),
+                  ($doc_h = $(document).height()),
+                  ($win_pos = $win.scrollTop()),
+                  ($add_bg_point = $(".vw_slide_wrap").outerHeight() / 2);
+
+                //case 1
+                if ($win_pos >= $add_bg_point) {
+                  $header.addClass($add_bg_cls);
+                  $header.addClass($add_ttl_cls);
+                  $header.find(".h_leftMenu .h_home").show();
+                  $header.find(".h_gnbMenu .share").show();
+                  $header.find(".h_gnbMenu .share").removeClass("off");
+                } else {
+                  $header.removeClass($add_bg_cls);
+                  $header.removeClass($add_ttl_cls);
+                  $header.find(".h_gnbMenu .share").addClass("off");
+                  setTimeout(function () {
+                    $header.find(".h_gnbMenu .share").hide();
+                    $header.find(".h_leftMenu .h_home").hide();
+                  }, 10);
+                }
+
+                //case 2
+                if ($win_pos > 0) {
+                  $header.find(".h_gnbMenu .edit").hide();
+                } else {
+                  $header.removeClass($add_ttl_cls);
+                  $header.find(".h_gnbMenu .edit").show();
+                }
+              })
+              .trigger("scroll");
+          }
+
+          $(document).ready(function () {
+            PHS();
+          });
+          //180918 수정 끝
+
+          //s: 바로주문  뒤로가기  팝업창제거
+          window.onpageshow = function (e) {
+            var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+            if (
+              e.persisted ||
+              (window.performance && window.performance.navigation.type == 2)
+            ) {
+              // 뒤로가기
+              if (
+                varUA.indexOf("iphone") > -1 ||
+                varUA.indexOf("ipad") > -1 ||
+                varUA.indexOf("ipod") > -1
+              ) {
+                $(".hs_pro_view_layer").hide();
+                $(".hs_pro_view_floating").remove();
+                window.sessionStorage.setItem("BFCache", "Y");
+                window.location.reload();
+              } else {
+                window.sessionStorage.setItem("BFCache", "Y");
+              }
+            }
+          };
+          //e: 바로주문  뒤로가기  팝업창제거
+
+          //s: 뒤로가기로 진입 후 뒤로가기 눌렀을 때 액션
+          window.onhashchange = function (e) {
+            if (window.sessionStorage.getItem("BFCache") == "Y") {
+              window.sessionStorage.removeItem("BFCache");
+              window.history.go(-1);
+            }
+          };
+          //e: 뒤로가기로 진입 후 뒤로가기 눌렀을 때 액션
+        </script>
+
+        <!-- 180928 수정// -->
+        <script th:inline="javascript">
+          var $pv_doc = $(document),
+            $pv_win = $(window),
+            $pv_win_st = 0,
+            $pv_body = $("body"),
+            $pv_header = $("header.hsome_header.product_header"),
+            $pv_footer = $(".hs_btm_btnwrap"),
+            $pv_slider = $(".product_view_wrap .vw_slide_wrap"),
+            $pv_first_slider = $pv_slider.find(".vw_swiper li:first-child"),
+            $pv_element = $(".pv-element"),
+            $pv_wrapper = $(".hsome_allContents_wrapper"),
+            $pv_inactive_cls = "inactive",
+            $pv_closed_cls = "is-closed",
+            $pv_bg_cls = "add_bg",
+            $pv_fade_cls = "fade-out",
+            $pv_animated_cls = "animated",
+            $pv_none_cls = "none",
+            $pv_wrapper_cls = "op",
+            $pv_func = "",
+            $pv_sec = 50;
+          $pv_win.load(function () {
+            $pv_win_st = $pv_win.scrollTop();
+            $pv_first_slider.addClass($pv_animated_cls);
+            var $pv_func = [
+                {
+                  play: function () {
+                    if (
+                      $pv_win_st >
+                      $(".hs_prd_info_wrap").offset().top -
+                        $pv_header.outerHeight()
+                    ) {
+                      $pv_header.addClass($pv_bg_cls);
+                      $pv_header.addClass("add_ttl");
+                    }
+                  },
+                  sec: $pv_sec * 6,
+                },
+              ],
+              $pv_func_idx = 0;
+            (function pv_func_paly() {
+              setTimeout(function () {
+                $pv_func[$pv_func_idx].play();
+                $pv_func_idx += 1;
+                if ($pv_func_idx >= $pv_func.length) {
+                  return false;
+                }
+                pv_func_paly();
+              }, $pv_func[$pv_func_idx].sec);
+            })();
+          });
+        </script>
+        <!-- //180928 수정 -->
+
+        <script th:inline="javascript">
+           $(window).load(function () {
+
+          let prod = [[${detail.info}]];
+             var prodNm = prod.pname;
+             var price = '₩' + prod.colors[idx].pcprice;
+
+             $("#header_prodNm").html(prodNm);
+             $("#header_prodPrice").html(price);
+           });
+        </script>
+
+        <script type="text/javascript">
+          if ("Y" == "N") {
+            window.onload = function () {
+              NetFunnel_Complete();
+            };
+          }
+        </script>
+      </div>
+
+      <!--장바구니 start-->
+      <script th:inline="javascript">
+        var $buying_type = "0"; //쇼핑백담기(0) vs 바로구매(1)
+        var cartQuantity = {};
+
+        $(document).ready(function () {
+          //상품상세 > 예약상품 > 카트담기 >  배송 텍스트 출력
+          $(".parentTxt").each(function (index) {
+            if ($(this).css("display") == "block") {
+              var deliveryReserveTxt = $(this).text();
+              $(".reserveSaleTxtFloat").text(deliveryReserveTxt);
+              return false;
+            }
+          });
+
+          /* 색상 버튼 클릭 */
+          $(
+            ".hs_pro_view_floating .floating_box .cont .color_wrap .hs_btn_color_chip .chip"
+          ).on("click", function () {
+            if ($(this).hasClass("on") == false) {
+              var prodcode = $(this).attr("id");
+              var imageUrl = "";
+              if (typeof $(this).attr("data-imgValue") !== "undefined") {
+                imageUrl = $(this).attr("data-imgValue");
+              }
+
+              reloadProdSize(prodcode, imageUrl);
+              //}
+              $(".cont .pre_order_txt1903").hide();
+            }
+          });
+          /* 색상 버튼 클릭 */
+
+          //iPhone css(코리아사이즈 안내) 수정
+          if (navigator.userAgent.indexOf("iPhone") > -1) {
+            $("#koreaSizeGuideCart").addClass("ios");
+          } else {
+            $("#koreaSizeGuideCart").removeClass("ios");
+          }
+        });
+
+        /* 색상 버튼 클릭 시 호출되는 함수 */
+        function reloadProdSize(prodcode, imageUrl) {
+          $(".reserveSaleSize").hide();
+
+          console.log("색상클릭!", prodcode, imageUrl);
+
+          if ($("#" + prodcode).hasClass("on")) {
+            return false;
+          } else {
+            var $page_url = "/p/api/cart/reloadProd";
+            jQuery.ajax({
+              url: $page_url,
+              data: { productcode: prodcode, buying_type: $buying_type },
+              type: "get",
+              success: function (data) {
+                $("#ordQty").val("1"); //수량초기화
+                console.log(data);
+                $(
+                  ".hs_pro_view_floating .floating_box .cont .color_wrap .hs_btn_color_chip .chip"
+                ).removeClass("on");
+                $("#" + data.pcid).addClass("on");
+                $(
+                  ".hs_pro_view_floating .floating_box .cont .color_wrap .txt_color_chip"
+                ).text(data.pcid.split("_")[1]);
+
+                var resize = "";
+                var size = data.sizes;
+                var rewareAlertYn = "N";
+                var icoSizeExcl = "N";
+                for (var i = 0; i < size.length; i++) {
+                  if (size[i].psstock > 0) {
+                    resize +=
+                      '<span id="' +
+                      size[i].psid +
+                      '" data-value="' +
+                      size[i].psstock +
+                      '" class="size" onclick="javascript:clickSize(\'' +
+                      size[i].psize +
+                      "','" +
+                      size[i].psstock +
+                      "');\">";
+                    resize += '<button type="button" class="btn">';
+                    resize +=
+                      size[i].psize == "FR" || size[i].psize == "F"
+                        ? "FREE"
+                        : size[i].psize;
+                    resize += "</button>";
+                    resize += "</span>";
+                  } else {
+                    resize += '<span class="size">';
+                    resize += '<button type="button" class="btn" disabled>';
+                    resize +=
+                      size[i].psize == "FR" || size[i].psize == "F"
+                        ? "FREE"
+                        : size[i].psize;
+
+                    resize += "</button>";
+                    resize += '<span class="soldout">품절</span>';
+                    resize += "</span>";
+                  }
+                  console.log("\t", i, resize);
+                }
+
+                $("#sizeArea").html(resize);
+
+                // 재입고알림 툴팁
+
+                if ("true" == "false") {
+                  // 아울렛
+                  rewareAlertYn = "N";
+                }
+
+                if (
+                  data.reserveSaleProducts != null &&
+                  data.reserveSaleProducts != undefined
+                ) {
+                  // 예약상품일 경우 제외
+                  rewareAlertYn = "N";
+                }
+
+                if ("Y" != "Y") {
+                  // 재입고알림 스위치
+                  rewareAlertYn = "N";
+                }
+
+                var txtToolTip = "";
+                $("#rewareToolTipLayer").removeClass();
+
+                // 재입고알림 X
+                $("#rewareToolTipLayer").addClass("size_info_txt1904");
+
+                txtToolTip +=
+                  '<span id="koreaSizeGuideCart" class="ico_size_excl">icon</span>+ 표기는 디자인에 따라 사이즈 차이가 있을 수 있습니다.';
+
+                $("#rewareToolTipLayer").html(txtToolTip);
+
+                if (
+                  data.reserveSaleProducts != null &&
+                  data.reserveSaleProducts != undefined
+                )
+                  /* 상품가격 변경 */
+                  console.log(data.pcprice);
+                var price = data.pcprice;
+                var priceHtml = "";
+
+                priceHtml = "₩" + addComma(data.pcprice);
+                $(
+                  ".hs_pro_view_floating.active .floating_box .hs_number_box #strPrice"
+                ).html(priceHtml);
+
+                $("#price").val(data.pcprice);
+              },
+              error: function (xhr, Status, error) {
+                alert("error : " + error);
+              },
+            });
+
+            return false;
+          }
+        }
+        /* 색상 버튼 클릭 시 호출되는 함수 */
+
+        /* 예약상품 배송일자 텍스트 변경  */
+        /* 예약상품 텍스트 변경  */
+
+        /* 사이즈 버튼 클릭 */
+        function clickSize(size, stock) {
+          console.log("사이즈 클릭", size, stock);
+          $(".pre_order_txt191007").hide();
+          if (stock < 1) {
+            var la = new layerAlert("해당사이즈는 품절입니다.");
+            return false;
+          } else {
+            $(".hs_pro_view_floating .hs_btn_size_wrap .size").removeClass(
+              "on"
+            );
+
+            /* 2019.02.21 size가 소수점일경우 addClass on이 안되서 변경 */
+            $(".line_box .size_area .btn").each(function () {
+              console.log($(this).parents("span").attr("id"));
+              if (
+                $(this).parents("span").attr("id") != null &&
+                $(this).parents("span").attr("id").split("_")[2] == size
+              ) {
+                console.log("클릭1", $(this).parents("span").attr("id"));
+                $(this).parents("span").addClass("on");
+              }
+            });
+
+            $("#size").val(size);
+            $("#stockLevel").val(stock);
+
+            $('#addToCartForm input[name="stockCnt"]').val(stock);
+
+            var productCode = "";
+            $(".cont .hs_btn_color_chip .chip").each(function () {
+              if ($(this).hasClass("on")) {
+                productCode = $(this).attr("id");
+                console.log("클릭2", productCode);
+              }
+            });
+
+            $("#ordQty").val("1");
+            //getReserveProductInfo(productCode + "_" + size, "cont", "", "");
+          }
+        }
+        /* 사이즈 버튼 클릭 */
+
+        /* 수량 함수 */
+        function minusQty() {
+          var stock = $("#stockLevel").val();
+          var qty = $("#ordQty").val();
+
+          if (qty == 1) {
+            return false;
+          } else {
+            $("#ordQty").val(qty - 1);
+
+            var price =
+              "₩" + numberWithCommas($("#price").val() * $("#ordQty").val());
+            $("#strPrice").html(price);
+
+            fn_chkReserveSaleStockpile(qty - 1);
+
+            if (stock - (qty - 1) == 0) {
+              $(".cont #popularProudct").show();
+            } else {
+              $(".cont #popularProudct").hide();
+            }
+          }
+        }
+        function plusQty() {
+          var stock = $("#stockLevel").val();
+          var qty = parseInt($("#ordQty").val());
+          var cartCnt = 0;
+          var checkedSize = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_size_wrap .size_area span.size.on"
+          ).attr("id");
+          var checkedColor = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_color_chip button.chip.on"
+          ).attr("id");
+          var productCode =
+            checkedColor.replace("info_", "") + "_" + checkedSize;
+
+          if (
+            cartQuantity[productCode] != null &&
+            cartQuantity[productCode] != "undefined"
+          ) {
+            cartCnt = cartQuantity[productCode];
+          }
+
+          if (
+            checkedSize === undefined ||
+            checkedSize === "undefined" ||
+            stock === ""
+          ) {
+            var la = new layerAlert("사이즈를 선택해 주세요.");
+            return false;
+          } else {
+            var reserveSaleYn = false;
+
+            if ($("#reserveSalesStockpile").val() > 0) {
+              reserveSaleYn = true;
+            }
+
+            if (reserveSaleYn) {
+              if (!fn_chkReserveSaleStockpile(qty + 1)) {
+                var la = new layerAlert(
+                  "예약 상품 주문 가능 수량을 초과하였습니다.<br/>예약 구매 가능한 수량은 " +
+                    qty +
+                    "개 입니다."
+                );
+                return;
+              }
+            } else {
+              if ("ko" == "ko") {
+                // 국내
+                if (qty >= stock - cartCnt) {
+                  if (cartCnt > 0) {
+                    msgCnt = stock - cartCnt < 0 ? 0 : stock - cartCnt;
+
+                    var la = new layerAlert(
+                      "이미 쇼핑백에 담겨 있습니다.<br/>구매 가능한 재고 " +
+                        msgCnt +
+                        "개만 선택하실 수 있습니다."
+                    );
+                  } else {
+                    var la = new layerAlert(
+                      "구매 가능한 재고 " + stock + "개만 선택하실 수 있습니다."
+                    );
+                  }
+                  return;
+                }
+              } else {
+                if (qty >= stock) {
+                  var la = new layerAlert("재고가 부족합니다.");
+                  return;
+                }
+              }
+            }
+
+            //#2610 [주문] 가상계좌 결제수단 제외 및 중복 구매 제한 처리 요청 건 20220215 hyunbae
+            var isQtyLimitProduct = "true";
+            if (qty + 1 > 2 && isQtyLimitProduct == "true") {
+              var la = new layerAlert(
+                "동일 상품(사이즈/컬러)은<br/>최대 2개까지 선택 가능합니다."
+              );
+              return;
+            }
+
+            //#3280 인기상품 노출영역 추가
+            if (stock - (qty + 1) == 0) {
+              $(".cont #popularProudct").show();
+            } else {
+              $(".cont #popularProudct").hide();
+            }
+
+            $("#ordQty").val(parseInt(qty) + parseInt(1));
+
+            var price =
+              "₩" +
+              numberWithCommas(
+                parseInt($("#price").val()) * (parseInt(qty) + parseInt(1))
+              );
+            $("#strPrice").html(price);
+
+            /* var reserveSaleYn = (parseInt('0') > 0) ? true : false;
+        if ( parseInt(qty)+parseInt(1) > stock ) {
+            if(reserveSaleYn){ // 예약상품일 경우
+                if(stock == 0 || stock == "0"){
+                    var la = new layerAlert("쇼핑백에 담을 수 있는 수량을 초과하였습니다.");
+                      }else{
+                          var la = new layerAlert("쇼핑백에 담을 수 있는 수량을 초과하였습니다.<br/> "+stock+"개까지 담을 수 있습니다.");
+                      }
+            }else{
+            var la = new layerAlert("재고가 부족합니다.");
+            }
+
+          return false;
+        } else {
+          $("#ordQty").val((parseInt(qty)+parseInt(1)));
+
+          var price = '₩' + numberWithCommas(parseInt($("#price").val()) * (parseInt(qty)+parseInt(1)));
+          $('#strPrice').html(price);
+        } */
+          }
+        }
+
+        function fn_chkReserveSaleStockpile(qty) {
+          var rsl = $("input[id^=reserveSalesStockpile_]").length;
+          var resultFlag = false;
+          for (var i = 0; i < rsl; i++) {
+            var reserveSalesStockpile = parseInt(
+              $("#reserveSalesStockpile_" + i).val()
+            );
+
+            if (reserveSalesStockpile >= qty) {
+              var erpWorkOrderNumber = $("#erpWorkOrderNumber_" + i).val();
+              var deliveryPlanYear = $("#deliveryPlanYear_" + i).val();
+              var deliveryPlanMounth = $("#deliveryPlanMounth_" + i).val();
+              var deliveryPlanDay = $("#deliveryPlanDay_" + i).val();
+
+              var deliveryPlanDateTxt =
+                '<span class="point_fc">{0}년 {1}월 {2}일</span>부터 <span class="point_fc">순차배송</span> 예정입니다.';
+
+              deliveryPlanDateTxt = deliveryPlanDateTxt.replace(
+                "{0}",
+                deliveryPlanYear
+              );
+              deliveryPlanDateTxt = deliveryPlanDateTxt.replace(
+                "{1}",
+                deliveryPlanMounth
+              );
+              deliveryPlanDateTxt = deliveryPlanDateTxt.replace(
+                "{2}",
+                deliveryPlanDay
+              );
+
+              $("#erpWorkOrderNumber").val(erpWorkOrderNumber);
+              $("#deliveryPlanYear").val(deliveryPlanYear);
+              $("#deliveryPlanMounth").val(deliveryPlanMounth);
+              $("#deliveryPlanDay").val(deliveryPlanDay);
+
+              $(".deliveryPlanDateText").html(deliveryPlanDateTxt);
+              resultFlag = true;
+              break;
+            }
+          }
+          return resultFlag;
+        }
+
+        function numberWithCommas(x) {
+          // 세자리마다 콤마(,) 추가
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        /* 수량 함수 */
+
+        /* 쇼핑백담기 */
+        function addToCart(process) {
+          addToCartProcess = false;
+
+          var checkedSize = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_size_wrap .size_area span.size.on"
+          ).attr("id");
+          var checkedColor = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_color_chip button.chip.on"
+          ).attr("id");
+          console.log("addToCart ");
+          var psid = checkedSize;
+
+          $("form[name=addToCartForm] input[name=psid]").val(psid);
+
+          console.log(checkedSize, checkedColor, psid + "+");
+
+          if (
+            checkedColor === null ||
+            checkedColor === undefined ||
+            checkedColor === "undefined" ||
+            checkedColor === ""
+          ) {
+            console.log("색상이 널");
+            var la = new layerAlert("주문하실 상품을 선택해주세요.");
+            return false;
+          }
+          if (
+            checkedSize === null ||
+            checkedSize === undefined ||
+            checkedSize === "undefined" ||
+            checkedSize === ""
+          ) {
+            console.log("사이즈가 널");
+            var la = new layerAlert("사이즈를 선택해 주세요.");
+            return false;
+          }
+
+          if ($("#ordQty").val() !== null || $("#ordQty").val() !== "") {
+            $("form[name=addToCartForm] input[name=qty]").val(
+              $("#ordQty").val()
+            );
+          }
+
+          var qty = $('form[name=addToCartForm] input[name="qty"]').val();
+
+          var productPrice = $("#strPrice").val();
+          let alreadyInsertCart = false;
+
+          var token = $("#_csrf").attr("content");
+          var header = $("#_csrf_header").attr("content");
+
+          jQuery.ajax({
+            url: "/api/cartcheck",
+            type: "post",
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader(header, token);
+            },
+            data: {
+              psid: psid,
+            },
+            async: false,
+            success: function (data) {
+              console.log("장바구니 확인 결과:", data);
+              alreadyInsertCart = data;
+            },
+            error: function (xhr, Status, error) {
+              var la = new layerAlert(error);
+              la.confirmAction = function () {
+                return;
+              };
+            },
+          });
+
+          if (
+            checkedSize === null ||
+            checkedSize === undefined ||
+            checkedSize === "undefined" ||
+            checkedSize === ""
+          ) {
+            addToCartProcess = true;
+            var la = new layerAlert("사이즈를 선택해 주세요.");
+            return false;
+          }
+
+          if (qty < 1) {
+            addToCartProcess = true;
+            var la = new layerAlert("구매가능한 재고는 1개 입니다.");
+            return false;
+          }
+
+          //#2610 [주문] 가상계좌 결제수단 제외 및 중복 구매 제한 처리 요청 건 20220215 hyunbae
+          var isQtyLimitProduct = "true";
+          var cartQty = cartQuantity[checkedColor]; //pcid
+          if (!alreadyInsertCart) {
+            //false: 이미 담겨있음
+            if (isQtyLimitProduct == "true") {
+              // if (parseInt(cartQty) == 1 || parseInt(cartQty) > 2)
+              addToCartProcess = true;
+              var la = new layerAlert(
+                "이미 쇼핑백에 담겨있습니다.<br/>수량을 다시 선택해주시기 바랍니다.<br/><p style='color:gray; font-size:14px; margin-top:8px;''>(동일 상품은 최대 2개까지 구매 가능)</p>"
+              );
+              console.log("이미 쇼핑백");
+              $(".hs_pro_view_floating").removeClass("active");
+              $(".hs_pro_view_layer").css("display", "none");
+
+              return;
+            }
+          }
+          addtoCartFunction(cartQty);
+          console.log("3325");
+        }
+        // 기존로직 addtoCartProcessFunction
+
+        function addtoCartFunction(qty) {
+          console.log("장바구니 추가");
+          var checkedSize = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_size_wrap .size_area span.size.on"
+          ).attr("id");
+          var checkedColor = $(
+            ".hs_pro_view_floating .floating_box .hs_btn_color_chip button.chip.on"
+          ).attr("id");
+
+          console.log("시리얼", $('form[name="addToCartForm"]').serialize());
+
+          var token = $("#_csrf").attr("content");
+          var header = $("#_csrf_header").attr("content");
+
+          $.ajax({
+            url: "/api/cart",
+            cache: false,
+            async: false,
+            type: "POST",
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader(header, token);
+            },
+            data: $('form[name="addToCartForm"]').serialize(),
+            success: function (data) {
+              console.log(data);
+              var errorMsg = data;
+              if (errorMsg == true) {
+                var lc = new layerConfirm(
+                  "쇼핑백에 담겼습니다.\n확인하시겠습니까?",
+                  "쇼핑백 바로가기",
+                  "계속 쇼핑하기"
+                );
+                lc.cancleAction = function () {
+                  $(".floating_close").trigger("click");
+                  return;
+                };
+                lc.confirmAction = function () {
+                  $(".floating_close").trigger("click");
+
+                  // Added 2018.09.11
+                  var cartUrl = "/cart";
+                  brandcode;
+                  window.location.href = cartUrl;
+                };
+              }
+            },
+            error: function (xhr, Status, error) {
+              console.log(error);
+            },
+          });
+        }
+        /* 쇼핑백담기 */
+      </script>
+      <!--장바구니 float start-->
+      <div class="hs_pro_view_floating" id="cart_float">
+        <!-- 상품옵션 -->
+        <div
+          class="floating_box"
+          th:with="color=${detail.info.colors[idx]}, ccode=${#strings.substring(color.pcid, #strings.length(color.pcid)-2, #strings.length(color.pcid))}"
+        >
+          <input type="hidden" id="brandcode" th:value="${detail.info.bno}" />
+          <input type="hidden" id="productcode" th:value="${color.pcid}" />
+          <input type="hidden" id="rgbcode" th:value="${color.pccolorcode}" />
+          <input type="hidden" id="rgbname" th:value="${ccode}" />
+          <input type="hidden" id="imageYn" value="Y" />
+          <input type="hidden" id="imageUrl" th:value="${color.pcimg2}" />
+          <input type="hidden" id="size" value="" />
+          <input
+            type="hidden"
+            id="price"
+            th:value="${detail.info.colors[idx].pcprice}"
+          />
+          <input type="hidden" id="displayrgbname" th:value="${ccode}" />
+          <div class="cont">
+            <!-- 색상 버튼 -->
+            <div class="color_wrap">
+              <p class="floating_tit inline">컬러</p>
+              <div class="hs_btn_color_chip">
+                <button
+                  th:each="c, cStat : ${detail.info.colors}"
+                  type="button"
+                  th:id="${c.pcid}"
+                  class="chip"
+                  th:classappend="${cStat.index} == ${idx} ? 'on'"
+                  title=""
+                  th:style="'background-image:url('+ ${c.pcchipimg} +'/resize/48x48); background:'+${c.pccolorcode}"
+                  th:attr="data-value=${ccode}, data-imgvalue=${c.pcchipimg}"
+                ></button>
+                <script type="text/javascript">
+                  $("#productcode").val("SY2D1WCT506W_DK");
+                  $("#rgbcode").val("#3d3f34");
+                  $("#rgbname").val("DARK KHAKI");
+                  $("#imageUrl").val(
+                    "http://newmedia.thehandsome.com/SY/2D/SS/SY2D1WCT506W_DK_C01.jpg"
+                  );
+                  $("#imageYn").val("Y");
+                  $("#displayrgbname").val("KHAKI");
+                </script>
+              </div>
+              <div class="txt_color_chip" th:text="${ccode}"></div>
+            </div>
+            <!--// 색상 버튼 -->
+
+            <!-- 사이즈 버튼 -->
+            <div class="line_box hs_btn_size_wrap">
+              <p class="floating_tit">사이즈</p>
+              <div id="sizeArea" class="size_area">
+                <span
+                  th:each="size : ${color.sizes}"
+                  th:id="${size.psid}"
+                  th:data-value="${size.psstock}"
+                  class="size"
+                  th:onclick="javascript:clickSize([[${size.psize}]], [[${size.psstock}]]);"
+                >
+                  <button type="button" class="btn" th:text="${size.psize}">
+                    사이즈
+                  </button>
+                  <span th:if="${size.psstock == 0}" class="soldout">품절</span>
+                </span>
+              </div>
+            </div>
+            <!--// 사이즈 버튼 -->
+
+            <!-- 갯수 -->
+            <div class="line_box hs_number_box">
+              <div class="number_change">
+                <button
+                  type="button"
+                  class="minus"
+                  onclick="javascript:minusQty();"
+                >
+                  -
+                </button>
+                <input
+                  type="text"
+                  id="ordQty"
+                  class="num"
+                  value="1"
+                  readonly=""
+                />
+                <button
+                  type="button"
+                  class="plus"
+                  onclick="javascript:plusQty();"
+                >
+                  +
+                </button>
+              </div>
+              <p
+                id="strPrice"
+                class="price"
+                th:text="|₩${#numbers.formatInteger(color.pcprice, 3, 'COMMA')}|"
+              >
+                가격
+              </p>
+            </div>
+            <!-- 갯수 -->
+          </div>
+          <!-- 쇼핑백 담기 -->
+
+          <!--<div class="hs_btm_btnwrap">
+            <a href="#" class="hs_btm_btn black">선택완료</a>
+          </div> -->
+          <div class="hs_btm_btnwrap">
+            <a
+              href="#"
+              class="hs_btm_btn pink"
+              id="addToCart"
+              onclick="javascript:addToCart();"
+              >쇼핑백담기</a
+            >
+          </div>
+          <a href="#" class="floating_close">닫기</a>
+        </div>
+        <!--// 상품옵션 -->
+
+        <!-- 배송방식 -->
+        <!--<div class="floating_box">
+          <div class="cont">
+            <a href="#" class="prev_link"
+              ><span class="arr wid6 left"></span>상품옵션</a
+            > -->
+        <!-- 상품옵션
+            <div class="pro_option_info">
+              <div id="prodcolorChip" class="color">
+                <span class="color_chip" style="background: #e8c5c5"></span>
+              </div>
+              <p id="prodoptions" class="num">사이즈 90 / 1개</p>
+              <p id="prodprice" class="price">₩645,000</p>
+            </div>
+            // 상품옵션 -->
+
+        <!-- 배송방식 
+            <div class="line_box delivery">
+              <ul class="hs_check_list">
+                <li class="hs_check01">
+                  <input
+                    type="radio"
+                    id="delivery01"
+                    name="delivery"
+                    checked=""
+                  />
+                  <label for="delivery01">택배로 받기</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="hs_btm_btnwrap">
+            <a
+              href="#"
+              class="hs_btm_btn pink"
+              id="addToCart"
+              onclick="javascript:addToCart();"
+              >쇼핑백담기</a
+            >
+          </div>
+          <a href="#" class="floating_close">닫기</a>
+        </div>
+
+         배송방식 -->
+
+        <!-- 다른배송방식 -->
+        <!--// 다른배송방식 -->
+
+        <!-- 매장수령 최종 -->
+        <!--// 매장수령 최종 -->
+      </div>
+      <!--장바구니 float end-->
+    </div>
+    <!-- ################## //hsome_allContents_wrapper END­ ################## -->
+
+    <script th:replace="~{includes/etc :: etc}"></script>
+    <div id="iframepopuparea"></div>
+
+    <script th:replace="~{includes/popup :: popup_script}"></script>
+    <div th:replace="~{includes/popup :: popup_html}"></div>
+
+    <!-- 좋아요 목록 팝업 start-->
+    <div class="hsome_layer_popup hs_sns_like_pop">
+      <h2 class="pop-comm-ttl">
+        <i class="like"></i>좋아요<span class="normal_txt">(10)</span>
+      </h2>
+      <div class="pop-comm-cnts">
+        <div class="hs_sns_wrap">
+          <ul class="hs_sns_member_list"></ul>
+        </div>
+      </div>
+      <div id="paging" class="hs_paging mt30 mb30"></div>
+      <a href="#" class="pop-comm-cls" onclick="closeLikePop();">닫기</a>
+    </div>
+    <!-- //좋아요 목록 팝업 end-->
+    <!-- sns공유// stat-->
+    <div th:replace="~{includes/sns_share :: sns_html}"></div>
+    <script th:replace="~{includes/sns_share :: sns_script1}"></script>
+    <script th:replace="~{includes/sns_share :: sns_script2}"></script>
+    <!-- //sns공유 end -->
+
+    <!-- loading_layerpop s -->
+    <!-- layerpop_wrap | 처리중 s -->
+    <div class="layerpop_wrap loading_layer_wrap">
+      <!-- layerpop_middle s -->
+      <div class="lyrpp_mid">
+        <div class="loading_box"></div>
+      </div>
+      <!-- layerpop_middle e -->
+    </div>
+    <!-- layerpop_wrap | 처리중 e -->
+
+    <!-- 앱 유도 팝업 -->
+    <div th:replace="~{includes/etc :: app_popup}"></div>
+    <!-- // 앱 유도 팝업 -->
+    <!-- // 팝업 end -->
+
+    <iframe id="f" style="display: none"></iframe>
+    <!-- GTM 추적코드 추가 -->
+
+    <!-- Mobile Smart Banner for Anroid Device -->
+    <script th:replace="~{includes/mobile :: mobile}"></script>
+    <!-- //Mobile Smart Banner for Anroid Device -->
+
+    <!-- 팝업
+
+    <div
+      class="divpop_wrap_dev pop_mbr pop_alert_confirm"
+      id="popAlertConfirmDiv"
+    >
+      <div class="dvp_container">
+        <div class="dvp_close_btn b-close" id="confirmCloseDiv">
+          <span>닫기</span>
+        </div>
+        <div class="dvp_content">
+          <div class="desc_box">
+            쇼핑백에 담겼습니다.<br />확인하시겠습니까?
+          </div>
+        </div>
+        <div class="btn_wrap btns">
+          <button class="btn btn_bd_g btn-alert-close">계속 쇼핑하기</button>
+          <button class="btn btn_bg_b btn-alert-confirm">
+            쇼핑백 바로가기
+          </button>
+        </div>
+      </div>
+    </div>
+     팝업 end-->
+  </body>
+  <!-- AceCounter Log Gathering Script V.7.5.2013010701 -->
+</html>

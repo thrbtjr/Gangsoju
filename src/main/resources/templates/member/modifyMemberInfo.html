@@ -1,0 +1,417 @@
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+
+<body> 
+ 
+  
+<div class="hsome_allContents_wrapper" style="padding-bottom: 0px;">
+
+<div class="hsome_allContents">
+<script type="text/javascript">
+  function goMainpage() {
+    window.sessionStorage.removeItem('moveYn');
+  location.href = "/main";
+}
+  
+  function goSearchPage() {
+      $("#searchForm").addClass("visible active activated");
+    }
+</script>
+  <header class="hsome_header">
+    <h1 class="h_ttl ellipsis" id="headerTitle">
+        개인 정보변경</h1>
+    <a href="/main" class="h_top_home"><span>홈</span></a>
+      
+      <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+    <ul class="h_gnbMenu">
+    <li class="search">
+              <a onclick="goSearchPage();"><span>search</span></a>
+            </li>
+<li class="cart">
+              <a
+                href="/cart"
+                ><span>cart</span></a
+              >
+            </li>
+      </ul></header>
+  
+<script type="text/javascript">
+$(document).ready(function(){
+  var nowYear = parseInt('2009');
+  var nowMonth = parseInt('01');
+  var nowDay = parseInt('31');
+  var monthArray = [0, 31, 28, 31, 30, 31, 30, 31, 31 ,30, 31, 30, 31];
+ //if(nowYear < 2000) nowYear += 1900;
+ 
+ //년도 
+ for(var i=nowYear; i>=1900; i--) {
+     $('#selYear').append("<option value='" + i + "'>" + i + "</option>");
+ }
+ $("#selYear").change(function(){
+
+   var selYear1 = $('#selYear').val();
+   
+  if($('#selMonth').val() == 02){
+    
+    if($("#selDay option:last").val() >= 29){
+
+       $("#selDay option[value='29']").remove();
+       $("#selDay option[value='30']").remove();
+       $("#selDay option[value='31']").remove();
+     }
+     
+    if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0 ){
+      
+       $("#selDay").append("<option value='29'>29</option>");
+     }
+   }
+  
+  if(nowYear == selYear1){
+    for(var i = nowMonth+1;i <= 12; i++){
+      if(i<10){$("#selMonth option[value='0"+i+"']").remove();}
+      else{$("#selMonth option[value='"+i+"']").remove();}
+      if($("#selMonth").val() > nowMonth)$("#selMonth").val('').prop("selected", true);
+    }
+    
+    if(nowMonth == parseInt($('#selMonth').val())){
+      
+      var n_selMonth = parseInt($('#selMonth').val());
+      var maxDay = monthArray[n_selMonth];
+
+      for(var i = nowDay+1;i <= maxDay;i++){
+        if(i<10){$("#selDay option[value='0"+i+"']").remove();}
+        else{$("#selDay option[value='"+i+"']").remove();}
+        if($("#selDay").val() > nowDay){$("#selDay").val('').prop("selected", true);}
+      }
+    }
+  }else{
+    var n_selMonth = parseInt($('#selMonth').val());
+    var maxDay = monthArray[n_selMonth];
+    
+    if($("#selMonth option:last").val() < 12){
+      for(var i = nowMonth+1;i <= 12; i++){
+        if(i<10){$("#selMonth").append("<option value='0"+i+"'>0"+i+"</option>");}
+        else{$("#selMonth").append("<option value='"+i+"'>"+i+"</option>");}
+      }
+    }
+    if($("#selDay option:last").val() < maxDay){
+      if($('#selMonth').val() == 02){
+        if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0 ){maxDay=29;}
+      }
+      for(var i = parseInt($("#selDay option:last").val())+1;i <= maxDay;i++){
+        if(i<10){$("#selDay").append("<option value='0"+i+"'>0"+i+"</option>");}
+        else{$("#selDay").append("<option value='"+i+"'>"+i+"</option>");}
+      }
+    }
+    
+  }
+ });
+ 
+ $("#selMonth").change(function(){
+   var lastDay = $("#selDay option:last").val();
+   var selYear1 = $('#selYear').val();
+   var n_selMonth = parseInt($('#selMonth').val());
+  var maxDay = monthArray[n_selMonth];
+   
+   if($(this).val() == 02){
+     
+     
+     $("#selDay option[value='31']").remove();
+    $("#selDay option[value='30']").remove();
+    $("#selDay option[value='29']").remove();
+     
+     if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0){
+       $("#selDay").append("<option value='29'>29</option>");
+         
+     };
+
+     
+   }else if($(this).val() == 04 || $(this).val() == 06 || $(this).val() == 09 || $(this).val() == 11){
+     
+     
+       if(lastDay == 28){
+        $("#selDay").append("<option value='29'>29</option>");
+        $("#selDay").append("<option value='30'>30</option>");
+       }else if(lastDay == 29){
+        $("#selDay").append("<option value='30'>30</option>");
+       }else if(lastDay == 31){
+        $("#selDay option[value='31']").remove();
+       }
+     
+       
+   }else{
+     
+     if(lastDay == 28){
+       $("#selDay").append("<option value='29'>29</option>");
+       $("#selDay").append("<option value='30'>30</option>");
+       $("#selDay").append("<option value='31'>31</option>");
+     }else if(lastDay == 29){
+       $("#selDay").append("<option value='30'>30</option>");
+       $("#selDay").append("<option value='31'>31</option>");
+     }else if(lastDay == 30){
+      $("#selDay").append("<option value='31'>31</option>");
+     }
+   }
+   
+  if(nowYear == selYear1 && nowMonth == $('#selMonth').val()){
+    
+      for(var i = nowDay + 1;i <= $("#selDay option:last").val();i++){
+        if(i<10){$("#selDay option[value='0"+i+"']").remove();}
+        else{$("#selDay option[value='"+i+"']").remove();}
+        if($("#selDay option:last").val() < $("#selDay").val())$("#selDay").val('').prop("selected", true);
+      }
+  }else{
+    
+    if($("#selDay option:last").val() < maxDay){
+      for(var i = parseInt($("#selDay option:last").val()) + 1;i <= maxDay;i++){
+        if(i<10){$("#selDay").append("<option value='0"+i+"'>0"+i+"</option>");}
+        else{$("#selDay").append("<option value='"+i+"'>"+i+"</option>");}
+      }
+    }
+  }
+ });
+  
+ 
+ $("#pw").keypress(function(event){
+  if(capsLock(event)){
+    $("#pwMsg").text("<Caps Lock>이 켜져 있습니다.");
+    event.preventDefault();
+    return false;
+  }
+  $("#pwMsg").text("");
+ });
+ 
+ $("#pw").change(function(){
+  if($(this).val().length > 0){ 
+    var pwRegExp = /^(?=.*[a-zA-Z])(?=.*[\?\<\>\;\:\'\"\`\(\)\{\}\[\]\|\\\~\,\.!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+    if(!pwRegExp.test($(this).val())){	
+      $("#pwMsg").text("비밀번호는 8~15자리 이하로 영문/숫자/특수문자를 혼합해주세요");
+      $("#pwTypeChk").val("");
+      return true;
+    }
+    $("#pwTypeChk").val("Y");	
+    $("#pwMsg").text("");
+    $("#pwcMsg").text("");
+    $("#pwConfirmChk").val("");
+  }
+ });
+ 
+ $("#pwc").keypress(function(event){
+  if(capsLock(event)){
+    $("#pwcMsg").text("<Caps Lock>이 켜져 있습니다.");
+    return false;
+  }
+  $("#pwcMsg").text("");
+ });
+ 
+ $("#pwc").change(function(){
+  if($("#pw").val()!=$("#pwc").val()){
+    $("#pwcMsg").text("비밀번호가 일치하지 않습니다");
+    $("#pwConfirmChk").val("");
+    return true;
+  }
+  $("#pwConfirmChk").val("Y");
+  $("#pwcMsg").text("비밀번호가 확인되었습니다.");
+ });
+
+
+$('#chk_email').click(function(){
+  if($(this).is(':checked')){
+      var email = "setongsetong@hanmail.net";
+      $('#emailAddress').val(email);
+      chkEmail();
+  }
+});	
+
+// 20201120 이메일 필수입력 항목 X
+$('#emailAddress').keyup(function(){
+  var chkVal = $('#emailAddress').val();
+  if(chkVal != ""){
+    var email1 = "setongsetong@hanmail.net";
+    var email2= $('#emailAddress').val();
+    
+    if(email1 != email2){
+      $("#chk_email").prop('checked', false);
+      $("#chk_email").attr('checked', false);
+    }
+    chkEmail();
+  }
+});
+
+chkEmail = function() {
+  var vc = new ValidationCheck();
+  vc.checkIdList = ['emailAddress'];
+  vc.msgFn = function(msg){
+    $("#emailMsg").text(msg);
+  };
+  if(vc.isValid()){
+    
+  }		
+};
+
+/*비밀번호 재설정 버튼 클릭시*/
+$("#cancleBtn").click(function(){
+	var form = document.getElementById("resetPassword");
+	form.submit();
+});
+
+$("#joinBtn").click(function(){
+      $("#bdayMsg").text("");
+    $("#cancleBtn").attr("disabled", true);
+      $("#joinBtn").attr("disabled", true);
+
+      
+});
+
+});
+
+</script>
+
+
+
+<!-- contents s -->
+<div class="hsome_contents mbr_signup_wrap signup_wrap">
+  <div class="mem_ct_wrap_bg">
+    <h5 class="no_margin">개인정보를 소중히 다뤄주세요!</h5>
+  </div>
+  <div class="mem_ct_wrap" style="padding-top: 0px;">		
+    <form id="memberJoinForm" th:action="@{/modifymember}" method="POST">
+      <div class="chk_agree_wrap">
+       
+       <div class="input_group" style="margin-top: 0px;">
+       		
+      
+          <div class="err_wrap">
+		          <p class="err_txt" id="checkId"><!-- 입력한 비밀번호가 일치하지 않습니다. --></p>
+		    </div>
+          		
+		          	<div class="err_wrap">
+		            	<p class="err_txt" id="pwcMsg"><!-- 입력한 비밀번호가 일치하지 않습니다. --></p>
+		          	</div>
+				
+				<div style="padding-bottom: 0px;height: 20px;"><h5 class="w_helper" style="margin-top: 15px;">아이디<i class="txt_point">*</i></div>
+                  <div class="">
+                      <input type="text" id="" name="" class="" title="이름을 입력하세요." maxlength="100" th:value="${memberInfo.mid}" disabled>
+                  </div>
+				
+          		<div style="padding-bottom: 0px;height: 20px;"><h5 class="w_helper" style="margin-top: 15px;">이름<i class="txt_point">*</i></div>
+            		<div class="input_user_pw">
+              			<input type="text" id="mName" name="mName" class="user_pw" placeholder="이름을 입력하세요." title="이름을 입력하세요." maxlength="5" th:value="${memberInfo.mname}">
+            		</div>
+            		
+            	<div style="padding-bottom: 0px;height: 20px;"><h5 class="w_helper" style="margin-top: 15px;">핸드폰번호<i class="txt_point">*</i></div>
+            		<div class="input_user_bday">
+            <div class="bday_year">
+              	<input type="number" id="mPhone" name="mPhone" class="user_mPhone" placeholder="핸드폰번호를 입력하세요." title="핸드폰번호를 입력하세요." maxlength="11" style="width: 210px;">
+            </div>
+            <button type="button" id="phoneNumCheck" style="margin-left: 95px;margin-top: 0px;background: beige;width: 100px;height: 40px;">중복검사</button>
+            
+          </div>
+          <div class="err_wrap">
+		            <p class="err_txt" id="bdayMsg"></p>
+		  </div>
+     
+            	
+        </div>
+      </div>
+    <div>
+</div>
+</form>
+    <div class="btn_wrap btn_wrap_div2">
+      <button class="btnstl3 border_btn_gray btn_cnl" id="cancleBtn">비밀번호 재설정</button>
+      <button class="btnstl3 solid_btn_blk btn_agree" id="registerBtn">저장</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<form id="resetPassword" th:action="@{/resetpassword}" method="post">
+	<input type="hidden" name="userId" th:value="${memberInfo.mid}">
+</form>
+
+<div th:replace="~{product/search :: searchForm}"></div>
+
+<script type="text/javascript">
+var mphonecheck=0;
+
+$("#mPhone").change(function(){
+	mphonecheck=0;	
+});
+
+$("#registerBtn").click(function(){
+	
+	if($.trim($("#mName").val()) == ""){
+		$('#bdayMsg').show();
+        $("#bdayMsg").text("이름을 입력하세요.");
+        $("#mName").focus();
+        return;
+	}
+	
+	if ($.trim($("#mPhone").val()).length != 11 || $("#mPhone").val().substr(0,3)!='010') {
+        $('#bdayMsg').show();
+        $("#bdayMsg").text("핸드폰번호를 올바르게 입력하세요.");
+        $("#mPhone").focus();
+        return;
+    }
+	
+	if(mphonecheck==0){
+		$('#bdayMsg').show();
+        $("#bdayMsg").text("핸드폰 번호 중복검사를 해주십시오.");
+        return;
+	}
+	
+	var form = document.getElementById("memberJoinForm");
+	form.submit();
+});
+
+$("#phoneNumCheck").click(function(){
+	
+	if ($.trim($("#mPhone").val()).length != 11 || $("#mPhone").val().substr(0,3)!='010') {
+        $('#bdayMsg').show();
+        $("#bdayMsg").text("핸드폰번호를 올바르게 입력하세요.");
+        $("#mPhone").focus();
+        return;
+    }
+	
+	var mPhoneNumCheck = $("#mPhone").val();
+	
+	var searchOBJ={ "mPhoneNumCheck" : mPhoneNumCheck };  
+	
+	var csrfHeadName=$("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue=$("meta[name='_csrf']").attr("content");
+    
+	$.ajax({
+		type: 'post',
+	    url : '/mphone',
+	    data : JSON.stringify(searchOBJ),
+	    contentType : "application/json; charset=utf-8",
+	    dataType : "json",
+	    beforeSend : function(xhr) {
+	          xhr.setRequestHeader(csrfHeadName, csrfTokenValue);
+	    },
+	    success : function(result){
+			if(result==0){
+				$("#bdayMsg").text("사용 가능한 번호 입니다.");
+				mphonecheck=1;
+			}else{
+				$("#bdayMsg").text("중복된 번호가 있습니다.");
+				mphonecheck=0;
+			}
+
+	    },
+	    error:function(result){
+	    	console.log("ajax실패");
+	    }
+		
+	});
+
+});
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Cantata+One");
+
+@font-face {
+    font-family:'Apple SD Gothic Neo';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoL.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoL.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoL.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoL.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoL.ttf") format("truetype");
+    font-weight:300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family:'Apple SD Gothic Neo';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoR.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoR.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoR.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoR.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoR.ttf") format("truetype");
+    font-weight:400;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'Apple SD Gothic Neo';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoSB.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoSB.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoSB.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoSB.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoSB.ttf") format("truetype");
+    font-weight:600;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'Apple SD Gothic Neo';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    font-weight:700;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'Apple SD Gothic Neo';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
+    font-weight:800;
+    font-style:normal;
+}
+
+@font-face { /* 20181012 추가 */
+    font-family:'Montserrat';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Montserrat-Regular.svg#Montserrat") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'MontserratSemibold';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-semibold.svg#Montserrat") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'MontserratBold';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.eot#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/montserrat-bold.svg#MontserratBold") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'Noto Sans KR';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSans-Regular.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSans-Regular.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSans-Regular.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSans-Regular.woff") format("woff");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'NotoSansKRBlack';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NotoSansKR-Black.svg") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'Gamja_Flower';
+    src:url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/GamjaFlower-Regular.eot');
+    src:url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/GamjaFlower-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/GamjaFlower-Regular.woff2') format('woff2'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/GamjaFlower-Regular.ttf') format('truetype'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/GamjaFlower-Regular.svg#GamjaFlower-Regular') format('svg');
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face { /*핸썸피플 본문폰트 추가1 */
+    font-family:'NanumMyeongjoBold';
+    src:url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NanumMyeongjoBold.eot');
+    src:url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NanumMyeongjoBold.eot?#iefix') format('embedded-opentype'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts//NanumMyeongjoBold.woff2') format('woff2'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NanumMyeongjoBold.ttf') format('truetype'),
+        url('https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/NanumMyeongjoBold.svg#GamjaFlower-Regular') format('svg');
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face { /*메인개편201903 폰트추가*/
+    font-family:'AppleSDGothicNeoEB';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.woff2") format("woff2"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
+    font-weight:800;
+    font-style:normal;
+}
+
+@font-face { /*더매거진 메인 폰트추가 202003*/
+    font-family:'AppleSDGothicNeoB';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+}
+
+@font-face {
+    font-family:'Chapaza';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Chapaza.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Chapaza.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Chapaza.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/Chapaza.ttf") format("truetype");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'BodoniFLF_Roman';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/BodoniFLF_Roman.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/BodoniFLF_Roman.woff2") format("woff2");
+    font-weight:300;
+    font-style:normal;
+}
+
+@font-face {
+    font-family:'arial';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/arial.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/arial.ttf") format("truetype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/arial.woff") format("woff");
+    font-style:normal;
+}
+
+@font-face { /*select shop*/
+    font-family:'segoe_bold';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/segoe_bold.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/segoe_bold.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/segoe_bold.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/segoe_bold.ttf") format("truetype");
+}
+
+@font-face { /*select shop*/
+    font-family:'gotham_bold';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_bold.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_bold.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family:'gotham_medium';
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_medium.eot");
+    src:url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_medium.eot?#iefix") format("embedded-opentype"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_medium.woff") format("woff"),
+        url("https://image.thehandsome.com/sys_master/hybrisMountedS3New/handsomestorefront/web/webroot/_ui/handsomemobile/css/fonts/gotham_medium.ttf") format("truetype");
+    font-weight:normal;
+    font-style:normal;
+}

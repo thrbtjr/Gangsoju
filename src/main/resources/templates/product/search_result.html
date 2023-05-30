@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+  작성자: 김주현
+-->
+
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{includes/head :: head}"></head>
+
+  <body class="back">
+    <!-- Loading -->
+    <div style="display: none">
+      <div id="loadingBarDiv" style="display: none"></div>
+    </div>
+    <!-- //Loading -->
+
+    <!-- ################## hsome_allContents_wrapper START -->
+    <div class="hsome_allContents_wrapper">
+      <div class="hsome_allContents">
+        <!-- ################## header START ################## -->
+        <header class="hsome_header header_noline">
+          <div class="h_searchEngine">
+            <div class="ipt">
+              <div class="m_search_box_wrap" id="wrapper1">
+                <div id="scroller">
+                  <form
+                    id="search"
+                    class="m_search_form"
+                    action="/dosearch"
+                    name="search"
+                    accept-charset=""
+                    target=""
+                    method="get"
+                  >
+                    <!--search_box-->
+                    <div class="m_search_box">
+                      <input
+                        type="search"
+                        id="word"
+                        name="word"
+                        th:value="${result.searchword}"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <a
+                      href="javasctipt:noLink();"
+                      class="del"
+                      id="queryDelete"
+                      style="display: none"
+                      >delete</a
+                    >
+                    <!--//search_box-->
+                  </form>
+                </div>
+              </div>
+              <!--// 201706 search_box_wrap -->
+              <button type="button" class="sch" onclick="doSearch();">
+                상품 검색
+              </button>
+            </div>
+          </div>
+
+          <a href="javascript:noLink();" class="h_prev" onclick="goBack();"
+            >이전 페이지로 가기</a
+          >
+        </header>
+        <!-- //################## header end ################# -->
+
+        <!-- ################## contents start ################## -->
+        <div class="hsome_contents">
+          <!-- //검색 결과 start -->
+          <div class="hs_product_list_wrap search">
+            <ul class="sch_searchEndTab">
+              <li class="on" style="min-width: 300px; margin-left: 20px">
+                <a
+                  href="#result_product"
+                  id="searchTotalCount"
+                  th:if="${result.total <= 99}"
+                  th:text="|${result.searchword}(${result.total})|"
+                ></a>
+                <a
+                  href="#result_product"
+                  id="searchTotalCount"
+                  th:if="${result.total > 99}"
+                  th:text="|${result.searchword}(${result.total}+)|"
+                ></a>
+              </li>
+            </ul>
+            <div th:if="${result.total} == 0" style="text-align:center">
+       			<h3><br/><br/>검색 결과가 없습니다.</h3>
+       		</div>
+            <div class="sch_searchEndTabConts tab_cont">
+              <div class="cont on" id="result_product">
+                <!-- 정렬, 필터 start-->
+                <div class="sort_tit mt25 mb10"></div>
+                <!-- 정렬, 필터 end-->
+                <!--상품 리스트 start-->
+                <div class="hs_product_list">
+                  <ul id="searchProductlistBody">
+                    <li
+                      th:each="prod, prodStat : ${result.products}"
+                      class="active"
+                      th:classappend="${prodStat.count % 5} == 0 ? 'full' : 'float'"
+                    >
+                      <a
+                        th:href="|/p/detail/${prod.pcid}?uiel=Mobile|"
+                        class="img_slide_contain"
+                        onclick="beshow_tagging(this);"
+                        th:price="${prod.pcprice}"
+                        th:image="${prod.pcimg2}"
+                        th:prdname="${prod.pname}"
+                        th:code="${prod.pcid}"
+                      >
+                        <div class="img_slide">
+                          <div class="img">
+                            <img
+                              th:src="${prod.pcimg2}"
+                              th:alt="${prod.pcimg2}"
+                              th:id="|T01_IMG_${prodStat.count}|"
+                              class="respon_image"
+                            />
+                          </div>
+                        </div>
+                      </a>
+                      <div class="info_cont">
+                        <a th:href="|/p/detail/${prod.pcid}?uiel=Mobile|">
+                          <p class="brand" th:text="${prod.bname}">LATT</p>
+                          <p class="name" th:text="${prod.pname}">
+                            키안다 바스켓
+                          </p>
+                          <p class="price">
+                            <span
+                              th:id="|price_${prod.pcid}|"
+                              th:text="|₩${#numbers.formatInteger(prod.pcprice, 3, 'COMMA')}|"
+                            ></span>
+                          </p>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!--상품 리스트 end-->
+                <!-- 페이징 start-->
+                <!-- 페이징 end-->
+              </div>
+            </div>
+            <!-- //검색 결과 end -->
+          </div>
+        </div>
+        <!-- //################## contents end################## -->
+
+        <!-- 팝업 start -->
+        <!-- 필터링 start -->
+        <!--// 필터링 end -->
+        <!-- //레이어 팝업 end -->
+      </div>
+    </div>
+  </body>
+  <!-- AceCounter Log Gathering Script V.7.5.2013010701 -->
+</html>

@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+/* ������ �귣����� */
+#brandBanner {position:relative;}
+
+.hs_product_list_wrap .brand_cont {margin:10px 0 0;}
+.brand-bn-slide {position:relative;z-index:10;}
+.brand-bn-slide ul {padding:0 0 0 10px;}
+.brand-bn-slide ul li {position:inherit;width:85.33334vw;padding:23.06667vw 0 5.2vw;}
+.brand-bn-slide ul li .banner-wrap {position:relative;display:block;z-index:10;}
+.brand-bn-slide ul li .banner-wrap .banner-img {position:relative;}
+.brand-bn-slide ul li .banner-wrap .banner-img img {width:100%;}
+.brand-bn-slide ul li .banner-wrap .brand-tit {padding:4.13334vw 2.66667vw 4.66667vw;border:1px solid #e0e0e0;border-top:none;background:#fff;}
+.brand-bn-slide ul li .banner-wrap .brand-tit strong {display:block;margin-bottom:1.33334vw;font-size:4.53334vw;color:#222;}
+.brand-bn-slide ul li .banner-wrap .brand-tit p {font-size:3.46667vw;color:#636363;}
+.brand-bn-slide .swiper-pagination {overflow:hidden;bottom:3.2vw;right:3.2vw;height:auto;background:none;font-size:3.33334vw;color:#fefefe;}
+
+.brand-img-list {position:absolute;top:0;left:0;width:100%;}
+.brand-img-list .brand-img {display:none;}
+.brand-img-list .brand-img img {width:100%;}
+
+/* ������ ��ǰ�������� */
+.product_view_wrap .vw_slide_wrap {}
+.product_view_wrap .vw_slide_wrap .btn-video-play {position:absolute;bottom:3.3334vw;right:4.8vw;width:10.4vw;height:10.4vw;z-index:10;}
+.product_view_wrap .vw_slide_wrap .btn-video-play img {width:100%;}
+.product_view_wrap .vw_slide_wrap .swiper-slide .video-beauty {width:100%;height:100%;margin:0 auto;outline:none;background:#000;}
+
+.pop-video-beauty {display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:#222;z-index:9999;}
+.pop-video-beauty .video-beauty {width:100%;height:100%;margin:0 auto;outline:none;background:#000;}
+.pop-video-beauty .pop-close {display:block;position:absolute;top:8px;right:8px;width:40px;height:40px;text-indent:-9999em;}
+.pop-video-beauty .pop-close:before, .pop-video-beauty .pop-close:after { content: ''; display: inline-block; position: absolute; top: 20px; clear: both; width: 31px; height: 3px; background: #fff;}
+.pop-video-beauty .pop-close:before {left:3px;-webkit-transform: rotate(45deg); -khtml-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.4);}
+.pop-video-beauty .pop-close:after { right: 6px; -webkit-transform: rotate(-45deg); -khtml-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg);box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.2);}
+
+.product-detail-info {margin-bottom:20px;}
+.product-detail-info img {width:100%;}
+.product_info_beauty_pop .pop-comm-cnts h3 {font-size:16px;color:#000;}
+.product_info_beauty_pop .tbl-beauty-detail {width:100%;margin-top:13px;border-top:1px solid #383838;}
+.product_info_beauty_pop .tbl-beauty-detail .tbl th, .tbl-beauty-detail .tbl td {height:20px;padding:10px 15px;border-bottom:1px solid #ebebeb;font-size:13px;text-align:left;vertical-align:middle;}
+.product_info_beauty_pop .tbl-beauty-detail .tbl th {background:#f5f5f5;color:#000;font-weight:normal;}
+.product_info_beauty_pop .tbl-beauty-detail .tbl td {color:#565656;}
+.product_info_beauty_pop .tbl-beauty-detail .disc {padding-top:10px;color:#979797;font-size:12px;}
+.product_info_beauty_pop .tbl-beauty-detail .tbl .ingredient .more-btn {cursor:pointer; border:0; border-radius:0; background-color:transparent; outline:0;}
+.product_info_beauty_pop .tbl-beauty-detail .tbl .ingredient .more-btn i {transition:.4s; display: inline-block; width:9px; height:5px; background:url("/_ui/desktop/common/images/beauty/bg_more_arr.gif") no-repeat 0 0; vertical-align:middle; margin-top:-4px; margin-left:4px;transform: rotate(0deg);}}
+.product_info_beauty_pop .tbl-beauty-detail .tbl .ingredient .more-btn.on {}
+.product_info_beauty_pop .tbl-beauty-detail .tbl .ingredient .more-btn.on i {transform: rotate(180deg);}
+.product_info_beauty_pop .tbl-beauty-detail .tbl .ingredient .con-box {display:none;}
+
+.product_oeramilege_pop {}
+.product_oeramilege_pop .pop-comm-cnts {}
+.product_oeramilege_pop .pop-comm-cnts h3 {font-size:16px;color:#000;}
+.product_oeramilege_pop .pop-comm-cnts .sub-desc {padding:12px 0 24px;font-size:14px;color:#616161;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-order {padding:25px 0 0 2.3189%;border-top:1px solid #e1e1e1;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc {padding:17px 0 0;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li {display:flex;align-items:center;padding-bottom:8vw;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li img {display:block;width:100%;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li:last-child {padding-bottom:7.44467vw;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .icon {position:relative;width:19.4203%;margin-right:7.827%;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .icon:after {content:"";display:block;position:absolute;top:21.33334vw;left:50%;margin-left:-2.2vw;width:4.4vw;height:2.53334vw;background:url("http://cdn.thehandsome.com/_ui/handsomemobile/images/beauty/bul_mileage_arr.gif") no-repeat 0 0/100%;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li:last-child .icon:after {display:none;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .desc {width:72.7527%;font-size:14px;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .desc dt {font-weight:bold;color:#000;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .desc dd {color:#616161;}
+.product_oeramilege_pop .pop-comm-cnts .oera-mileage-desc li .desc dd .notice {color:#979797;}
+.product_oeramilege_pop .pop-comm-cnts .btn-area {}
+.product_oeramilege_pop .pop-comm-cnts .btn-area .btn {display:block;width:100%;height:39px;line-height:38px;margin:0 auto;background:#222;color:#fff;font-size:14px;text-align:center;}
+
+.hsome_layer_popup.product_comment_pop .hs_prd_review_cont .check_cont_1905 .check_area .check_cont_detail .check{width:calc(100% - 18.4%);}
+.hsome_layer_popup.product_comment_pop .hs_prd_review_cont .check_cont_1905 .check_area .check_cont_detail .check:before{width:68%;left:50%;margin-left:-34%;}
+.hsome_layer_popup.product_comment_pop .hs_prd_review_cont .check_cont_1905 .check_area .check_cont_detail .check .items{width:23.125vw;}
+.hsome_layer_popup.product_comment_pop .hs_prd_review_cont .check_cont_1905 .check_area .left_txt {font-size:14px;color:#222;float:left;width:18.4%;position:relative;top:-7px;}
+
+/* 211101 체험단 리뷰 추가 S */
+.product_view_wrap .tester-review {padding-top:30px;background:#fff;}
+.product_view_wrap .tester-review .hs_top_bold_tit01 {margin:0 0 15px 15px;line-height:1.2;}
+.product_view_wrap .tester-review .tester-list {overflow:hidden;padding:0 15px;}
+.product_view_wrap .tester-review .tester-list li {width:225px;}
+.product_view_wrap .tester-review .tester-list li:last-child {margin:0;}
+.product_view_wrap .tester-review .tester-list li .review-txt {overflow:hidden;height:50px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;padding-top:11px;font-size:12px;line-height:19px;color:#363636;}
+.product_view_wrap .tester-review .tester-list li .img {}
+.product_view_wrap .tester-review .tester-list li .img img {width:100%;}
+.product_view_wrap .tester-review .tester-list li .sns_info {margin-top: 10px; position: relative; padding: 3px 0 0 54px; min-height: 41px; line-height: 1; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_pro { position: absolute; top: 0; left: 0; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_pro .img { width: 40px; height: 40px; padding-bottom: 0; -webkit-border-radius: 50%; -khtml-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; background-color: transparent; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_pro img { max-width: none; max-height: none; width: 100%; position: static; min-height: 100%; object-fit: cover; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name { line-height: 1; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name .name { margin-right: 10px; font-size: 14px; color: #222; font-weight: bold; line-height: 16px; word-break: break-all; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name .info { margin-top: 6px; font-size: 12px; color: #888; overflow: hidden; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name .info span { float: left; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name .info span:before { content: ''; display: inline-block; clear: both; width: 1px; height: 11px; margin: 0 8px; background: #d9d9d9; vertical-align: middle; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name .info span:first-child:before { display: none; }
+.product_view_wrap .tester-review .tester-list li .sns_info .sns_name:only-child { padding-left: 0; }
+
+.pop-tester-review {box-sizing:border-box;}
+.pop-tester-review .pop-comm-ttl {line-height:1.2;}
+.pop-tester-review .pop-comm-ttl .current-num {font-weight:bold;} /* 211103 체험단 추가 및 수정 */
+.pop-tester-review .pop-comm-cnts {overflow:hidden;margin:0;height:calc(100vh - 49px);}
+.pop-tester-review .pop-comm-cnts .pop-tester-list {margin:0 4vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list > ul > li {}
+.pop-tester-review .pop-comm-cnts .pop-tester-list img {width:100%;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-img {overflow:hidden;position:relative;width:92vw;height:68vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-img .fraction {position:absolute;top:3.6vw;right:2.6667vw;width:10vw;height:4.6667vw;line-height:4.6667vw;background:rgba(0,0,0,0.1);color:#fff;z-index:10;border-radius:10px;font-size:3.3334vw;text-align:center;box-sizing:border-box;letter-spacing:-0.5px;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-img .swiper-pagination{height:auto; background-color:transparent; font-size:0; bottom:4vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-img .swiper-pagination .swiper-pagination-bullet{width:2px; height:13px; background-color:rgba(255, 255, 255, 0.6); border-radius:0; transition:.4s; margin-left:6px;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-img .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active{background-color:rgba(255, 255, 255, 1); width:7.5px;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info {overflow:hidden;padding:2.66667vw 0 2.4vw;border-bottom:1px solid #efefef;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt {float:left;font-size:3.2vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .name {float:left;color:#070707;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .info-etc {float:left;color:#888;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .info-etc .age {}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .info-etc .age:before {content:'';display:inline-block;clear: both;width: 1px; height: 11px; margin: 0 8px; background: #d9d9d9; vertical-align: middle;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .info-etc .type {}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .info-txt .info-etc .type:before {content:'';display:inline-block;clear: both;width: 1px; height: 11px; margin: 0 8px; background: #d9d9d9; vertical-align: middle;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .hs_star_score {float:right;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .hs_star_score i, .pop-tester-review .pop-comm-cnts .pop-tester-list .tester-info .hs_star_score .btn {width:4vw;height:4vw;margin-left:1.06667vw;background-size:53.33334vw 26.6667vw;background-position:-13.3334vw -6.6667vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-list .tester-review-txt {overflow-y:scroll;height:203px;padding:2.66667vw 0;font-size:3.73334vw;color:#363636;line-height:5.6vw;}  /* 211103 체험단 추가 및 수정 */
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb {position:fixed;bottom:0;width:100vw;padding:2.66667vw 0 6.6667vw 4vw;background:#f1f1f1;font-size:3.4447vw;font-weight:bold;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb .tit {padding-bottom:1.06667vw;font-size:3.46667vw;font-weight:bold;color:#010101;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb li {position:relative;width:15.46667vw;margin-right:2vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb li img {width:100%;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb li.on:after {content:"";position:absolute;top:0;left:0;width:15.46667vw;height:15.46667vw;border:0.4vw solid #000;box-sizing:border-box;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb .thumb-slide .swiper-btn {position:absolute;bottom:10.66667vw;width:5.3334vw;height:7.2vw;background:url('http://cdn.thehandsome.com/_ui/handsomemobile/images/beauty/review/btn_arr.png') no-repeat 50% 50%/3.06667vw 4.93334vw;z-index:10;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb .thumb-slide .swiper-button-next {right:2.93334vw;}
+.pop-tester-review .pop-comm-cnts .pop-tester-thumb .thumb-slide .swiper-button-prev {left:2.93334vw;transform:rotate(-180deg);}
+/* 211101 체험단 리뷰 추가 E */
+
+/* 220817 랑방블랑 추가 */
+.brand-bn-single {}
+.brand-bn-single ul {padding:0;}
+.brand-bn-single ul li {position:inherit;width:85.33334vw;padding:23.06667vw 0 5.2vw;margin:0 auto;}
+.brand-bn-single ul li .banner-wrap {position:relative;display:block;z-index:10;}
+.brand-bn-single ul li .banner-wrap .banner-img {position:relative;}
+.brand-bn-single ul li .banner-wrap .banner-img img {width:100%;}
+.brand-bn-single ul li .banner-wrap .brand-tit {padding:4.13334vw 2.66667vw 4.66667vw;border:1px solid #e0e0e0;border-top:none;background:#fff;}
+.brand-bn-single ul li .banner-wrap .brand-tit strong {display:block;margin-bottom:1.33334vw;font-size:4.53334vw;color:#222;}
+.brand-bn-single ul li .banner-wrap .brand-tit p {font-size:3.46667vw;color:#636363;}
+.brand-bn-single .swiper-pagination {overflow:hidden;bottom:3.2vw;right:3.2vw;height:auto;background:none;font-size:3.33334vw;color:#fefefe;}
+
+@media all and (max-width:321px){
+	.m-block {display:none;}
+}

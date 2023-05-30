@@ -1,0 +1,4429 @@
+<!DOCTYPE html>
+
+<!--
+  작성자: 김주현
+-->
+
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+  <div
+    th:fragment="navShop"
+    class="hand_footer_gnb_wrap hand_footer_gnb_wrap2002" 
+  >
+    <div class="header">
+      <h2>샵</h2>
+      <ul class="ui_tab red_border_tab">
+        <li class="on"><a href="#tab_01" id="navTab01">브랜드</a></li>
+        <li><a href="#tab_02" id="navTab02">카테고리</a></li>
+        <li class="fcs"></li>
+      </ul>
+
+      <a href="#" class="pre"><i>이전</i>스마트 필터링</a>
+    </div>
+    <div class="container">
+      <div class="content">
+        <div class="shop_cont">
+          <div class="tab_cont">
+            <!-- 브랜드 -->
+            <script type="text/javascript">
+              $(document).ready(function () {
+                lnbBrandTab(); // 브랜드 탭메뉴 클릭
+                if (
+                  $(".brd_shop_cate_wrap2002_single").find(".like.on").length >
+                  0
+                ) {
+                  $(".my_heart_flag2002").show();
+                } else {
+                  $(".flag_fixed_wrap2002").css("visibility", "hidden");
+                }
+
+                var ua = navigator.userAgent.toLowerCase();
+                if (
+                  ua.indexOf("iphone") > -1 ||
+                  ua.indexOf("ipad") > -1 ||
+                  ua.indexOf("ipod") > -1
+                ) {
+                  $(".hand_footer_gnb_wrap").css(
+                    "height",
+                    $(".hand_footer_gnb_wrap").height() + 3
+                  );
+                }
+              });
+              function scrollFix200217_3() {
+                $(".hand_footer_gnb_wrap2002 .container").scroll(function () {
+                  var y = $(".hand_footer_gnb_wrap2002 .container").scrollTop();
+                  var $fixedLayer = $(".brd_navigator_bar2002_wrap");
+                  var naviH = $fixedLayer.height();
+                  var $append_cnt2 = 0;
+                  if (y >= 0) {
+                    if (
+                      $append_cnt2 == 0 &&
+                      $fixedLayer.find(".fcs2").length == 0
+                    ) {
+                      $fixedLayer.find("ul").append('<li class="fcs2"></li>');
+                      $append_cnt2 = 1;
+                    }
+                    $fixedLayer.find(".default_fcs2").hide();
+                    var chLength = $fixedLayer.find(".scr_btn200217").length;
+                    var i = 1;
+                    var brd_index = 0;
+
+                    if ($("#brandCountryCd").val() == "ko") {
+                      if (
+                        163 >= $("#brd_cate_" + i).offset().top &&
+                        163 < $("#brd_cate_" + (i + 1)).offset().top
+                      ) {
+                        brd_index = i - 1;
+                        translateByIndex(brd_index, $fixedLayer);
+                      } else if (
+                        163 >= $("#brd_cate_" + (i + 1)).offset().top &&
+                        163 < $("#brd_cate_" + (i + 2)).offset().top
+                      ) {
+                        brd_index = i;
+                        translateByIndex(brd_index, $fixedLayer);
+                      } else if (
+                        163 >= $("#brd_cate_" + (i + 2)).offset().top &&
+                        163 < $("#brd_cate_" + (i + 3)).offset().top
+                      ) {
+                        brd_index = i + 1;
+                        translateByIndex(brd_index, $fixedLayer);
+                      } else if (
+                        163 >= $("#brd_cate_" + (i + 3)).offset().top
+                      ) {
+                        brd_index = i + 2;
+                        translateByIndex(brd_index, $fixedLayer);
+                      }
+                    } else {
+                      if (
+                        163 >= $("#brd_cate_" + i).offset().top &&
+                        163 < $("#brd_cate_" + (i + 1)).offset().top
+                      ) {
+                        brd_index = i - 1;
+                        translateByIndex(brd_index, $fixedLayer);
+                      } else if (
+                        163 >= $("#brd_cate_" + (i + 1)).offset().top &&
+                        163 < $("#brd_cate_" + (i + 2)).offset().top
+                      ) {
+                        brd_index = i;
+                        translateByIndex(brd_index, $fixedLayer);
+                      } else if (
+                        163 >= $("#brd_cate_" + (i + 2)).offset().top
+                      ) {
+                        brd_index = i + 1;
+                        translateByIndex(brd_index, $fixedLayer);
+                      }
+                    }
+                  }
+                });
+              }
+              function scrollEvent2002_lnb() {
+                var $append_cnt2 = 0;
+                $(".scr_btn200217 a").on("click", function (event) {
+                  var $fixedLayer = $(".brd_navigator_bar2002_wrap");
+                  if (
+                    $append_cnt2 == 0 &&
+                    $fixedLayer.find(".fcs2").length == 0
+                  ) {
+                    $fixedLayer.find("ul").append('<li class="fcs2"></li>');
+                    $append_cnt2 = 1;
+                  }
+                  event.preventDefault();
+                  var $list1_H = $("#brd_cate_1").outerHeight() + 12,
+                    $list2_H = $("#brd_cate_2").outerHeight() + 12,
+                    $list3_H = $("#brd_cate_3").outerHeight() + 12,
+                    $list4_H = $("#brd_cate_4").outerHeight() + 12;
+                  var _total_height = 0;
+                  if (this.hash == "#brd_cate_1") {
+                    _total_height = 0;
+                    scrollTopAnimate(_total_height);
+                  } else if (this.hash == "#brd_cate_2") {
+                    _total_height = $list1_H;
+                    scrollTopAnimate(_total_height);
+                  } else if (this.hash == "#brd_cate_3") {
+                    _total_height = $list1_H + $list2_H;
+                    scrollTopAnimate(_total_height);
+                  } else if (
+                    this.hash == "#brd_cate_4" &&
+                    $("#brandCountryCd").val() == "ko"
+                  ) {
+                    _total_height = $list1_H + $list2_H + $list3_H;
+                    scrollTopAnimate(_total_height);
+                  }
+                });
+              }
+              function scrollTopAnimate(_total_height) {
+                $(".hand_footer_gnb_wrap2002 .container").animate(
+                  {
+                    scrollTop: _total_height,
+                  },
+                  800,
+                  "swing"
+                );
+              }
+              function scrollTopAnimate_s0(_total_height) {
+                $(".hand_footer_gnb_wrap2002 .container").animate(
+                  {
+                    scrollTop: _total_height,
+                  },
+                  0,
+                  "swing"
+                );
+              }
+              function translateByIndex(brd_index, $fixedLayer) {
+                var _fixedLayer = $fixedLayer;
+                _fixedLayer
+                  .find("li")
+                  .eq(brd_index)
+                  .siblings("li")
+                  .removeClass("on");
+                _fixedLayer.find("li").eq(brd_index).addClass("on");
+                _fixedLayer.find(".fcs2").css({
+                  transform:
+                    "translateX(" +
+                    _fixedLayer.find("li").eq(brd_index).position().left +
+                    "px)",
+                });
+              }
+
+              var navParentBrandCode = "";
+              var navBrandCode = "";
+              var navBrandName = "";
+              var navSortIndex = "";
+
+              function applyNavBrand(id, tabType) {
+                // tabType : single, all
+                var valueSplitArray = $("#" + id)
+                  .val()
+                  .split("#");
+
+                $("#" + id + "_like").removeClass("on");
+                var lc = new layerConfirm(
+                  "로그인 후 당신만의 브랜드 즐겨찾기를 <br /> 완성하세요.",
+                  "",
+                  ""
+                );
+                lc.cancleAction = function () {
+                  //취소 호출 펑션
+                  $("#" + id + "_like").removeClass("on");
+                  return;
+                };
+
+                lc.confirmAction = function () {
+                  //확인 호출 펑션
+                  location.href = "/member/login";
+                };
+                $("#" + id + "_like").removeClass("on");
+              }
+
+              function replaceNavBrandSplitStr(str1, str2, str3, str4, str5) {
+                var replaceStr2 = "";
+                var replaceStr3 = "";
+                var replaceStr4 = "";
+                var replaceStr5 = "";
+                var replaceStrArr2 = str2.split(",");
+                var replaceStrArr3 = str3.split(",");
+                var replaceStrArr4 = str4.split(",");
+                var replaceStrArr5 = str5.split(",");
+                replaceStrArr2.reverse();
+                replaceStrArr3.reverse();
+                replaceStrArr4.reverse();
+                replaceStrArr5.reverse();
+
+                for (var i = 0; i < replaceStrArr2.length; i++) {
+                  var checkStr = replaceStrArr2[i] + "_" + replaceStrArr3[i];
+                  //var checkStr = replaceStrArr2[i]+"_"+replaceStrArr3[i]+"_"+replaceStrArr4[i];
+                  //var checkStr = replaceStrArr3[i];
+                  if (checkStr != str1) {
+                    if (replaceStr2 == "") {
+                      replaceStr2 = replaceStrArr2[i];
+                      replaceStr3 = replaceStrArr3[i];
+                      replaceStr4 = replaceStrArr4[i];
+                    } else {
+                      replaceStr2 = replaceStrArr2[i] + "," + replaceStr2;
+                      replaceStr3 = replaceStrArr3[i] + "," + replaceStr3;
+                      replaceStr4 = replaceStrArr4[i] + "," + replaceStr4;
+                    }
+                  }
+
+                  if (i < replaceStrArr2.length - 1) {
+                    if (replaceStr5 == "") {
+                      replaceStr5 = replaceStrArr5[i];
+                    } else {
+                      replaceStr5 = replaceStrArr5[i] + "," + replaceStr5;
+                    }
+                  }
+                }
+                navParentBrandCode = replaceStr2;
+                navBrandCode = replaceStr3;
+                navBrandName = replaceStr4;
+                navSortIndex = replaceStr5;
+              }
+              /*
+              function removeNavBrand(id, tabType) {
+                //tabType : single, all
+                $.ajax({
+                  type: "GET",
+                  url: "/intro/setCategoryList",
+                  data: {
+                    brandName: "",
+                    brandCode: "",
+                    parentBrandCode: "",
+                    sortIndex: "",
+                  },
+                  success: function (data) {
+                    var valueSplitArray = $("#" + id)
+                      .val()
+                      .split("#");
+                    $("#" + id).val(
+                      valueSplitArray[0] +
+                        "#" +
+                        valueSplitArray[1] +
+                        "#" +
+                        valueSplitArray[2] +
+                        "#" +
+                        valueSplitArray[3] +
+                        "#false#" +
+                        valueSplitArray[5]
+                    );
+                    var replaceStr =
+                      valueSplitArray[0] + "_" + valueSplitArray[1];
+                    //var replaceStr = valueSplitArray[0]+"_"+valueSplitArray[1]+"_"+valueSplitArray[2];
+                    //var replaceStr = valueSplitArray[1];
+                    replaceNavBrandSplitStr(
+                      replaceStr,
+                      navParentBrandCode,
+                      navBrandCode,
+                      navBrandName,
+                      navSortIndex
+                    );
+
+                    if (
+                      (id.indexOf("_BR44") > -1 || id.indexOf("_BR08") > -1) &&
+                      tabType == "single"
+                    ) {
+                      var idReverse = "";
+                      if (
+                        id.indexOf("_WE_BR08") > -1 ||
+                        id.indexOf("_WE_BR44") > -1
+                      ) {
+                        idReverse = id.replace("_WE_", "_ME_");
+                        if (
+                          !$("#" + id + "_like").hasClass("on") &&
+                          !$("#" + idReverse + "_like").hasClass("on")
+                        ) {
+                          $("#" + id + "_like").removeClass("on");
+                          $("#" + id + "_like_0").removeClass("on");
+                        }
+                      } else {
+                        idReverse = id.replace("_ME_", "_WE_");
+                        if (
+                          !$("#" + id + "_like").hasClass("on") &&
+                          !$("#" + idReverse + "_like").hasClass("on")
+                        ) {
+                          $("#" + id + "_like").removeClass("on");
+                          $("#" + idReverse + "_like_0").removeClass("on");
+                        }
+                      }
+                    } else {
+                      $("#" + id + "_like").removeClass("on");
+                      $("#" + id + "_like_0").removeClass("on");
+                    }
+
+                    if (
+                      (id.indexOf("_BR44") > -1 || id.indexOf("_BR08") > -1) &&
+                      tabType == "all"
+                    ) {
+                      if (
+                        id.indexOf("_WE_BR08") > -1 ||
+                        id.indexOf("_WE_BR44") > -1
+                      ) {
+                        id = id.replace("_WE_", "_ME_");
+                      } else {
+                        id = id.replace("_ME_", "_WE_");
+                      }
+
+                      var valueSplitArray2 = $("#" + id)
+                        .val()
+                        .split("#");
+                      if (valueSplitArray2[4] == "true") {
+                        $("#" + id).val(
+                          valueSplitArray2[0] +
+                            "#" +
+                            valueSplitArray2[1] +
+                            "#" +
+                            valueSplitArray2[2] +
+                            "#" +
+                            valueSplitArray2[3] +
+                            "#false#" +
+                            valueSplitArray2[5]
+                        );
+                        var replaceStr2 =
+                          valueSplitArray2[0] + "_" + valueSplitArray2[1];
+                        replaceNavBrandSplitStr(
+                          replaceStr2,
+                          navParentBrandCode,
+                          navBrandCode,
+                          navBrandName,
+                          navSortIndex
+                        );
+                        $("#" + id + "_like").removeClass("on");
+                      }
+                      $("#" + id + "_like_0").removeClass("on");
+                    }
+
+                    if (navBrandCode != "") {
+                      setNavBrand(id, "remove", tabType);
+                    } else {
+                      if ($("#fadeEff").hasClass("active")) {
+                        $("#fadeEff").removeClass("active");
+                      }
+                      $(".flag_fixed_wrap2002").css("visibility", "hidden");
+                      $(".my_heart_flag2002").css("visibility", "hidden");
+                    }
+
+                    var whereLikeCancel = $("#whereLikeCancel").val();
+                    $("#whereLikeCancel").val("");
+                  },
+                  error: function (e) {
+                    console.log("error", e);
+                  },
+                });
+              }
+              function setNavBrand(id, gubun, tabType) {
+                // gubun : set, remove | tabType : single, all
+                var valueSplitArray = $("#" + id)
+                  .val()
+                  .split("#");
+                var setNavParentBrandCode = navParentBrandCode;
+                var setNavBrandCode = navBrandCode;
+                var setNavBrandName = navBrandName;
+                var setNavSortIndex = navSortIndex;
+                var tmpBr08Cnt = 0;
+                var tmpBr44Cnt = 0;
+
+                $.ajax({
+                  type: "GET",
+                  url: "/intro/setCategoryList",
+                  data: {
+                    brandName: setNavBrandName,
+                    brandCode: setNavBrandCode,
+                    parentBrandCode: setNavParentBrandCode,
+                    sortIndex: setNavSortIndex,
+                  },
+                  success: function (data) {
+                    if (gubun == "set") {
+                      $("#" + id).val(
+                        valueSplitArray[0] +
+                          "#" +
+                          valueSplitArray[1] +
+                          "#" +
+                          valueSplitArray[2] +
+                          "#" +
+                          valueSplitArray[3] +
+                          "#true#" +
+                          valueSplitArray[5]
+                      );
+                      if (!$("#" + id + "_like").hasClass("on")) {
+                        $("#" + id + "_like").addClass("on");
+                      }
+                      if (!$("#" + id + "_like_0").hasClass("on")) {
+                        $("#" + id + "_like_0").addClass("on");
+                      }
+
+                      if (
+                        (id.indexOf("_BR44") > -1 ||
+                          id.indexOf("_BR08") > -1) &&
+                        tabType == "all"
+                      ) {
+                        if (
+                          id.indexOf("_WE_BR08") > -1 ||
+                          id.indexOf("_WE_BR44") > -1
+                        ) {
+                          id = id.replace("_WE_", "_ME_");
+                        } else {
+                          id = id.replace("_ME_", "_WE_");
+                        }
+
+                        var valueSplitArray2 = $("#" + id)
+                          .val()
+                          .split("#");
+                        if (valueSplitArray[4] == "false") {
+                          applyNavBrand(id, "single");
+                        }
+                      }
+
+                      if (
+                        (id.indexOf("_BR44") > -1 ||
+                          id.indexOf("_BR08") > -1) &&
+                        tabType == "single"
+                      ) {
+                        if (
+                          id.indexOf("_ME_BR08") > -1 ||
+                          id.indexOf("_ME_BR44") > -1
+                        ) {
+                          id = id.replace("_ME_", "_WE_");
+                          if (!$("#" + id + "_like_0").hasClass("on")) {
+                            $("#" + id + "_like_0").addClass("on");
+                          }
+                        }
+                      }
+                    }
+
+                    var setBrandListHtml = "";
+                    var parentBrandCodeArr = navParentBrandCode.split(",");
+                    var brandCodeArr = navBrandCode.split(",");
+                    var brandNameArr = navBrandName.split(",");
+
+                    for (var i = 0; i < parentBrandCodeArr.length; i++) {
+                      if (brandCodeArr[i] == "BR08") {
+                        tmpBr08Cnt++;
+                        if (tmpBr08Cnt > 1) {
+                          setBrandListHtml +=
+                            '<li class="flag swiper-slide active" style="margin-right: 6px; display:none;"> \n';
+                        } else {
+                          setBrandListHtml +=
+                            '<li class="flag swiper-slide active" style="margin-right: 6px;"> \n';
+                        }
+                      } else if (brandCodeArr[i] == "BR44") {
+                        tmpBr44Cnt++;
+                        if (tmpBr44Cnt > 1) {
+                          setBrandListHtml +=
+                            '<li class="flag swiper-slide active" style="margin-right: 6px; display:none;"> \n';
+                        } else {
+                          setBrandListHtml +=
+                            '<li class="flag swiper-slide active" style="margin-right: 6px;"> \n';
+                        }
+                      } else {
+                        setBrandListHtml +=
+                          '<li class="flag swiper-slide active" style="margin-right: 6px;"> \n';
+                      }
+
+                      setBrandListHtml +=
+                        '   <a href="/c/' +
+                        brandCodeArr[i].toLowerCase() +
+                        "/" +
+                        brandCodeArr[i].toLowerCase() +
+                        "\" class=\"name\" onclick=\"GA_Event('공통_브랜드', '하단 좋아요', '" +
+                        escape(brandNameArr[i]) +
+                        "');\">" +
+                        brandNameArr[i] +
+                        "</a> \n";
+                      setBrandListHtml +=
+                        '   <a href="javascript:noLink();" class="delete" id="gnb_br_' +
+                        parentBrandCodeArr[i] +
+                        "_" +
+                        brandCodeArr[i] +
+                        '_delete" onclick="removeNavBrand(\'gnb_br_' +
+                        parentBrandCodeArr[i] +
+                        "_" +
+                        brandCodeArr[i] +
+                        "', 'all');\">삭제</a> \n";
+                      setBrandListHtml += "</li> \n";
+                    }
+                    $("#setBrandList").html(setBrandListHtml);
+                    $(".my_heart_flag2002").css("visibility", "visible");
+                  },
+                  error: function (e) {
+                    alert(
+                      "고객님의 네트워크에서 짧은 시간 동안 너무 많은 요청이 있었습니다."
+                    );
+                    location.reload();
+                    console.log("error", e);
+                  },
+                });
+              }
+              */
+
+              //브랜드 탭메뉴 클릭
+              function lnbBrandTab() {
+                $(".js-brand-tab-btn-2012 a").on("click", function () {
+                  scrollTopAnimate_s0(0);
+                  var $el = $(this);
+                  var $el_parent = $el.closest("li");
+                  var tab_id = $el.attr("id");
+                  var $tab_cont = $(tab_id);
+
+                  if (tab_id != "#brd_cate_0") {
+                    $("#brd_cate_0").hide();
+                  } else {
+                    $("[id^='brd_cate_']").hide();
+                  }
+
+                  $el_parent.siblings("li").removeClass("on");
+                  $tab_cont.siblings("ul").hide();
+                  $el_parent.addClass("on");
+                  $tab_cont.show();
+                });
+              }
+            </script>
+            <div class="cont on" id="tab_01">
+              <div class="brd_navigator_bar2012_wrap">
+                <div class="brd_navigator_bar2012">
+                  <ul class="ui_tab2_202012">
+                    <li class="js-brand-tab-btn-2012 on">
+                      <a
+                        href="#"
+                        id="#brd_cate_0"
+                        onclick="GA_Event('공통_브랜드', '브랜드 탭', '전체');"
+                      >
+                        전체</a
+                      >
+                    </li>
+                    <li class="js-brand-tab-btn-2012">
+                      <a
+                        href="#"
+                        id="#brd_cate_1"
+                        onclick="GA_Event('공통_브랜드', '브랜드 탭', '여성');"
+                      >
+                        여성</a
+                      >
+                    </li>
+                    <li class="js-brand-tab-btn-2012">
+                      <a
+                        href="#"
+                        id="#brd_cate_2"
+                        onclick="GA_Event('공통_브랜드', '브랜드 탭', '남성');"
+                      >
+                        남성</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="brd_shop_cate_wrap2002">
+                <input type="hidden" value="ko" id="brandCountryCd" />
+                <input type="hidden" value="" id="whereLikeCancel" />
+
+                <ul class="shop_list_brand one_depth" id="brd_cate_0">
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br01"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'TIME');"
+                      >
+                        <span class="logo">TIME</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR01_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR01', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br06"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'TIME HOMME');"
+                      >
+                        <span class="logo">TIME HOMME</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ME_BR06_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR06', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br03"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'SYSTEM');"
+                      >
+                        <span class="logo">SYSTEM</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR03_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR03', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br07"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'SYSTEM HOMME');"
+                      >
+                        <span class="logo">SYSTEM HOMME</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ME_BR07_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR07', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br02"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'MINE');"
+                      >
+                        <span class="logo">MINE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR02_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR02', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="javascript:noLink();"
+                        class="one_link"
+                        onclick="/b/br08"
+                      >
+                        <span class="logo">the CASHMERE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR08_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR08', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br19"
+                        class="one_link"
+                      >
+                        <span class="logo">LANVIN COLLECTION</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR19_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR19', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br44"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'CLUB MONACO');"
+                      >
+                        <span class="logo">CLUB MONACO</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR44_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR44', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br04"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'SJSJ');"
+                      >
+                        <span class="logo">SJSJ</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR04_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR04', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br31"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'LÄTT');"
+                      >
+                        <span class="logo">LÄTT</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR31_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR31', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br43"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'OBZEE');"
+                      >
+                        <span class="logo">OBZEE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR43_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR43', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br45"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'O&amp;#039;2nd');"
+                      >
+                        <span class="logo">O'2nd</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_WE_BR45_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR45', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br15"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'TOM GREYHOUND');"
+                      >
+                        <span class="logo">TOM GREYHOUND</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR15_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR15', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br35"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM THE STORE');"
+                      >
+                        <span class="logo">FOURM THE STORE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR35_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR35', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br30"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM STUDIO');"
+                      >
+                        <span class="logo">FOURM STUDIO</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR30_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR30', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br32"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM MEN&amp;#039;S LOUNGE');"
+                      >
+                        <span class="logo">FOURM MEN'S LOUNGE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR32_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR32', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br16"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'MUE');"
+                      >
+                        <span class="logo">MUE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR16_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR16', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br47"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'H : SCENE');"
+                      >
+                        <span class="logo">H : SCENE</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_ED_BR47_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR47', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br21"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'BALLY');"
+                      >
+                        <span class="logo">BALLY</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_OS_BR21_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR21', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/b63"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'LANVIN PARIS');"
+                      >
+                        <span class="logo">LANVIN PARIS</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_OS_BR20_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR20', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br41"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', '3.1 Phillip Lim');"
+                      >
+                        <span class="logo">3.1 Phillip Lim</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_OS_BR41_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR41', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br37"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'ROCHAS');"
+                      >
+                        <span class="logo">ROCHAS</span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_OS_BR37_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR37', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="/b/br64"
+                        class="one_link"
+                        onclick="GA_Event('공통_브랜드', '1DEPTH', 'OUR LEGACY');"
+                      >
+                        <span class="logo ourlegacy"
+                          >OUR LEGACY<img
+                            class="icon-new-m"
+                            src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png"
+                            alt="newIcon"
+                          />
+                        </span>
+                      </a>
+                      <button
+                        type="button"
+                        id="gnb_br_NEW_NORMAL_BRANDS_OS_BR64_like_0"
+                        class="like"
+                        onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR64', 'all');"
+                      >
+                        찜하기
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="brd_shop_cate_wrap2002_single">
+                  <ul
+                    class="shop_list_brand one_depth"
+                    id="brd_cate_1"
+                    style="display: none"
+                  >
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br01"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'TIME');"
+                        >
+                          <span class="logo">TIME</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR01"
+                          value="NEW_NORMAL_BRANDS_WE#BR01#TIME#0#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR01_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR01', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br02"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'MINE');"
+                        >
+                          <span class="logo">MINE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR02"
+                          value="NEW_NORMAL_BRANDS_WE#BR02#MINE#1#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR02_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR02', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br19"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'LANVIN COLLECTION');"
+                        >
+                          <span class="logo">LANVIN COLLECTION</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR19"
+                          value="NEW_NORMAL_BRANDS_WE#BR19#LANVIN COLLECTION#2#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR19_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR19', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br03"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'SYSTEM');"
+                        >
+                          <span class="logo">SYSTEM</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR03"
+                          value="NEW_NORMAL_BRANDS_WE#BR03#SYSTEM#4#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR03_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR03', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br04"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'SJSJ');"
+                        >
+                          <span class="logo">SJSJ</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR04"
+                          value="NEW_NORMAL_BRANDS_WE#BR04#SJSJ#5#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR04_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR04', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br08"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'the CASHMERE');"
+                        >
+                          <span class="logo">the CASHMERE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR08"
+                          value="NEW_NORMAL_BRANDS_WE#BR08#the CASHMERE#6#false#2"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR08_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR08', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br31"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'LÄTT');"
+                        >
+                          <span class="logo">LÄTT</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR31"
+                          value="NEW_NORMAL_BRANDS_WE#BR31#LÄTT#7#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR31_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR31', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br43"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'OBZEE');"
+                        >
+                          <span class="logo">OBZEE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR43"
+                          value="NEW_NORMAL_BRANDS_WE#BR43#OBZEE#8#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR43_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR43', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br45"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'O&amp;#039;2nd');"
+                        >
+                          <span class="logo">O'2nd</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR45"
+                          value="NEW_NORMAL_BRANDS_WE#BR45#O'2nd#9#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR45_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR45', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br44"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'CLUB MONACO');"
+                        >
+                          <span class="logo">CLUB MONACO</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR44"
+                          value="NEW_NORMAL_BRANDS_WE#BR44#CLUB MONACO#10#false#2"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_WE_BR44_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_WE_BR44', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul
+                    class="shop_list_brand one_depth"
+                    id="brd_cate_2"
+                    style="display: none"
+                  >
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br06"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'TIME HOMME');"
+                        >
+                          <span class="logo">TIME HOMME</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR06"
+                          value="NEW_NORMAL_BRANDS_ME#BR06#TIME HOMME#1#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR06_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR06', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br07"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'SYSTEM HOMME');"
+                        >
+                          <span class="logo">SYSTEM HOMME</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR07"
+                          value="NEW_NORMAL_BRANDS_ME#BR07#SYSTEM HOMME#2#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR07_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR07', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br08"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'the CASHMERE');"
+                        >
+                          <span class="logo">the CASHMERE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR08"
+                          value="NEW_NORMAL_BRANDS_ME#BR08#the CASHMERE#3#false#2"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR08_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR08', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br44"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'CLUB MONACO');"
+                        >
+                          <span class="logo">CLUB MONACO</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR44"
+                          value="NEW_NORMAL_BRANDS_ME#BR44#CLUB MONACO#4#false#2"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ME_BR44_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ME_BR44', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul
+                    class="shop_list_brand one_depth"
+                    id="brd_cate_3"
+                    style="display: none"
+                  >
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br15"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'TOM GREYHOUND');"
+                        >
+                          <span class="logo">TOM GREYHOUND</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR15"
+                          value="NEW_NORMAL_BRANDS_ED#BR15#TOM GREYHOUND#0#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR15_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR15', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br35"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM THE STORE');"
+                        >
+                          <span class="logo">FOURM THE STORE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR35"
+                          value="NEW_NORMAL_BRANDS_ED#BR35#FOURM THE STORE#1#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR35_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR35', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br30"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM STUDIO');"
+                        >
+                          <span class="logo">FOURM STUDIO</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR30"
+                          value="NEW_NORMAL_BRANDS_ED#BR30#FOURM STUDIO#2#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR30_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR30', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br32"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'FOURM MEN&amp;#039;S LOUNGE');"
+                        >
+                          <span class="logo">FOURM MEN'S LOUNGE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR32"
+                          value="NEW_NORMAL_BRANDS_ED#BR32#FOURM MEN'S LOUNGE#3#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR32_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR32', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br16"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'MUE');"
+                        >
+                          <span class="logo">MUE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR16"
+                          value="NEW_NORMAL_BRANDS_ED#BR16#MUE#4#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR16_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR16', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br47"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'H : SCENE');"
+                        >
+                          <span class="logo">H : SCENE</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR47"
+                          value="NEW_NORMAL_BRANDS_ED#BR47#H : SCENE#5#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_ED_BR47_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_ED_BR47', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul
+                    class="shop_list_brand one_depth"
+                    id="brd_cate_4"
+                    style="display: none"
+                  >
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br21"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'BALLY');"
+                        >
+                          <span class="logo">BALLY</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR21"
+                          value="NEW_NORMAL_BRANDS_OS#BR21#BALLY#0#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR21_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR21', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br20"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'LANVIN PARIS');"
+                        >
+                          <span class="logo">LANVIN PARIS</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR20"
+                          value="NEW_NORMAL_BRANDS_OS#BR20#LANVIN PARIS#1#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR20_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR20', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br41"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', '3.1 Phillip Lim');"
+                        >
+                          <span class="logo">3.1 Phillip Lim</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR41"
+                          value="NEW_NORMAL_BRANDS_OS#BR41#3.1 Phillip Lim#2#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR41_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR41', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br64"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'OUR LEGACY');"
+                        >
+                          <span class="logo ourlegacy"
+                            >OUR LEGACY<img
+                              class="icon-new-m"
+                              src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png"
+                              alt="newIcon"
+                            />
+                          </span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR64"
+                          value="NEW_NORMAL_BRANDS_OS#BR64#OUR LEGACY#3#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR64_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR64', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                    <li class="one_lists">
+                      <div class="one_wrap">
+                        <a
+                          href="/b/br37"
+                          class="one_link"
+                          onclick="GA_Event('공통_브랜드', '1DEPTH', 'ROCHAS');"
+                        >
+                          <span class="logo">ROCHAS</span>
+                        </a>
+                        <input
+                          type="hidden"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR37"
+                          value="NEW_NORMAL_BRANDS_OS#BR37#ROCHAS#4#false#1"
+                        />
+                        <button
+                          type="button"
+                          id="gnb_br_NEW_NORMAL_BRANDS_OS_BR37_like"
+                          class="like"
+                          onclick="applyNavBrand('gnb_br_NEW_NORMAL_BRANDS_OS_BR37', 'single');"
+                        >
+                          찜하기
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <!-- <div class="flag_fixed_wrap2002" style="visibility: hidden">
+                    <div
+                      id="fadeEff"
+                      class="flag_wrap scroll_flag swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode swiper-container-android"
+                    >
+                      <ul class="swiper-wrapper" id="setBrandList">
+                      </ul>
+                      <div class="my_heart_flag2002">
+                        <div>
+                          MY<span class="ico_heart200214">heart</span>
+                          <span class="white_action200219"></span>
+                        </div>
+                      </div>
+                      <span
+                        class="swiper-notification"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      ></span>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <!--// 브랜드 end -->
+            <!-- 카테고리 -->
+            <script type="text/javascript">
+              var categoryCode = "";
+              var categoryName = "";
+              var flag = "";
+              var processYn = false;
+
+              var lnbLinkUrl = "";
+              var lnbImageUrl = "";
+              var lnbMenuName = "";
+              $(document).ready(function () {
+                shopCateListHeightSet(); //카테고리 텝 컨텐츠 높이 설정
+              });
+
+              function applyCategory(id) {
+                if (!processYn) {
+                  var valueSplitArray = $("#" + id)
+                    .val()
+                    .split("|");
+
+                  $("#" + id + "_like").removeClass("on");
+                  var lc = new layerConfirm(
+                    "로그인 후 당신만의 선호 카테고리를 <br /> 선택하세요.",
+                    "",
+                    ""
+                  );
+                  lc.cancleAction = function () {
+                    //취소 호출 펑션
+                    $("#" + id + "_like").removeClass("on");
+                    if ($("#setUserCategory li").length == 0) {
+                      $(quickSCaterogyTagSelector).removeClass("active");
+                    }
+                    return;
+                  };
+
+                  lc.confirmAction = function () {
+                    //확인 호출 펑션
+                    location.href = "/member/login";
+                  };
+
+                  $("#confirmCloseDiv").click(function () {
+                    lc.cancleAction();
+                  });
+
+                  $("#" + id + "_like").removeClass("on");
+                }
+              }
+
+              function replaceSplitStr(str1, str2) {
+                var replaceStr = "";
+                var replaceStrArr = str1.split("|");
+                var replaceStrCheck = "N";
+                for (var i = 0; i < replaceStrArr.length; i++) {
+                  if (replaceStrArr[i] == str2 && replaceStrCheck == "N") {
+                    replaceStrCheck = "Y";
+                  } else {
+                    if (replaceStr == "") {
+                      replaceStr = replaceStrArr[i];
+                    } else {
+                      replaceStr += "|" + replaceStrArr[i];
+                    }
+                  }
+                }
+                return replaceStr;
+              }
+
+              // 재정렬
+              function replaceSplitStr2(str, idx) {
+                var replaceStr = "";
+                var replaceStrArr = str.split("|");
+                for (var i = 0; i < replaceStrArr.length; i++) {
+                  if (i != idx) {
+                    if (replaceStr == "") {
+                      replaceStr = replaceStrArr[i];
+                    } else {
+                      replaceStr += "|" + replaceStrArr[i];
+                    }
+                  }
+                }
+                return replaceStr;
+              }
+
+              function replaceSplitIdx(str1, str2) {
+                var replaceIdx = "";
+                var replaceStrArr = str1.split("|");
+                for (var i = 0; i < replaceStrArr.length; i++) {
+                  if (replaceStrArr[i] == str2) {
+                    replaceIdx = i;
+                    break;
+                  }
+                }
+                return replaceIdx;
+              }
+              /*
+              function removeCategory(id) {
+                if (!processYn) {
+                  processYn = true;
+                  var valueSplitArray = $("#" + id)
+                    .val()
+                    .split("|");
+                  var replaceIdx = "";
+                  replaceIdx = replaceSplitIdx(
+                    categoryCode,
+                    valueSplitArray[0]
+                  );
+                  categoryCode = replaceSplitStr(
+                    categoryCode,
+                    valueSplitArray[0]
+                  );
+                  //             categoryName = replaceSplitStr(categoryName,valueSplitArray[1]);
+                  //             flag = replaceSplitStr(flag,valueSplitArray[2]);
+                  categoryName = replaceSplitStr2(categoryName, replaceIdx);
+                  flag = replaceSplitStr2(flag, replaceIdx);
+                  $.ajax({
+                    type: "GET",
+                    url: "/intro/setUserCategory",
+                    data: { categoryName: "", categoryCode: "", flag: "" },
+                    success: function (data) {
+                      $("#" + id).val(
+                        valueSplitArray[0] +
+                          "|" +
+                          valueSplitArray[1] +
+                          "|" +
+                          valueSplitArray[2] +
+                          "|false"
+                      );
+                      var setUserCategoryHtml = "";
+                      var categoryCodeArr = categoryCode.split("|");
+                      var categoryNameArr = categoryName.split("|");
+                      var flagArr = flag.split("|");
+                      for (var i = categoryCodeArr.length - 1; i >= 0; i--) {
+                        if (categoryCodeArr[i] != "") {
+                          setUserCategoryHtml +=
+                            '<li class="flag swiper-slide ' +
+                            flagArr[i] +
+                            ' active" style="margin-right: 6px;"> \n';
+                          setUserCategoryHtml +=
+                            '    <a href="/c/' +
+                            categoryCodeArr[i] +
+                            '" class="name">' +
+                            categoryNameArr[i] +
+                            "</a> \n";
+                          setUserCategoryHtml +=
+                            '    <a href="javascript:noLink();" class="delete" onclick="removeCategory(\'gnb_' +
+                            categoryCodeArr[i] +
+                            "');\">삭제</a> \n";
+                          setUserCategoryHtml += "</li> \n";
+                        }
+                      }
+
+                      $("#setUserCategory").html(setUserCategoryHtml);
+                      $("#" + id + "_like").removeClass("on");
+                      if ($("#setUserCategory li").length == 0) {
+                        $(quickSCaterogyTagSelector).removeClass("active");
+                        $(".lnb_themaga_sns_wrap2004").css(
+                          "padding-bottom",
+                          "0"
+                        );
+                        var $shopCateList = $(
+                          ".hand_footer_gnb_wrap2002 .cate_shop_cate_wrap2004 .shop_list_category"
+                        );
+                        var shopCateListH =
+                          $(window).height() -
+                          (107 + $(".lnb_themaga_sns_wrap2004").outerHeight());
+                        $shopCateList.css("min-height", shopCateListH + "px");
+                      }
+
+                      processYn = false;
+                      if (categoryCode != "") {
+                        // 남은 선호카테고리가 있을 때 재등록
+                        setCategory(id, "remove");
+                      }
+                    },
+                    error: function (e) {
+                      console.log("error", e);
+                    },
+                  });
+                }
+              }
+
+              function setCategory(id, gubun) {
+                if (!processYn) {
+                  processYn = true;
+                  var valueSplitArray = $("#" + id)
+                    .val()
+                    .split("|");
+                  $.ajax({
+                    type: "GET",
+                    url: "/intro/setUserCategory",
+                    data: {
+                      categoryName: categoryName,
+                      categoryCode: categoryCode,
+                      flag: flag,
+                    },
+                    success: function (data) {
+                      if (gubun == "set") {
+                        $("#" + id).val(
+                          valueSplitArray[0] +
+                            "|" +
+                            valueSplitArray[1] +
+                            "|" +
+                            valueSplitArray[2] +
+                            "|true"
+                        );
+                      }
+                      var setUserCategoryHtml = "";
+                      var categoryCodeArr = categoryCode.split("|");
+                      var categoryNameArr = categoryName.split("|");
+                      var flagArr = flag.split("|");
+                      for (var i = categoryCodeArr.length - 1; i >= 0; i--) {
+                        setUserCategoryHtml +=
+                          '<li class="flag swiper-slide ' +
+                          flagArr[i] +
+                          ' active" style="margin-right: 6px;"> \n';
+                        setUserCategoryHtml +=
+                          '	<a href="/c/' +
+                          categoryCodeArr[i] +
+                          "\" class=\"name\" onclick=\"GA_Event('공통_카테고리', '좋아요한_카테고리', '" +
+                          escape(categoryNameArr[i].replace("&44;", ",")) +
+                          "');\" >" +
+                          categoryNameArr[i] +
+                          "</a> \n";
+                        setUserCategoryHtml +=
+                          '	<a href="javascript:noLink();" class="delete" onclick="removeCategory(\'gnb_' +
+                          categoryCodeArr[i] +
+                          "');\">삭제</a> \n";
+                        setUserCategoryHtml += "</li> \n";
+                      }
+
+                      $("#setUserCategory").html(setUserCategoryHtml);
+                      quickSCaterogyTagSwiper.update();
+                      processYn = false;
+                    },
+                    error: function (e) {
+                      console.log("error", e);
+                    },
+                  });
+                }
+              }*/
+
+              function shopCateListHeightSet() {
+                var winH = $(window).height();
+                if ($("#setUserCategory").find(".flag").length >= 1) {
+                  // 즐겨찾기한 카테고리가 있을 때
+                  $(".lnb_themaga_sns_wrap2004").css("padding-bottom", "56px");
+                  var $shopCateList = $(
+                    ".hand_footer_gnb_wrap2002 .cate_shop_cate_wrap2004 .shop_list_category"
+                  );
+                  var shopCateListH =
+                    $(window).height() -
+                    (107 + $(".lnb_themaga_sns_wrap2004").outerHeight());
+                  $shopCateList.css("min-height", shopCateListH + "px");
+                } else {
+                  $(".lnb_themaga_sns_wrap2004").css("padding-bottom", "30");
+                  var $shopCateList = $(
+                    ".hand_footer_gnb_wrap2002 .cate_shop_cate_wrap2004 .shop_list_category"
+                  );
+                  var shopCateListH =
+                    $(window).height() -
+                    (107 + $(".lnb_themaga_sns_wrap2004").outerHeight());
+                  $shopCateList.css("min-height", shopCateListH + "px");
+                }
+                var $shopCateList = $(
+                  ".hand_footer_gnb_wrap2002 .cate_shop_cate_wrap2004 .shop_list_category"
+                );
+                $shopCateList.css("min-height", 600 + "px");
+              }
+            </script>
+            <div class="cont" id="tab_02">
+              <div class="cate_shop_cate_wrap2004">
+                <ul
+                  class="shop_list_category ctgr one_depth"
+                  style="min-height: 600px"
+                >
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a href="#" class="one_link" id="cate_we">
+                        <span class="category_tit">여성</span>
+                      </a>
+                    </div>
+                    <ul class="two_depth">
+                      <li class="two_lists">
+                        <a
+                          href="/c/we"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_전체보기');"
+                          >전체보기</a
+                        >
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_아우터');"
+                          >아우터</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we05"
+                            value="we05|아우터>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we05_like"
+                              onclick="applyCategory('gnb_we05');GA_Event('공통_카테고리', '좋아요', '여성_아우터_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we05"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we051"
+                            value="we051|아우터>재킷|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we051_like"
+                              onclick="applyCategory('gnb_we051');GA_Event('공통_카테고리', '좋아요', '여성_아우터_재킷');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we051"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_재킷');"
+                              >재킷</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we052"
+                            value="we052|아우터>점퍼|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we052_like"
+                              onclick="applyCategory('gnb_we052');GA_Event('공통_카테고리', '좋아요', '여성_아우터_점퍼');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we052"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_점퍼');"
+                              >점퍼</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we015"
+                            value="we015|아우터>가디건/베스트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we015_like"
+                              onclick="applyCategory('gnb_we015');GA_Event('공통_카테고리', '좋아요', '여성_아우터_가디건/베스트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we015"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_가디건/베스트');"
+                              >가디건/베스트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we053"
+                            value="we053|아우터>트렌치 코트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we053_like"
+                              onclick="applyCategory('gnb_we053');GA_Event('공통_카테고리', '좋아요', '여성_아우터_트렌치 코트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we053"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_트렌치 코트');"
+                              >트렌치 코트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we054"
+                            value="we054|아우터>코트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we054_like"
+                              onclick="applyCategory('gnb_we054');GA_Event('공통_카테고리', '좋아요', '여성_아우터_코트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we054"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_코트');"
+                              >코트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we055"
+                            value="we055|아우터>다운/패딩|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we055_like"
+                              onclick="applyCategory('gnb_we055');GA_Event('공통_카테고리', '좋아요', '여성_아우터_다운/패딩');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we055"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_아우터_다운/패딩');"
+                              >다운/패딩</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_니트');"
+                          >니트</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we10"
+                            value="we10|니트>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we10_like"
+                              onclick="applyCategory('gnb_we10');GA_Event('공통_카테고리', '좋아요', '여성_니트_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we10"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we101"
+                            value="we101|니트>탑/스웨터|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we101_like"
+                              onclick="applyCategory('gnb_we101');GA_Event('공통_카테고리', '좋아요', '여성_니트_탑/스웨터');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we101"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_탑/스웨터');"
+                              >탑/스웨터</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we102"
+                            value="we102|니트>점퍼/가디건|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we102_like"
+                              onclick="applyCategory('gnb_we102');GA_Event('공통_카테고리', '좋아요', '여성_니트_점퍼/가디건');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we102"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_점퍼/가디건');"
+                              >점퍼/가디건</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we103"
+                            value="we103|니트>베스트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we103_like"
+                              onclick="applyCategory('gnb_we103');GA_Event('공통_카테고리', '좋아요', '여성_니트_베스트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we103"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_베스트');"
+                              >베스트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we104"
+                            value="we104|니트>드레스|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we104_like"
+                              onclick="applyCategory('gnb_we104');GA_Event('공통_카테고리', '좋아요', '여성_니트_드레스');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we104"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_드레스');"
+                              >드레스</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we105"
+                            value="we105|니트>팬츠|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we105_like"
+                              onclick="applyCategory('gnb_we105');GA_Event('공통_카테고리', '좋아요', '여성_니트_팬츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we105"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_팬츠');"
+                              >팬츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we106"
+                            value="we106|니트>스커트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we106_like"
+                              onclick="applyCategory('gnb_we106');GA_Event('공통_카테고리', '좋아요', '여성_니트_스커트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we106"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_니트_스커트');"
+                              >스커트</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_탑');"
+                          >탑</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we01"
+                            value="we01|탑>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we01_like"
+                              onclick="applyCategory('gnb_we01');GA_Event('공통_카테고리', '좋아요', '여성_탑_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we01"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_탑_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we011"
+                            value="we011|탑>티셔츠|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we011_like"
+                              onclick="applyCategory('gnb_we011');GA_Event('공통_카테고리', '좋아요', '여성_탑_티셔츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we011"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_탑_티셔츠');"
+                              >티셔츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we012"
+                            value="we012|탑>블라우스|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we012_like"
+                              onclick="applyCategory('gnb_we012');GA_Event('공통_카테고리', '좋아요', '여성_탑_블라우스');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we012"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_탑_블라우스');"
+                              >블라우스</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we013"
+                            value="we013|탑>셔츠|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we013_like"
+                              onclick="applyCategory('gnb_we013');GA_Event('공통_카테고리', '좋아요', '여성_탑_셔츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we013"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_탑_셔츠');"
+                              >셔츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we014"
+                            value="we014|탑>니트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we014_like"
+                              onclick="applyCategory('gnb_we014');GA_Event('공통_카테고리', '좋아요', '여성_탑_니트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we014"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_탑_니트');"
+                              >니트</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_드레스');"
+                          >드레스</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we04"
+                            value="we04|드레스>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we04_like"
+                              onclick="applyCategory('gnb_we04');GA_Event('공통_카테고리', '좋아요', '여성_드레스_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we04"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_드레스_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we041"
+                            value="we041|드레스>미니 드레스|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we041_like"
+                              onclick="applyCategory('gnb_we041');GA_Event('공통_카테고리', '좋아요', '여성_드레스_미니 드레스');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we041"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_드레스_미니 드레스');"
+                              >미니 드레스</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we042"
+                            value="we042|드레스>미디 드레스|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we042_like"
+                              onclick="applyCategory('gnb_we042');GA_Event('공통_카테고리', '좋아요', '여성_드레스_미디 드레스');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we042"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_드레스_미디 드레스');"
+                              >미디 드레스</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we043"
+                            value="we043|드레스>롱/맥시 드레스|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we043_like"
+                              onclick="applyCategory('gnb_we043');GA_Event('공통_카테고리', '좋아요', '여성_드레스_롱/맥시 드레스');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we043"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_드레스_롱/맥시 드레스');"
+                              >롱/맥시 드레스</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_팬츠');"
+                          >팬츠</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we02"
+                            value="we02|팬츠>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we02_like"
+                              onclick="applyCategory('gnb_we02');GA_Event('공통_카테고리', '좋아요', '여성_팬츠_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we02"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_팬츠_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we021"
+                            value="we021|팬츠>캐주얼|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we021_like"
+                              onclick="applyCategory('gnb_we021');GA_Event('공통_카테고리', '좋아요', '여성_팬츠_캐주얼');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we021"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_팬츠_캐주얼');"
+                              >캐주얼</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we022"
+                            value="we022|팬츠>포멀|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we022_like"
+                              onclick="applyCategory('gnb_we022');GA_Event('공통_카테고리', '좋아요', '여성_팬츠_포멀');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we022"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_팬츠_포멀');"
+                              >포멀</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we023"
+                            value="we023|팬츠>데님|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we023_like"
+                              onclick="applyCategory('gnb_we023');GA_Event('공통_카테고리', '좋아요', '여성_팬츠_데님');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we023"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_팬츠_데님');"
+                              >데님</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we024"
+                            value="we024|팬츠>쇼츠|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we024_like"
+                              onclick="applyCategory('gnb_we024');GA_Event('공통_카테고리', '좋아요', '여성_팬츠_쇼츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we024"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_팬츠_쇼츠');"
+                              >쇼츠</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '여성_스커트');"
+                          >스커트</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_we03"
+                            value="we03|스커트>전체|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we03_like"
+                              onclick="applyCategory('gnb_we03');GA_Event('공통_카테고리', '좋아요', '여성_스커트_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we03"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_스커트_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we031"
+                            value="we031|스커트>미니 스커트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we031_like"
+                              onclick="applyCategory('gnb_we031');GA_Event('공통_카테고리', '좋아요', '여성_스커트_미니 스커트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we031"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_스커트_미니 스커트');"
+                              >미니 스커트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we032"
+                            value="we032|스커트>펜슬 스커트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we032_like"
+                              onclick="applyCategory('gnb_we032');GA_Event('공통_카테고리', '좋아요', '여성_스커트_펜슬 스커트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we032"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_스커트_펜슬 스커트');"
+                              >펜슬 스커트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we033"
+                            value="we033|스커트>플레어 스커트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we033_like"
+                              onclick="applyCategory('gnb_we033');GA_Event('공통_카테고리', '좋아요', '여성_스커트_플레어 스커트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we033"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_스커트_플레어 스커트');"
+                              >플레어 스커트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_we034"
+                            value="we034|스커트>롱/맥시 스커트|woman|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_we034_like"
+                              onclick="applyCategory('gnb_we034');GA_Event('공통_카테고리', '좋아요', '여성_스커트_롱/맥시 스커트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/we034"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '여성_스커트_롱/맥시 스커트');"
+                              >롱/맥시 스커트</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a
+                        href="#"
+                        class="one_link"
+                        id="cate_me"
+                      >
+                        <span class="category_tit">남성</span>
+                      </a>
+                    </div>
+                    <ul class="two_depth">
+                      <li class="two_lists">
+                        <a
+                          href="/c/me"
+                          class="two_link js-cate-link"
+                          >전체보기</a
+                        >
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '남성_아우터');"
+                          >아우터</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_me03"
+                            value="me03|아우터>전체|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me03_like"
+                              onclick="applyCategory('gnb_me03');GA_Event('공통_카테고리', '좋아요', '남성_아우터_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me03"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me031"
+                            value="me031|아우터>재킷|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me031_like"
+                              onclick="applyCategory('gnb_me031');GA_Event('공통_카테고리', '좋아요', '남성_아우터_재킷');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me031"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_재킷');"
+                              >재킷</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me032"
+                            value="me032|아우터>점퍼|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me032_like"
+                              onclick="applyCategory('gnb_me032');GA_Event('공통_카테고리', '좋아요', '남성_아우터_점퍼');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me032"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_점퍼');"
+                              >점퍼</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me015"
+                            value="me015|아우터>가디건/베스트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me015_like"
+                              onclick="applyCategory('gnb_me015');GA_Event('공통_카테고리', '좋아요', '남성_아우터_가디건/베스트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me015"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_가디건/베스트');"
+                              >가디건/베스트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me033"
+                            value="me033|아우터>트렌치코트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me033_like"
+                              onclick="applyCategory('gnb_me033');GA_Event('공통_카테고리', '좋아요', '남성_아우터_트렌치코트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me033"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_트렌치코트');"
+                              >트렌치코트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me034"
+                            value="me034|아우터>코트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me034_like"
+                              onclick="applyCategory('gnb_me034');GA_Event('공통_카테고리', '좋아요', '남성_아우터_코트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me034"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_코트');"
+                              >코트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me035"
+                            value="me035|아우터>다운/패딩|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me035_like"
+                              onclick="applyCategory('gnb_me035');GA_Event('공통_카테고리', '좋아요', '남성_아우터_다운/패딩');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me035"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_아우터_다운/패딩');"
+                              >다운/패딩</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '남성_니트');"
+                          >니트</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_me10"
+                            value="me10|니트>전체|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me10_like"
+                              onclick="applyCategory('gnb_me10');GA_Event('공통_카테고리', '좋아요', '남성_니트_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me10"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_니트_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me101"
+                            value="me101|니트>탑/스웨터|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me101_like"
+                              onclick="applyCategory('gnb_me101');GA_Event('공통_카테고리', '좋아요', '남성_니트_탑/스웨터');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me101"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_니트_탑/스웨터');"
+                              >탑/스웨터</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me102"
+                            value="me102|니트>점퍼/가디건|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me102_like"
+                              onclick="applyCategory('gnb_me102');GA_Event('공통_카테고리', '좋아요', '남성_니트_점퍼/가디건');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me102"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_니트_점퍼/가디건');"
+                              >점퍼/가디건</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me103"
+                            value="me103|니트>베스트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me103_like"
+                              onclick="applyCategory('gnb_me103');GA_Event('공통_카테고리', '좋아요', '남성_니트_베스트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me103"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_니트_베스트');"
+                              >베스트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me104"
+                            value="me104|니트>팬츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me104_like"
+                              onclick="applyCategory('gnb_me104');GA_Event('공통_카테고리', '좋아요', '남성_니트_팬츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me104"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_니트_팬츠');"
+                              >팬츠</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '남성_탑');"
+                          >탑</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_me01"
+                            value="me01|탑>전체|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me01_like"
+                              onclick="applyCategory('gnb_me01');GA_Event('공통_카테고리', '좋아요', '남성_탑_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me01"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_탑_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me011"
+                            value="me011|탑>티셔츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me011_like"
+                              onclick="applyCategory('gnb_me011');GA_Event('공통_카테고리', '좋아요', '남성_탑_티셔츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me011"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_탑_티셔츠');"
+                              >티셔츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me012"
+                            value="me012|탑>셔츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me012_like"
+                              onclick="applyCategory('gnb_me012');GA_Event('공통_카테고리', '좋아요', '남성_탑_셔츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me012"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_탑_셔츠');"
+                              >셔츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me013"
+                            value="me013|탑>니트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me013_like"
+                              onclick="applyCategory('gnb_me013');GA_Event('공통_카테고리', '좋아요', '남성_탑_니트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me013"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_탑_니트');"
+                              >니트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me014"
+                            value="me014|탑>스웨터|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me014_like"
+                              onclick="applyCategory('gnb_me014');GA_Event('공통_카테고리', '좋아요', '남성_탑_스웨터');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me014"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_탑_스웨터');"
+                              >스웨터</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '남성_팬츠');"
+                          >팬츠</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_me02"
+                            value="me02|팬츠>전체|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me02_like"
+                              onclick="applyCategory('gnb_me02');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me02"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me021"
+                            value="me021|팬츠>루즈/테이퍼드|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me021_like"
+                              onclick="applyCategory('gnb_me021');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_루즈/테이퍼드');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me021"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_루즈/테이퍼드');"
+                              >루즈/테이퍼드</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me025"
+                            value="me025|팬츠>슬림/스트레이트|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me025_like"
+                              onclick="applyCategory('gnb_me025');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_슬림/스트레이트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me025"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_슬림/스트레이트');"
+                              >슬림/스트레이트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me028"
+                            value="me028|팬츠>조거/트랙|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me028_like"
+                              onclick="applyCategory('gnb_me028');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_조거/트랙');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me028"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_조거/트랙');"
+                              >조거/트랙</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me022"
+                            value="me022|팬츠>데님|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me022_like"
+                              onclick="applyCategory('gnb_me022');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_데님');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me022"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_데님');"
+                              >데님</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me023"
+                            value="me023|팬츠>쇼츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me023_like"
+                              onclick="applyCategory('gnb_me023');GA_Event('공통_카테고리', '좋아요', '남성_팬츠_쇼츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me023"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_팬츠_쇼츠');"
+                              >쇼츠</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '남성_수트');"
+                          >수트</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_me04"
+                            value="me04|수트>전체|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me04_like"
+                              onclick="applyCategory('gnb_me04');GA_Event('공통_카테고리', '좋아요', '남성_수트_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me04"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_수트_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me041"
+                            value="me041|수트>드레스셔츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me041_like"
+                              onclick="applyCategory('gnb_me041');GA_Event('공통_카테고리', '좋아요', '남성_수트_드레스셔츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me041"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_수트_드레스셔츠');"
+                              >드레스셔츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me042"
+                            value="me042|수트>수트재킷|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me042_like"
+                              onclick="applyCategory('gnb_me042');GA_Event('공통_카테고리', '좋아요', '남성_수트_수트재킷');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me042"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_수트_수트재킷');"
+                              >수트재킷</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_me044"
+                            value="me044|수트>수트팬츠|man|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_me044_like"
+                              onclick="applyCategory('gnb_me044');GA_Event('공통_카테고리', '좋아요', '남성_수트_수트팬츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/me044"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '남성_수트_수트팬츠');"
+                              >수트팬츠</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="one_lists">
+                    <div class="one_wrap">
+                      <a href="#" class="one_link" id="cate_as">
+                        <span class="category_tit">잡화</span>
+                      </a>
+                    </div>
+                    <ul class="two_depth">
+                      <li class="two_lists">
+                        <a
+                          href="/c/as"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_전체보기');"
+                          >전체보기</a
+                        >
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_여성슈즈');"
+                          >여성슈즈</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as01"
+                            value="as01|여성슈즈>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as01_like"
+                              onclick="applyCategory('gnb_as01');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as01"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as011"
+                            value="as011|여성슈즈>부츠|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as011_like"
+                              onclick="applyCategory('gnb_as011');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_부츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as011"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_부츠');"
+                              >부츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as012"
+                            value="as012|여성슈즈>로퍼/블로퍼|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as012_like"
+                              onclick="applyCategory('gnb_as012');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_로퍼/블로퍼');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as012"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_로퍼/블로퍼');"
+                              >로퍼/블로퍼</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as013"
+                            value="as013|여성슈즈>스니커즈|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as013_like"
+                              onclick="applyCategory('gnb_as013');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_스니커즈');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as013"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_스니커즈');"
+                              >스니커즈</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as014"
+                            value="as014|여성슈즈>플랫|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as014_like"
+                              onclick="applyCategory('gnb_as014');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_플랫');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as014"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_플랫');"
+                              >플랫</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as015"
+                            value="as015|여성슈즈>힐/슬링백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as015_like"
+                              onclick="applyCategory('gnb_as015');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_힐/슬링백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as015"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_힐/슬링백');"
+                              >힐/슬링백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as016"
+                            value="as016|여성슈즈>샌들/슬라이드|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as016_like"
+                              onclick="applyCategory('gnb_as016');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_샌들/슬라이드');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as016"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_샌들/슬라이드');"
+                              >샌들/슬라이드</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as017"
+                            value="as017|여성슈즈>기타 슈즈|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as017_like"
+                              onclick="applyCategory('gnb_as017');GA_Event('공통_카테고리', '좋아요', '잡화_여성슈즈_기타 슈즈');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as017"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성슈즈_기타 슈즈');"
+                              >기타 슈즈</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_남성슈즈');"
+                          >남성슈즈</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as02"
+                            value="as02|남성슈즈>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as02_like"
+                              onclick="applyCategory('gnb_as02');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as02"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as021"
+                            value="as021|남성슈즈>부츠|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as021_like"
+                              onclick="applyCategory('gnb_as021');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_부츠');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as021"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_부츠');"
+                              >부츠</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as022"
+                            value="as022|남성슈즈>포멀슈즈|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as022_like"
+                              onclick="applyCategory('gnb_as022');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_포멀슈즈');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as022"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_포멀슈즈');"
+                              >포멀슈즈</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as023"
+                            value="as023|남성슈즈>스니커즈|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as023_like"
+                              onclick="applyCategory('gnb_as023');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_스니커즈');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as023"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_스니커즈');"
+                              >스니커즈</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as024"
+                            value="as024|남성슈즈>샌들/슬라이드|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as024_like"
+                              onclick="applyCategory('gnb_as024');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_샌들/슬라이드');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as024"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_샌들/슬라이드');"
+                              >샌들/슬라이드</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as025"
+                            value="as025|남성슈즈>기타 슈즈|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as025_like"
+                              onclick="applyCategory('gnb_as025');GA_Event('공통_카테고리', '좋아요', '잡화_남성슈즈_기타 슈즈');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as025"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성슈즈_기타 슈즈');"
+                              >기타 슈즈</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_여성백');"
+                          >여성백</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as03"
+                            value="as03|여성백>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as03_like"
+                              onclick="applyCategory('gnb_as03');GA_Event('공통_카테고리', '좋아요', '잡화_여성백_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as03"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성백_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as031"
+                            value="as031|여성백>토트백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as031_like"
+                              onclick="applyCategory('gnb_as031');GA_Event('공통_카테고리', '좋아요', '잡화_여성백_토트백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as031"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성백_토트백');"
+                              >토트백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as032"
+                            value="as032|여성백>숄더/크로스바디백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as032_like"
+                              onclick="applyCategory('gnb_as032');GA_Event('공통_카테고리', '좋아요', '잡화_여성백_숄더/크로스바디백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as032"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성백_숄더/크로스바디백');"
+                              >숄더/크로스바디백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as033"
+                            value="as033|여성백>클러치 백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as033_like"
+                              onclick="applyCategory('gnb_as033');GA_Event('공통_카테고리', '좋아요', '잡화_여성백_클러치 백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as033"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성백_클러치 백');"
+                              >클러치 백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as034"
+                            value="as034|여성백>기타 백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as034_like"
+                              onclick="applyCategory('gnb_as034');GA_Event('공통_카테고리', '좋아요', '잡화_여성백_기타 백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as034"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_여성백_기타 백');"
+                              >기타 백</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_남성백');"
+                          >남성백</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as04"
+                            value="as04|남성백>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as04_like"
+                              onclick="applyCategory('gnb_as04');GA_Event('공통_카테고리', '좋아요', '잡화_남성백_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as04"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성백_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as041"
+                            value="as041|남성백>토트백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as041_like"
+                              onclick="applyCategory('gnb_as041');GA_Event('공통_카테고리', '좋아요', '잡화_남성백_토트백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as041"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성백_토트백');"
+                              >토트백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as042"
+                            value="as042|남성백>숄더/크로스바디백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as042_like"
+                              onclick="applyCategory('gnb_as042');GA_Event('공통_카테고리', '좋아요', '잡화_남성백_숄더/크로스바디백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as042"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성백_숄더/크로스바디백');"
+                              >숄더/크로스바디백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as043"
+                            value="as043|남성백>클러치 백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as043_like"
+                              onclick="applyCategory('gnb_as043');GA_Event('공통_카테고리', '좋아요', '잡화_남성백_클러치 백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as043"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성백_클러치 백');"
+                              >클러치 백</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as044"
+                            value="as044|남성백>기타 백|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as044_like"
+                              onclick="applyCategory('gnb_as044');GA_Event('공통_카테고리', '좋아요', '잡화_남성백_기타 백');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as044"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_남성백_기타 백');"
+                              >기타 백</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_머플러/스카프');"
+                          >머플러/스카프</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as05"
+                            value="as05|머플러/스카프>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as05_like"
+                              onclick="applyCategory('gnb_as05');GA_Event('공통_카테고리', '좋아요', '잡화_머플러/스카프_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as05"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_머플러/스카프_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as051"
+                            value="as051|머플러/스카프>머플러|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as051_like"
+                              onclick="applyCategory('gnb_as051');GA_Event('공통_카테고리', '좋아요', '잡화_머플러/스카프_머플러');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as051"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_머플러/스카프_머플러');"
+                              >머플러</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as052"
+                            value="as052|머플러/스카프>스카프|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as052_like"
+                              onclick="applyCategory('gnb_as052');GA_Event('공통_카테고리', '좋아요', '잡화_머플러/스카프_스카프');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as052"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_머플러/스카프_스카프');"
+                              >스카프</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as053"
+                            value="as053|머플러/스카프>니트액세서리|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as053_like"
+                              onclick="applyCategory('gnb_as053');GA_Event('공통_카테고리', '좋아요', '잡화_머플러/스카프_니트액세서리');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as053"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_머플러/스카프_니트액세서리');"
+                              >니트액세서리</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_주얼리');"
+                          >주얼리</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as06"
+                            value="as06|주얼리>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as06_like"
+                              onclick="applyCategory('gnb_as06');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as06"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as061"
+                            value="as061|주얼리>이어링/커프|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as061_like"
+                              onclick="applyCategory('gnb_as061');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_이어링/커프');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as061"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_이어링/커프');"
+                              >이어링/커프</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as062"
+                            value="as062|주얼리>목걸이|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as062_like"
+                              onclick="applyCategory('gnb_as062');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_목걸이');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as062"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_목걸이');"
+                              >목걸이</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as063"
+                            value="as063|주얼리>팔찌|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as063_like"
+                              onclick="applyCategory('gnb_as063');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_팔찌');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as063"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_팔찌');"
+                              >팔찌</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as064"
+                            value="as064|주얼리>반지|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as064_like"
+                              onclick="applyCategory('gnb_as064');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_반지');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as064"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_반지');"
+                              >반지</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as065"
+                            value="as065|주얼리>기타 주얼리|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as065_like"
+                              onclick="applyCategory('gnb_as065');GA_Event('공통_카테고리', '좋아요', '잡화_주얼리_기타 주얼리');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as065"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_주얼리_기타 주얼리');"
+                              >기타 주얼리</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="two_lists">
+                        <a
+                          href="#"
+                          class="two_link js-cate-link"
+                          onclick="GA_Event('공통_카테고리', '2DEPTH', '잡화_기타 ACC');"
+                          >기타 ACC</a
+                        >
+                        <ul class="three_depth">
+                          <input
+                            type="hidden"
+                            id="gnb_as07"
+                            value="as07|기타 ACC>전체|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as07_like"
+                              onclick="applyCategory('gnb_as07');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_전체');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as07"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_전체');"
+                              >전체</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as071"
+                            value="as071|기타 ACC>모자|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as071_like"
+                              onclick="applyCategory('gnb_as071');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_모자');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as071"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_모자');"
+                              >모자</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as072"
+                            value="as072|기타 ACC>양말|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as072_like"
+                              onclick="applyCategory('gnb_as072');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_양말');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as072"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_양말');"
+                              >양말</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as073"
+                            value="as073|기타 ACC>장갑|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as073_like"
+                              onclick="applyCategory('gnb_as073');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_장갑');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as073"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_장갑');"
+                              >장갑</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as074"
+                            value="as074|기타 ACC>벨트|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as074_like"
+                              onclick="applyCategory('gnb_as074');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_벨트');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as074"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_벨트');"
+                              >벨트</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as075"
+                            value="as075|기타 ACC>지갑|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as075_like"
+                              onclick="applyCategory('gnb_as075');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_지갑');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as075"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_지갑');"
+                              >지갑</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as076"
+                            value="as076|기타 ACC>헤어ACC|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as076_like"
+                              onclick="applyCategory('gnb_as076');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_헤어ACC');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as076"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_헤어ACC');"
+                              >헤어ACC</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as077"
+                            value="as077|기타 ACC>테크ACC|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as077_like"
+                              onclick="applyCategory('gnb_as077');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_테크ACC');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as077"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_테크ACC');"
+                              >테크ACC</a
+                            >
+                          </li>
+                          <input
+                            type="hidden"
+                            id="gnb_as078"
+                            value="as078|기타 ACC>기타소품|normal|false"
+                          />
+                          <li class="three_lists">
+                            <button
+                              type="button"
+                              class="like"
+                              id="gnb_as078_like"
+                              onclick="applyCategory('gnb_as078');GA_Event('공통_카테고리', '좋아요', '잡화_기타 ACC_기타소품');"
+                            >
+                              찜하기
+                            </button>
+                            <a
+                              href="/c/as078"
+                              class="three_link"
+                              onclick="GA_Event('공통_카테고리', '3DEPTH', '잡화_기타 ACC_기타소품');"
+                              >기타소품</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <!-- lnb_themaga_sns_wrap2004-->
+                <div
+                  class="lnb_themaga_sns_wrap2004"
+                  style="padding-bottom: 0px"
+                >
+                  <div class="lnb_sns_wrap2004">
+                    <a
+                      href="javascript:noLink();"
+                      class="lnb_insta"
+                      onclick="GA_Event('공통_카테고리', '컨텐츠', '인스타그램');window.open('https://instagram.com/thehandsome_official/','instagram');return false"
+                      >인스타그램</a
+                    >
+                    <a
+                      href="/magazine/youtubeList"
+                      class="lnb_video"
+                      onclick="GA_Event('공통_카테고리', '컨텐츠', '비디오');"
+                      >비디오</a
+                    >
+                  </div>
+                </div>
+                <!-- //lnb_themaga_sns_wrap2004-->
+                <!--flag_fixed_wrap2004 -->
+                <!-- <div class="flag_fixed_wrap2004">
+                  <div
+                    class="flag_wrap scroll_flag swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode swiper-container-android"
+                  >
+                    <ul
+                      class="swiper-wrapper"
+                      id="setUserCategory"
+                      style="transition-duration: 0ms"
+                    >
+                      찜한 카테고리가 한 개라도 있으면 ul 태그에 active 클래스 붙임 -->
+                    </ul>
+                    <div class="my_heart_flag2002">
+                      <div>
+                        MY<span class="ico_heart200214">heart</span>
+                        <span class="white_action200219"></span>
+                      </div>
+                    </div>
+                    <span
+                      class="swiper-notification"
+                      aria-live="assertive"
+                      aria-atomic="true"
+                    ></span>
+                  </div>
+                </div>
+                <!--//flag_fixed_wrap2004 -->
+              </div>
+            </div>
+            <!--// 카테고리 -->
+            <!--smart start -->
+            <!--// smart end -->
+          </div>
+        </div>
+        <div class="footer">
+          <a href="javascript:noLink();" class="close" onclick="navShopClose();"
+            >닫기</a
+          >
+        </div>
+      </div>
+</html>

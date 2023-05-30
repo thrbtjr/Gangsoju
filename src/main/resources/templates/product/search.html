@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<!--
+  작성자: 김주현
+-->
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+  <div
+    th:fragment="searchForm"
+    id="searchForm"
+    class="hsome_layer_popup product_filter_pop"
+    style="z-index: 1000"
+  >
+    <div class="pop-comm-cnts fix_btn_wrap">
+      <ul class="sch_searchEndTab"></ul>
+
+      <div class="tab_cont">
+        <!-- 결과 내 재검색// -->
+        <div class="cont on" id="resultSearch_contents">
+          <div class="sch_searchEngine">
+            <fieldset>
+              <div class="ipt">
+                <form
+                  name="searchRe"
+                  id="searchRe"
+                  action="/dosearch"
+                  method="get"
+                >
+                  <input
+                    type="search"
+                    id="word"
+                    name="word"
+                    value=""
+                    autocomplete="off"
+                  />
+                  <a href="#" class="del" style="display: none">delete</a>
+                  <button type="submit" class="sch">검색</button>
+                </form>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!-- //결과 내 재검색 -->
+      </div>
+    </div>
+    <a href="javascript:noLink();" class="pop-comm-cls" id="filterCloseBtn"
+      >닫기</a
+    >
+  </div>
+</html>

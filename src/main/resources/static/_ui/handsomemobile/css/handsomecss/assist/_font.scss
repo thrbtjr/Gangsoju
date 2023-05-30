@@ -1,0 +1,114 @@
+@charset "UTF-8";
+// ========================================================== */
+// version : font.scss v1 */
+// wirter : IDR Ryu */
+// date : 20180525 */
+// ========================================================== */
+/* ---------------------------------------------------------- */
+/* font-face s ============================================== */
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: $l;
+  font-style: normal;
+  src: url('../fonts/AppleSDGothicNeoL.eot');
+  src: url('../fonts/AppleSDGothicNeoL.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/AppleSDGothicNeoL.woff2') format('woff2'),
+      url('../fonts/AppleSDGothicNeoL.woff') format('woff'),
+      url('../fonts/AppleSDGothicNeoL.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: $r;
+  font-style: normal;
+  src: url('../fonts/AppleSDGothicNeoR.eot');
+  src: url('../fonts/AppleSDGothicNeoR.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/AppleSDGothicNeoR.woff2') format('woff2'),
+      url('../fonts/AppleSDGothicNeoR.woff') format('woff'),
+      url('../fonts/AppleSDGothicNeoR.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: $s;
+  font-style: normal;
+  src: url('../fonts/AppleSDGothicNeoSB.eot');
+  src: url('../fonts/AppleSDGothicNeoSB.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/AppleSDGothicNeoSB.woff2') format('woff2'),
+      url('../fonts/AppleSDGothicNeoSB.woff') format('woff'),
+      url('../fonts/AppleSDGothicNeoSB.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: $b;
+  font-style: normal;
+  src: url('../fonts/AppleSDGothicNeoB.eot');
+  src: url('../fonts/AppleSDGothicNeoB.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/AppleSDGothicNeoB.woff2') format('woff2'),
+      url('../fonts/AppleSDGothicNeoB.woff') format('woff'),
+      url('../fonts/AppleSDGothicNeoB.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: $e;
+  font-style: normal;
+  src: url('../fonts/AppleSDGothicNeoEB.eot');
+  src: url('../fonts/AppleSDGothicNeoEB.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/AppleSDGothicNeoEB.woff2') format('woff2'),
+      url('../fonts/AppleSDGothicNeoEB.woff') format('woff'),
+      url('../fonts/AppleSDGothicNeoEB.ttf') format('truetype');
+}
+
+/* 20181012 추가 */
+@font-face {
+    font-family:'Montserrat';
+    src: url("../fonts/Montserrat-Regular.eot");
+    src: url("../fonts/Montserrat-Regular.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Montserrat-Regular.woff2") format("woff2"),
+         url("../fonts/Montserrat-Regular.woff") format("woff"),
+         url("../fonts/Montserrat-Regular.ttf") format("truetype"),
+         url("../fonts/Montserrat-Regular.svg#Montserrat") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'MontserratSemibold';
+    src: url("../fonts/montserrat-semibold.eot");
+    src: url("../fonts/montserrat-semibold.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/montserrat-semibold.woff2") format("woff2"),
+         url("../fonts/montserrat-semibold.woff") format("woff"),
+         url("../fonts/montserrat-semibold.ttf") format("truetype"),
+         url("../fonts/montserrat-semibold.svg#Montserrat") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'MontserratBold';
+    src: url("../fonts/montserrat-bold.eot");
+    src: url("../fonts/montserrat-bold.eot#iefix") format("embedded-opentype"),
+         url("../fonts/montserrat-bold.woff2") format("woff2"),
+         url("../fonts/montserrat-bold.woff") format("woff"),
+         url("../fonts/montserrat-bold.ttf") format("truetype"),
+         url("../fonts/montserrat-bold.svg#MontserratBold") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family:'Noto Sans KR';
+    src: url("../fonts/NotoSans-Regular.eot");
+    src: url("../fonts/NotoSans-Regular.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/NotoSans-Regular.woff2") format("woff2"),
+         url("../fonts/NotoSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'NotoSansKRBlack';
+    src: url("../fonts/NotoSansKR-Black.eot");
+    src: url("../fonts/NotoSansKR-Black.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/NotoSansKR-Black.woff2") format("woff2"),
+         url("../fonts/NotoSansKR-Black.woff") format("woff"),
+         url("../fonts/NotoSansKR-Black.ttf") format("truetype"),
+         url("../fonts/NotoSansKR-Black.svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+/* font-face e ============================================== */

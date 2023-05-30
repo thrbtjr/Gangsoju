@@ -1,0 +1,198 @@
+<html lang="ko" class="back" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{includes/head :: head}">
+<body class="back">
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  <!-- Loading -->
+  <div style="display:none;">
+  <div id="loadingBarDiv" style="display:none;">
+  </div>
+  </div>
+  <!-- //Loading -->
+
+<form id="CSRFForm" action="/ko/member/login" method="post"><div>
+<input type="hidden" name="CSRFToken" value="f5bf05fb-3021-4322-8915-b4de13897c2c">
+</div></form><div id="mapleMainPopwrap" style="position:fixed;top:50%;left:50%;width:81.333333%;z-index:805;transform:translate(-50%,-50%);display:none">
+  </div>
+  
+      <div class="layerArea" id="mapleLayer" style="display:none;">
+         <div class="layerBg"></div>
+      </div>
+  
+<div class="hsome_allContents_wrapper" style="padding-bottom: 0px;">
+
+<div class="hsome_allContents">
+
+
+  <!-- ################## header ################## -->
+  <header class="hsome_header">
+    <h1 class="h_ttl ellipsis" id="headerTitle">
+        로그인</h1>
+    <a href="/main" class="h_top_home"><span>홈</span></a>
+      
+      <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+    <ul class="h_gnbMenu">
+        <li class="search"><a href="/searchform" onclick=""><span>search</span></a></li>
+        <li class="cart"><a href="/cart" onclick=""><span>cart</span><i>0</i></a></li>
+      </ul></header>
+  <!-- //################## header ################## -->
+
+<!--  @@@생략 가능?
+  <form id="hpointLoginForm" name="hpointLoginForm" action="/login" method="post">
+      <input type="hidden" id="j_username" name="username">
+      <input type="hidden" id="j_password" name="password" value="sso">
+      <input type="hidden" id="hpPwChange" name="hpPwChange" value="">
+      <input type="hidden" id="hp_spring_security_remember_me" name="_spring_security_remember_me" value="1">
+  </form>
+ -->
+
+
+<input type="hidden" name="loginLayer" id="loginLayer" value="E" style="padding-bottom: 0px;">
+  <!-- CNT -->
+      <!-- ID/PWD Login contents s -->
+      <div class="hsome_contents mem_ct_wrap id_login" id="handsomeCust" >
+          <div class="mem_login_input_area">  		
+              <form id="loginForm" th:action="@{/login}" method="post">
+                  <!-- 로그인 정보 입력 -->
+                  <div class="input_group">
+                      <!-- 아이디 입력 -->
+                      <div class="input_login_id">
+                          <input id="j_username" name="username" type="text" class="login_id" placeholder="아이디/이메일을 입력하세요." title="아이디/이메일을 입력하세요.">
+                      </div>
+                      <!-- 패스워드 입력 -->
+                      <div class="input_login_pw">
+                          <input type="password" id="j_password" name="password" placeholder="비밀번호를 입력하세요." title="비밀번호를 입력하세요.">
+                      </div>
+                      <!-- [TO DEV] Error msg here. -->
+                     <div class="err_wrap">
+			            <p class="err_txt" id="bdayMsg"></p>
+			          </div>
+                      <div style="height: 15px;padding-top: 5px;" th:if = "${exception!=''}">
+                      	<span style="color: red;" th:text="${exception}"></span>
+                      </div>
+      			
+      				  
+                      <div class="btn_wrap" style="padding-top: 10px;margin-bottom: 0px;">
+                              <button type="submit" id="login_btn"  onclick="loginKang()" class="btn btn_bg_b btn_login btn_popup" >로그인</button>
+                      </div>
+                     <!--  
+                      <div class="btn_wrap" style="padding-top: 0px;margin-top: 0px;">
+                              <button type="submit" id="login_btn"   class="btn btn_bg_b btn_login btn_popup"  style="background-color: skyblue;" >구글 로그인</button>
+                      </div>
+                      -->
+                      <!-- <div id="my-signin2" onclick="loginGoogle()"></div> -->
+                      <div id="my-signin" onclick="loginGoogle()" style="
+    margin-top: 0px;
+"><div style="height:50px;width: 330px;" class="abcRioButton abcRioButtonBlue"><div class="abcRioButtonContentWrapper" style="
+    background-color: white;
+    /* width: 331.142858px; */
+    width: 100%;
+    /*width: 330;*/
+    border: 1px solid gray;
+    height: 45;
+"><div class="abcRioButtonIcon" style="padding: 0px 0px 0px 15px;border: 1px-solid black;/* width: 50px; */width: 60px;display: inline-block;"><div style="width:18px;height:18px;" class="abcRioButtonSvgImageWithFallback abcRioButtonIconImage abcRioButtonIconImage18"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg"><g><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></g></svg></div></div><span style="font-size:16px;line-height:48px;" class="abcRioButtonContents"><span id="not_signed_inh4k3p33s44vg" style="
+    color: black;
+    /* width: 300px; */
+    margin-left: 39px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    /* line-height: 0; */
+">Sign in with Google</span><span id="connectedh4k3p33s44vg" style="display:none;/* width: 300; */">Signed in with Google</span></span></div></div></div>
+                      <!--구글 버튼 끝  -->
+                      <div>
+						<!-- <input type="hidden" name="${}" value="f5bf05fb-3021-4322-8915-b4de13897c2c"> -->
+					  </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+<script type="text/javascript">
+
+function loginGoogle(){
+	location.href="/oauth2/authorization/google"
+}
+
+function loginKang(){
+	
+	if($.trim($("#j_username").val()) == ""){
+		$('#pwMsg').show();
+        $("#bdayMsg").text("아이디를 입력하세요.");
+        $("#j_username").focus();
+        return;
+	}
+	
+	if($.trim($("#j_password").val()) == ""){
+		$('#pwMsg').show();
+        $("#bdayMsg").text("비밀번호를 입력하세요.");
+        $("#j_password").focus();
+        return;
+	}
+	
+	var form = document.getElementById("loginForm");
+	form.submit();
+}
+</script>
+      
+      
+      <!-- ################## footer ################## -->
+      <footer class="hsome_footer mem_ct_wrap_bg id_login">
+          <div class="login_find_area">
+              <p class="tit">아이디/비밀번호를 잊으셨나요?</p>
+              <div class="btn_wrap btn_wrap_div2">
+                  <button class="btnstl3 border_btn_gray btn_fdid" onclick="findId();">회원 아이디 찾기</button>
+                  <button class="btnstl3 border_btn_gray btn_fdpw" onclick="findPwd();">회원 비밀번호 찾기</button>
+              </div>
+              
+          </div>
+          <div class="login_signup_area" style="margin-bottom: 0px;border-bottom-width: 0px;">
+              <div class="txt_wrap">
+                  <p class="tit">더 큰 혜택으로 보다 즐거운 쇼핑을!</p>
+                  <p class="sub_tit">더한섬닷컴 회원에게만 드리는 특별한 혜택을 경험하세요.</p>
+              </div>
+              <div class="btn_wrap btn_wrap_div1">
+                  <button class="btnstl3 border_btn_gray btn_signup" onclick="registerMember();">회원가입</button>
+              </div>
+          </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript" src="/_ui/handsomemobile/js/clipboard.min.js"></script> 
+<script type="text/javascript">
+function findId(){
+	location.href="/find";
+}
+
+function registerMember(){
+	location.href="/register";  
+}
+
+function findPwd(){
+	location.href="/find/pwd";
+}
+
+
+</script>
+<script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
+
+</body>
+</html>
